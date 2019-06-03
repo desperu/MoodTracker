@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <org.desperu.moodtracker.VerticalViewPager
+        android:id="@+id/disappointed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ff9b9b9b"
+        android:foreground="@drawable/smiley_disappointed"
+        android:foregroundGravity="center" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/comment_disappointed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/disappointed"
+        android:layout_alignBottom="@id/disappointed"
+        android:clickable="true"
+        app:backgroundTint="#ff9b9b9b"
+        app:srcCompat="@drawable/ic_note_add_black" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/history_disappointed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/disappointed"
+        android:layout_alignBottom="@id/disappointed"
+        android:clickable="true"
+        app:backgroundTint="#ff9b9b9b"
+        app:srcCompat="@drawable/ic_history_black" />
+
+</RelativeLayout>

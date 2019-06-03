@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MoodTracker</string>
+
+    <!-- pref file -->
+    <string name="preference_file_name">Pref</string>
+    <string name="Current_Mood">Current_Mood</string>
+
+    <!-- activity_main -->
+    <string name="contentDescription_comment">button_comment</string>
+    <string name="contentDescription_history">button_history</string>
+
+    <!-- comment view -->
+    <string name="hint_comment">Your Comment here!</string>
+    <string name="button_valid_comment">OK</string>
+
+</resources>
