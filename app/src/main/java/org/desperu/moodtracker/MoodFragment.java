@@ -1,6 +1,7 @@
 package org.desperu.moodtracker;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ public class MoodFragment extends Fragment {
         // Required empty public constructor
     }
 
+    // TODO : switch between background and smiley
     public static MoodFragment newInstance(int position) {
         MoodFragment fragment = new MoodFragment();
         Bundle args = new Bundle();
@@ -44,7 +46,7 @@ public class MoodFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         return inflater.inflate(layoutId, container, false);

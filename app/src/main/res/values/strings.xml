@@ -1,16 +1,37 @@
 <resources>
     <string name="app_name">MoodTracker</string>
 
-    <!-- pref file -->
-    <string name="preference_file_name">Pref</string>
-    <string name="Current_Mood">Current_Mood</string>
+    <!-- current pref file -->
+    <string name="mood_day">MoodDay</string>
+    <string name="current_mood">currentMood</string>
+    <string name="current_date">currentDate</string>
+    <string name="current_comment">currentComment</string>
+
+    <!-- history pref file -->
+    <string name="history_mood">HistoryMood</string>
 
     <!-- activity_main -->
-    <string name="contentDescription_comment">button_comment</string>
-    <string name="contentDescription_history">button_history</string>
+    <string name="content_description_comment">button comment</string>
+    <string name="content_description_history">button history</string>
 
-    <!-- comment view -->
-    <string name="hint_comment">Your Comment here!</string>
+    <!-- comment_layout view -->
+    <string name="title_comment">Comment</string>
+    <string name="hint_comment">Your comment here!</string>
     <string name="button_valid_comment">OK</string>
+    <string name="button_cancel_comment">Cancel</string>
+
+    <!-- imagesView for fragments-->
+    <string name="content_description_super_happy">smiley supper happy</string>
+    <string name="content_description_happy">smiley happy</string>
+    <string name="content_description_normal">smiley normal</string>
+    <string name="content_description_disappointed">smiley disappointed</string>
+    <string name="content_description_sad">smiley sad</string>
+
+    <!-- imagesView for history -->
+    <string name="content_description_share_sms">Share_Sms</string>
+
+    <!-- activity -->
+    <string name="title_activity_history">MoodTracker History</string>
+    <string name="title_activity_comment">Mood Comment</string>
 
 </resources>
