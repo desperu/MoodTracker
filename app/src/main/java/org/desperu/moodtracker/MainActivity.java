@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,18 +17,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Intent i = new Intent(MainActivity.this,History.class);
-        //startActivity(i);
-        // il en veut pas
-        //Comment test = new Comment();
-        //test.onCreate(savedInstanceState);
-        //History checkLastMood = new History();
-        //checkLastMood.onCreate(savedInstanceState);
         mAdapter = new MyAdapter(getSupportFragmentManager());
         mPager = findViewById(R.id.viewpager);
         mPager.setAdapter(mAdapter);
 
-        // TODO : onback pressed!!!
+        // check if there's a mood saved, and print it
+        History check = new History();
+        int lastMood = check.checkLastMood(getBaseContext());
+        if (lastMood > -1) {
+            mPager.setCurrentItem(lastMood);
+        }
+
         // TODO : check that the date is not modiate by the user
         //button click here or in fragment view
         ImageButton comment_button = (ImageButton)findViewById(R.id.comment_button);
@@ -64,4 +64,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
     }
+
+    // Call method from ViewPager get and set currentItem
+    @Override
+    public void onBackPressed() {
+        if (mPager.getCurrentItem() == 0) {
+            // If the user is currently looking at the first step, allow the system to handle the
+            // Back button. This calls finish() on this activity and pops the back stack.
+            super.onBackPressed();
+        } else {
+            // Otherwise, select the previous step.
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Toast.makeText(getBaseContext(), "MainActivity.onStart " + mPager.getCurrentItem(), Toast.LENGTH_SHORT).show();
+        // TODO : check date saved with the current date, better in onResume???
+    }
+
+    /* Better here than MoodFragment.onStop ???
+    @Override
+    protected void onStop() {
+        History saveCurrentItem = new History();
+        saveCurrentItem.saveCurrentMood(getBaseContext(), MyAdapter.currentPage);
+        super.onStop();
+    }*/
 }

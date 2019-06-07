@@ -2,19 +2,19 @@
     <string name="app_name">MoodTracker</string>
 
     <!-- current pref file -->
-    <string name="mood_day">MoodDay</string>
-    <string name="current_mood">currentMood</string>
-    <string name="current_date">currentDate</string>
-    <string name="current_comment">currentComment</string>
+    <string name="mood_day_file">Mood_Day</string>
+    <string name="current_mood">Current_Mood</string>
+    <string name="current_date">Current_Date</string>
+    <string name="current_comment">Current_Comment</string>
 
     <!-- history pref file -->
-    <string name="history_mood">HistoryMood</string>
+    <string name="history_mood">History_Mood</string>
 
-    <!-- activity_main -->
+    <!-- activity_main.xml -->
     <string name="content_description_comment">button comment</string>
     <string name="content_description_history">button history</string>
 
-    <!-- comment_layout view -->
+    <!-- comment_layout.xml -->
     <string name="title_comment">Comment</string>
     <string name="hint_comment">Your comment here!</string>
     <string name="button_valid_comment">OK</string>
