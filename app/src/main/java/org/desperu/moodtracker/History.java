@@ -6,28 +6,20 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 public class History extends AppCompatActivity {
 
-    private static final String moodDayFile = "Mood_Day";
-    private static final String currentMood = "Current_Mood";
+    private static final String moodDayFile = "MoodDay";
+    private static final String currentMood = "CurrentMood";
+    private static final String currentDate = "CurrentDate";
     SharedPreferences sharedPreferences;
-    //int lastMood;
-
-    // TODO : useless? test recup context here...
-    public History() {
-        // TODO ; pas encore test!!
-        //MainActivity context = new MainActivity();
-        //context.getBaseContext();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history_layout);
-
-        // TODO : remove, only for test context
-        //Toast.makeText(getBaseContext(), "Last Mood selected : " + lastMood + " " + getBaseContext(), Toast.LENGTH_SHORT).show();
-        }
+    }
 
     /**
      * Check if there was a mood saved and print it
@@ -59,7 +51,15 @@ public class History extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(currentMood, mNum);
         editor.apply();
-        Toast.makeText(context, "Current Mood Saved! For : " + mNum, Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Current Mood Saved! For : " + mNum + " ,Date " + getDate(), Toast.LENGTH_SHORT).show();
+    }
+
+    public int getDate () {
+        Calendar calendar = Calendar.getInstance();
+        int date = (calendar.get(Calendar.YEAR)*10000);
+        date += (calendar.get(Calendar.MONTH)*100);
+        date += calendar.get(Calendar.DATE);
+        return date;
     }
 
     // TODO : create method for create history, manage and print it, with tab

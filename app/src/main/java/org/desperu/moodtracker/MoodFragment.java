@@ -30,7 +30,7 @@ public class MoodFragment extends Fragment {
             case 4 : layoutFragment = R.layout.sad_layout; break;
             default : layoutFragment = R.layout.super_happy_layout;
         }
-
+        // Why need to put in Bundle??? Because Fragment function with?
         args.putInt(ARG_PARAM1, layoutFragment);
         fragment.setArguments(args);
         return fragment;

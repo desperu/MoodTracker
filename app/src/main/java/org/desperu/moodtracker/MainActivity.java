@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
+import android.widget.ViewSwitcher;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,22 +25,21 @@ public class MainActivity extends AppCompatActivity {
         // check if there's a mood saved, and print it
         History check = new History();
         int lastMood = check.checkLastMood(getBaseContext());
-        if (lastMood > -1) {
+        if (lastMood > -1)
             mPager.setCurrentItem(lastMood);
-        }
 
-        // TODO : check that the date is not modiate by the user
+        // TODO : check that the date is not modif by the user
         //button click here or in fragment view
-        ImageButton comment_button = (ImageButton)findViewById(R.id.comment_button);
+        /*ImageButton comment_button = (ImageButton)findViewById(R.id.comment_button);
         comment_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(MainActivity.this,Comment.class);
                 startActivity(i);
             }
-        });
+        });*/
 
-        ImageButton history_button = (ImageButton)findViewById(R.id.history_button);
+        ImageButton history_button = findViewById(R.id.history_button);
         history_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -47,6 +47,19 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+
+        // It's rocks but can do better
+        ImageButton comment_button = findViewById(R.id.comment_button);
+        comment_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
+                viewSwitcher.showNext();
+            }
+        });
+
+        //        EditTextPreference
+
         /*ImageButton show_ctrls = (ImageButton)findViewById(R.id.show_ctrls);
         show_ctrls.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,10 +92,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Toast.makeText(getBaseContext(), "MainActivity.onStart " + mPager.getCurrentItem(), Toast.LENGTH_SHORT).show();
-        // TODO : check date saved with the current date, better in onResume???
+    protected void onResume() {
+        super.onResume();
+        Toast.makeText(getBaseContext(), "MainActivity.onResume " + mPager.getCurrentItem(), Toast.LENGTH_SHORT).show();
+        // TODO : check date saved with the current date
     }
 
     /* Better here than MoodFragment.onStop ???

@@ -4,7 +4,7 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:background="@android:color/transparent">
+    android:background="@android:color/background_light">
 
     <TextView
         android:id="@+id/Title"
@@ -16,8 +16,9 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:text="@string/title_comment"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="14sp" />
+        android:textColor="@android:color/tertiary_text_dark"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <android.support.design.widget.TextInputEditText
         android:id="@+id/write_comment"
