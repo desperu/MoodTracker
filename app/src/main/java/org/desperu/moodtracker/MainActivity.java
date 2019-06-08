@@ -22,22 +22,11 @@ public class MainActivity extends AppCompatActivity {
         mPager = findViewById(R.id.viewpager);
         mPager.setAdapter(mAdapter);
 
-        // check if there's a mood saved, and print it
+        // check if there's a mood saved when the activity was killed, and print it
         History check = new History();
         int lastMood = check.checkLastMood(getBaseContext());
         if (lastMood > -1)
             mPager.setCurrentItem(lastMood);
-
-        // TODO : check that the date is not modif by the user
-        //button click here or in fragment view
-        /*ImageButton comment_button = (ImageButton)findViewById(R.id.comment_button);
-        comment_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this,Comment.class);
-                startActivity(i);
-            }
-        });*/
 
         ImageButton history_button = findViewById(R.id.history_button);
         history_button.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // It's rocks but can do better
+        // TODO : use dialog box...
         ImageButton comment_button = findViewById(R.id.comment_button);
         comment_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,31 +49,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //        EditTextPreference
-
-        /*ImageButton show_ctrls = (ImageButton)findViewById(R.id.show_ctrls);
-        show_ctrls.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ViewSwitcher ctrls = (ViewSwitcher)findViewById(R.id.ctrls);
-                ctrls.showNext();
-            }
-        });*/
-        /*FloatingActionButton comment_layout = findViewById(R.id.comment_layout);
-        comment_layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this,comment_layout.class);
-                startActivity(i);
-            }
-        });*/
     }
 
     // Call method from ViewPager get and set currentItem
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
+            // If the user is currently looking at the first step or in comment, allow the system
+            // to handle the Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
         } else {
             // Otherwise, select the previous step.
@@ -91,18 +64,25 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // TODO : onStart must be good
     @Override
     protected void onResume() {
-        super.onResume();
+        // Test getCurrentItem for ViewPager
         Toast.makeText(getBaseContext(), "MainActivity.onResume " + mPager.getCurrentItem(), Toast.LENGTH_SHORT).show();
-        // TODO : check date saved with the current date
+        History checkDate = new History();
+        if (!checkDate.checkSavedDate(getBaseContext())) {
+            Toast.makeText(getBaseContext(), "You can't change the past!!!", Toast.LENGTH_LONG).show();
+            // TODO print this message in a dialog box?
+            finish();
+            // onDestroy(); //too violent
+        }
+        super.onResume();
     }
 
-    /* Better here than MoodFragment.onStop ???
-    @Override
+    // Better here than MoodFragment.onStop ??? Yes less power used...
     protected void onStop() {
         History saveCurrentItem = new History();
         saveCurrentItem.saveCurrentMood(getBaseContext(), MyAdapter.currentPage);
         super.onStop();
-    }*/
+    }
 }
