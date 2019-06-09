@@ -1,36 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#a5468ad9"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <org.desperu.moodtracker.VerticalViewPager
+    <ImageView
         android:id="@+id/normal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#a5468ad9"
-        android:foreground="@drawable/smiley_normal"
-        android:foregroundGravity="center" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/normal"
-        android:layout_alignBottom="@id/normal"
-        android:clickable="true"
-        app:backgroundTint="#a5468ad9"
-        app:srcCompat="@drawable/ic_note_add_black" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/history"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@id/normal"
-        android:layout_alignBottom="@id/normal"
-        android:clickable="true"
-        app:backgroundTint="#a5468ad9"
-        app:srcCompat="@drawable/ic_history_black" />
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/content_description_normal"
+        android:src="@drawable/smiley_normal" />
 
 </RelativeLayout>

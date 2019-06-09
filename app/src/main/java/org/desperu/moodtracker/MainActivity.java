@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
     // TODO : onStart must be good
     @Override
-    protected void onResume() {
+    protected void onStart() {
         // Test getCurrentItem for ViewPager
         Toast.makeText(getBaseContext(), "MainActivity.onResume " + mPager.getCurrentItem(), Toast.LENGTH_SHORT).show();
         History checkDate = new History();
@@ -76,13 +76,13 @@ public class MainActivity extends AppCompatActivity {
             finish();
             // onDestroy(); //too violent
         }
-        super.onResume();
+        super.onStart();
     }
 
-    // Better here than MoodFragment.onStop ??? Yes less power used...
-    protected void onStop() {
+    // Better here than MoodFragment.onStop ??? Yes less power used... save current date when is modif!!!
+    /*protected void onStop() {
         History saveCurrentItem = new History();
         saveCurrentItem.saveCurrentMood(getBaseContext(), MyAdapter.currentPage);
         super.onStop();
-    }
+    }*/
 }

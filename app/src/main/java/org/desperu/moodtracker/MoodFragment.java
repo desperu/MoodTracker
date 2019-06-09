@@ -78,10 +78,10 @@ public class MoodFragment extends Fragment {
         Toast.makeText(getContext(), "MoodFragment.onViewStateRestored", Toast.LENGTH_SHORT).show();
     }*/
 
-    /*@Override
+    @Override
     public void onStop() {
         History saveCurrentItem = new History();
         saveCurrentItem.saveCurrentMood(getContext(), MyAdapter.currentPage);
         super.onStop();
-    }*/
+    }
 }

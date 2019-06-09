@@ -1,45 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#fff9ec4f"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <org.desperu.moodtracker.VerticalViewPager
+    <ImageView
         android:id="@+id/super_happy"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#fff9ec4f"
-        android:foreground="@drawable/smiley_super_happy"
-        android:foregroundGravity="center"
-        tools:targetApi="m" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/button_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@id/super_happy"
-        android:layout_alignBottom="@id/super_happy"
-        android:layout_centerVertical="false"
-        android:layout_gravity="bottom|start"
-        android:clickable="true"
-        android:focusable="true"
-        app:backgroundTint="#fff9ec4f"
-        app:srcCompat="@drawable/ic_note_add_black" />
-            <!-- android:onClick="onClick" -->
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/button_history"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@id/super_happy"
-        android:layout_alignBottom="@id/super_happy"
-        android:layout_gravity="bottom|end"
-        android:clickable="true"
-        android:focusable="true"
-        app:backgroundTint="#fff9ec4f"
-        app:borderWidth="1dp"
-        app:srcCompat="@drawable/ic_history_black" />
+        android:layout_centerInParent="true"
+        android:contentDescription="@string/content_description_sad"
+        android:src="@drawable/smiley_super_happy" />
 
 </RelativeLayout>
