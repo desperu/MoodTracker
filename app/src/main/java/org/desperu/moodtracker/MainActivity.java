@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         // check if there's a mood saved when the activity was killed, and print it
         // TODO : comment after restart print??
-        History check = new History();
-        int lastMood = check.checkLastMood(getBaseContext());
+        final History check = new History();
+        int lastMood = check.getLastMood(getBaseContext());
         if (lastMood > -1)
             mPager.setCurrentItem(lastMood);
 
@@ -53,10 +53,12 @@ public class MainActivity extends AppCompatActivity {
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //KeyboardView();
                 ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
                 viewSwitcher.showNext();
                 ((InputMethodManager) Objects.requireNonNull(getSystemService(Activity.INPUT_METHOD_SERVICE)))
-                        .toggleSoftInput(0, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                        .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                //getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
                 // TODO : call keyboard not perfect =( and onBackPressed close comment dialog
             }
         });
@@ -66,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 comment.getText().clear();
-                // TODO : clear in prefs!!!
+                check.delLastComment(getBaseContext());
                 ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
                 viewSwitcher.showPrevious();
                 ((InputMethodManager) Objects.requireNonNull(getSystemService(Activity.INPUT_METHOD_SERVICE)))
@@ -88,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         comment = findViewById(R.id.write_comment);
         comment.addTextChangedListener(textWatcher);
+        comment.setText(check.getLastComment(getBaseContext()));
 
         //        EditTextPreference
     }
@@ -116,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
     // Call method from ViewPager get and set currentItem
     @Override
     public void onBackPressed() {
+        // TODO : si pair si impaire pensez aux boutons aussi
+        //ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
+        //viewSwitcher.showPrevious();
         if (mPager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step or in comment, allow the system
             // to handle the Back button. This calls finish() on this activity and pops the back stack.
@@ -131,17 +137,21 @@ public class MainActivity extends AppCompatActivity {
         // Test getCurrentItem for ViewPager
         Toast.makeText(getBaseContext(), "MainActivity.onResume " + mPager.getCurrentItem(), Toast.LENGTH_SHORT).show();
         History checkDate = new History();
-        if (!checkDate.checkSavedDate(getBaseContext())) {
+        if (checkDate.checkSavedDate(getBaseContext()) < 0) {
             goodDate = false;
             Toast.makeText(getBaseContext(), "The date isn't good!! You can't change the past!!!", Toast.LENGTH_LONG).show();
             // TODO print this message in a dialog box?
             finish(); // don't kill process
             //onDestroy(); // too violent can't print toast
+        } else if (checkDate.checkSavedDate(getBaseContext()) > 0) {
+            History newDate = new History();
+            newDate.manageHistory(getBaseContext());
         }
         super.onResume();
     }
 
     // Better here than MoodFragment.onStop ??? Yes less power used... save current date when is modif!!!
+    // onDestroy??? I think it's dangerous to lose data
     protected void onStop() {
         if (goodDate) {
             History saveCurrentItem = new History();
