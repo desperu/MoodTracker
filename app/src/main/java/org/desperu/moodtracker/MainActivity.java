@@ -1,22 +1,27 @@
 package org.desperu.moodtracker;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import java.util.Objects;
+
 public class MainActivity extends AppCompatActivity {
 
     MyAdapter mAdapter;
     VerticalViewPager mPager;
 
+    ImageButton historyButton = null;
     EditText comment = null;
     static String inputText;
 
@@ -38,70 +43,74 @@ public class MainActivity extends AppCompatActivity {
         if (lastMood > -1)
             mPager.setCurrentItem(lastMood);
 
-        ImageButton history_button = findViewById(R.id.history_button);
-        history_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this,History.class);
-                startActivity(i);
-            }
-        });
+        historyButton = findViewById(R.id.history_button);
+        historyButton.setOnClickListener(historyButtonListener);
 
+        // Witch code is better??
         // It's rocks but can do better
         // TODO : use dialog box...
-        ImageButton comment_button = findViewById(R.id.comment_button);
-        comment_button.setOnClickListener(new View.OnClickListener() {
+        ImageButton commentButton = findViewById(R.id.comment_button);
+        commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
                 viewSwitcher.showNext();
-                // TODO : call keyboard and onBackPressed close comment dialog
+                ((InputMethodManager) Objects.requireNonNull(getSystemService(Activity.INPUT_METHOD_SERVICE)))
+                        .toggleSoftInput(0, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                // TODO : call keyboard not perfect =( and onBackPressed close comment dialog
             }
         });
 
-        comment = findViewById(R.id.write_comment);
-        comment.addTextChangedListener(textWatcher);
-
-
-        Button cancel_button = findViewById(R.id.button_cancel);
+        Button cancel_button = findViewById(R.id.cancel_button);
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                comment.clearComposingText();
+                comment.getText().clear();
+                // TODO : clear in prefs!!!
                 ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
                 viewSwitcher.showPrevious();
-                // TODO : hide keyboard
+                ((InputMethodManager) Objects.requireNonNull(getSystemService(Activity.INPUT_METHOD_SERVICE)))
+                        .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
             }
         });
 
-        Button ok_button = findViewById(R.id.button_ok);
+        Button ok_button = findViewById(R.id.ok_button);
         ok_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 inputText = String.valueOf(comment.getText());
                 ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
                 viewSwitcher.showPrevious();
+                ((InputMethodManager) Objects.requireNonNull(getSystemService(Activity.INPUT_METHOD_SERVICE)))
+                        .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
             }
         });
+
+        comment = findViewById(R.id.write_comment);
+        comment.addTextChangedListener(textWatcher);
 
         //        EditTextPreference
     }
 
+    // Witch code is better??
+    private View.OnClickListener historyButtonListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Intent i = new Intent(MainActivity.this, History.class);
+            startActivity(i);
+        }
+    };
+
     private TextWatcher textWatcher = new TextWatcher() {
+        // TODO : override useless???
         @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
 
         @Override
-        public void afterTextChanged(Editable s) {
+        public void onTextChanged(CharSequence s, int start, int before, int count) { }
 
-        }
+        @Override
+        public void afterTextChanged(Editable s) { }
     };
 
     // Call method from ViewPager get and set currentItem

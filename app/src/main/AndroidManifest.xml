@@ -11,6 +11,7 @@
         android:roundIcon="@drawable/smiley_super_happy"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:fullBackupContent="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -21,13 +22,8 @@
         </activity>
         <activity
             android:name=".History"
-            android:label="@string/title_activity_history">
-            <!-- android:parentActivityName=".MainActivity">
-                 declaration parentActivityName don't allow sharedpreferences -->
-        </activity>
-        <activity
-            android:name=".Comment"
-            android:label="@string/title_activity_comment">
+            android:label="@string/title_activity_history"
+            android:parentActivityName=".MainActivity">
         </activity>
     </application>
 

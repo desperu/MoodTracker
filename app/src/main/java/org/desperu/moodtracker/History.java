@@ -31,7 +31,6 @@ public class History extends AppCompatActivity {
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
         //objectif : restore the saved mood
         //pour cela, on commence par regarder si on a déjà des éléments sauvegardés
-        // si le fichier n'existe pas le if return true....
         if (sharedPreferences.contains(currentMood)) {
             lastMood = sharedPreferences.getInt(currentMood, -1);
             Toast.makeText(context, "Last Mood selected today : " + lastMood, Toast.LENGTH_SHORT).show();
