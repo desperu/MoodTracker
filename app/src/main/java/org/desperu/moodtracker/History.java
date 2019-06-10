@@ -13,6 +13,7 @@ public class History extends AppCompatActivity {
     private static final String moodDayFile = "MoodDay";
     private static final String currentMood = "CurrentMood";
     private static final String currentDate = "CurrentDate";
+    private static final String currentComment = "CurrentComment";
     SharedPreferences sharedPreferences;
 
     @Override
@@ -32,7 +33,7 @@ public class History extends AppCompatActivity {
         //pour cela, on commence par regarder si on a déjà des éléments sauvegardés
         // si le fichier n'existe pas le if return true....
         if (sharedPreferences.contains(currentMood)) {
-            lastMood = sharedPreferences.getInt(currentMood, 0);
+            lastMood = sharedPreferences.getInt(currentMood, -1);
             Toast.makeText(context, "Last Mood selected today : " + lastMood, Toast.LENGTH_SHORT).show();
             return lastMood;
         } else {
@@ -52,6 +53,7 @@ public class History extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(currentMood, mNum);
         editor.putInt(currentDate, getDate());
+        editor.putString(currentComment, MainActivity.inputText);
         editor.apply();
         Toast.makeText(context, "Current Mood Saved! For : " + mNum + " ,Date " + getDate(), Toast.LENGTH_SHORT).show();
     }

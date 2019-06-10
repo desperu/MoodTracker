@@ -1,12 +1,6 @@
 <resources>
     <string name="app_name">MoodTracker</string>
 
-    <!-- current pref file -->
-    <string name="mood_day_file">Mood_Day</string>
-    <string name="current_mood">Current_Mood</string>
-    <string name="current_date">Current_Date</string>
-    <string name="current_comment">Current_Comment</string>
-
     <!-- history pref file -->
     <string name="history_mood">History_Mood</string>
 
@@ -28,6 +22,8 @@
     <string name="content_description_sad">smiley sad</string>
 
     <!-- imagesView for history -->
+    <string name="content_description_day1">Day1</string>
+    <string name="text_day1">Yesterday</string>
     <string name="content_description_share_sms">Share_Sms</string>
 
     <!-- activity -->
