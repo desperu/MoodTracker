@@ -17,9 +17,14 @@ public class History extends AppCompatActivity {
     private static final String moodHistory = "MoodHistory";
     SharedPreferences sharedPreferences;
 
+    int[] mood = new int[8];
+    int[] date = new int[8];
+    String[] comment = new String[8];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.createHistoryView();
         setContentView(R.layout.history_layout);
     }
 
@@ -76,7 +81,9 @@ public class History extends AppCompatActivity {
     // For test only
     public int getDate() {
         Calendar calendar = Calendar.getInstance();
-        return calendar.get(Calendar.MINUTE);
+        int date = calendar.get(Calendar.HOUR_OF_DAY) * 100;
+        date += calendar.get(Calendar.MINUTE);
+        return date;
     }
 
     // TODO : use int, new mood->positive, wrong date-> negative
@@ -95,28 +102,41 @@ public class History extends AppCompatActivity {
     // TODO : create class SharedPreferences for simplify access to pref
 
     public void manageHistory(Context context) {
-        sharedPreferences = context.getSharedPreferences(moodHistory, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        int[] mood = new int[7];
-        int[] date = new int[7];
-        String[] comment = new String[7];
-        for (int i = 6; i > -1; i--) {
+        SharedPreferences dayFile = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
+        SharedPreferences.Editor editorCurrent = dayFile.edit();
+        SharedPreferences historyFile = context.getSharedPreferences(moodHistory, MODE_PRIVATE);
+        SharedPreferences.Editor editorHistory = historyFile.edit();
+        for (int i = 7; i > -1; i--) {
+            boolean isGood = false;
             if (i == 0) {
-                mood[i] = sharedPreferences.getInt(currentMood, -1);
-                date[i] = sharedPreferences.getInt(currentDate, 0);
-                comment[i] = sharedPreferences.getString(currentComment, null);
+                mood[i] = dayFile.getInt(currentMood, -1);
+                editorCurrent.remove(currentMood).apply();
+                date[i] = dayFile.getInt(currentDate, 0);
+                editorCurrent.remove(currentDate).apply();
+                comment[i] = dayFile.getString(currentComment, null);
+                editorCurrent.remove(currentComment).apply();
             } else {
-                mood[i] = sharedPreferences.getInt("Mood" + i, -1);
-                date[i] = sharedPreferences.getInt("Date" + i, 0);
-                comment[i] = sharedPreferences.getString("Comment" + i, null);
+                mood[i] = historyFile.getInt("Mood" + i, -1);
+                date[i] = historyFile.getInt("Date" + i, 0);
+                comment[i] = historyFile.getString("Comment" + i, null);
             }
             for (int j = 1; j < 8; j++) {
-                if (date[i] - getDate() == j + 1) {
-                    editor.putInt("Mood" + j, mood[i]).apply(); mood[j] = mood[i];
-                    editor.putInt("Date" + j, date[i]).apply(); date[j] = date[i];
-                    editor.putString("Comment" + j, comment[i]).apply(); comment[j] = comment[i];
+                if (getDate() - date[i] == j) {
+                    editorHistory.putInt("Mood" + j, mood[i]).apply(); mood[j] = mood[i];
+                    editorHistory.putInt("Date" + j, date[i]).apply(); date[j] = date[i];
+                    editorHistory.putString("Comment" + j, comment[i]).apply(); comment[j] = comment[i];
+                    isGood = true;
                 }
             }
+            if (!isGood) {
+                editorHistory.putInt("Mood" + i, -1).apply(); mood[i] = -1;
+                editorHistory.putInt("Date" + i, 0).apply(); date[i] = 0;
+                editorHistory.putString("Comment" + i, null).apply(); comment[i] = null;
+            }
         }
+    }
+
+    public void createHistoryView() {
+        //for (int i = )
     }
 }

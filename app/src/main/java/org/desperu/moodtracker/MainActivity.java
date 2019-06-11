@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
         mPager = findViewById(R.id.viewpager);
         mPager.setAdapter(mAdapter);
 
-        // check if there's a mood saved when the activity was killed, and print it
-        // TODO : comment after restart print??
-        final History check = new History();
+        onResume(); // to check date before reed in pref file
+
+        History check = new History();
         int lastMood = check.getLastMood(getBaseContext());
         if (lastMood > -1)
             mPager.setCurrentItem(lastMood);
@@ -53,9 +53,10 @@ public class MainActivity extends AppCompatActivity {
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //KeyboardView();
                 ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
                 viewSwitcher.showNext();
+                Toast.makeText(getBaseContext(), "MainActivity.onClick-comment_button " + getCurrentFocus(), Toast.LENGTH_SHORT).show();
+                // TODO : to test with view id for keyboard and onBackPressed action
                 ((InputMethodManager) Objects.requireNonNull(getSystemService(Activity.INPUT_METHOD_SERVICE)))
                         .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
                 //getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
@@ -68,11 +69,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 comment.getText().clear();
-                check.delLastComment(getBaseContext());
+                // fonctionne pas bien, test inputText = null and resave
+                History delComment = new History();
+                delComment.delLastComment(getBaseContext());
                 ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
                 viewSwitcher.showPrevious();
                 ((InputMethodManager) Objects.requireNonNull(getSystemService(Activity.INPUT_METHOD_SERVICE)))
-                        .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+                        .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
             }
         });
 
@@ -81,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 inputText = String.valueOf(comment.getText());
+                History save = new History();
+                save.saveCurrentMood(getBaseContext(), mPager.getCurrentItem());
                 ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
                 viewSwitcher.showPrevious();
                 ((InputMethodManager) Objects.requireNonNull(getSystemService(Activity.INPUT_METHOD_SERVICE)))
@@ -119,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
     // Call method from ViewPager get and set currentItem
     @Override
     public void onBackPressed() {
-        // TODO : si pair si impaire pensez aux boutons aussi
+        // TODO : si vue active is better than si pair si impaire pensez aux bouttons aussi
         //ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
         //viewSwitcher.showPrevious();
         if (mPager.getCurrentItem() == 0) {
@@ -136,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         // Test getCurrentItem for ViewPager
         Toast.makeText(getBaseContext(), "MainActivity.onResume " + mPager.getCurrentItem(), Toast.LENGTH_SHORT).show();
+        // TODO : all in the same method ? in checkSavedDate???
         History checkDate = new History();
         if (checkDate.checkSavedDate(getBaseContext()) < 0) {
             goodDate = false;
@@ -143,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
             // TODO print this message in a dialog box?
             finish(); // don't kill process
             //onDestroy(); // too violent can't print toast
+            // TODO : do nothing if the date change when the activity have the focus
         } else if (checkDate.checkSavedDate(getBaseContext()) > 0) {
             History newDate = new History();
             newDate.manageHistory(getBaseContext());
