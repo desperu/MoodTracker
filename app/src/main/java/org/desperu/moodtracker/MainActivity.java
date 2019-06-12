@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mPager = findViewById(R.id.viewpager);
         mPager.setAdapter(mAdapter);
 
-        onResume(); // to check date before reed in pref file
+        onResume(); // to check date before read in pref file
 
         History check = new History();
         int lastMood = check.getLastMood(getBaseContext());
@@ -139,18 +139,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        // Test getCurrentItem for ViewPager
+        // Test getCurrentItem from ViewPager
         Toast.makeText(getBaseContext(), "MainActivity.onResume " + mPager.getCurrentItem(), Toast.LENGTH_SHORT).show();
         // TODO : all in the same method ? in checkSavedDate???
         History checkDate = new History();
         if (checkDate.checkSavedDate(getBaseContext()) < 0) {
             goodDate = false;
             Toast.makeText(getBaseContext(), "The date isn't good!! You can't change the past!!!", Toast.LENGTH_LONG).show();
-            // TODO print this message in a dialog box?
+            // TODO print this message in a dialog box? and answer for RAZ??
             finish(); // don't kill process
             //onDestroy(); // too violent can't print toast
             // TODO : do nothing if the date change when the activity have the focus
         } else if (checkDate.checkSavedDate(getBaseContext()) > 0) {
+            History.newDate = true;
             History newDate = new History();
             newDate.manageHistory(getBaseContext());
         }

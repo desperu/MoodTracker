@@ -19,7 +19,6 @@
     <string name="content_description_sad">smiley sad</string>
 
     <!-- imagesView for history -->
-    <string name="content_description_day1">Day1</string>
     <string name="text_day1">Yesterday</string>
     <string name="content_description_share_sms">Share_Sms</string>
 

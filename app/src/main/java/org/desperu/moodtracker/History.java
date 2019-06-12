@@ -2,11 +2,16 @@ package org.desperu.moodtracker;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import java.util.Calendar;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class History extends AppCompatActivity {
 
@@ -21,9 +26,13 @@ public class History extends AppCompatActivity {
     int[] date = new int[8];
     String[] comment = new String[8];
 
+    static boolean newDate = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        newDate = false;
+        this.manageHistory(getBaseContext());
         this.createHistoryView();
         setContentView(R.layout.history_layout);
     }
@@ -108,7 +117,7 @@ public class History extends AppCompatActivity {
         SharedPreferences.Editor editorHistory = historyFile.edit();
         for (int i = 7; i > -1; i--) {
             boolean isGood = false;
-            if (i == 0) {
+            if (i == 0 && newDate) {
                 mood[i] = dayFile.getInt(currentMood, -1);
                 editorCurrent.remove(currentMood).apply();
                 date[i] = dayFile.getInt(currentDate, 0);
@@ -128,7 +137,7 @@ public class History extends AppCompatActivity {
                     isGood = true;
                 }
             }
-            if (!isGood) {
+            if (!isGood && i != 0) {
                 editorHistory.putInt("Mood" + i, -1).apply(); mood[i] = -1;
                 editorHistory.putInt("Date" + i, 0).apply(); date[i] = 0;
                 editorHistory.putString("Comment" + i, null).apply(); comment[i] = null;
@@ -137,6 +146,41 @@ public class History extends AppCompatActivity {
     }
 
     public void createHistoryView() {
-        //for (int i = )
+        for (int i = 7; i > 0; i--) {
+            RelativeLayout relativeLayout = findViewById(-1000014);
+            ViewGroup.LayoutParams params = findViewById(Integer.parseInt("R.id.Day" + i)).getLayoutParams();
+            switch (mood[i]) {
+                case 0:
+                    relativeLayout.setBackgroundColor(Color.parseColor("#fff9ec4f"));
+                    params.width = MATCH_PARENT;
+                    params.height = MATCH_PARENT/7;
+                    findViewById(Integer.parseInt("R.id.Day" + i)).requestLayout();
+                    break;
+                case 1:
+                    relativeLayout.setBackgroundColor(Color.parseColor("#ffb8e986"));
+                    params.width = MATCH_PARENT*4/5;
+                    params.height = MATCH_PARENT/7;
+                    break;
+                case 2:
+                    relativeLayout.setBackgroundColor(Color.parseColor("#a5468ad9"));
+                    params.width = MATCH_PARENT*3/5;
+                    params.height = MATCH_PARENT/7;
+                    break;
+                case 3:
+                    relativeLayout.setBackgroundColor(Color.parseColor("#ff9b9b9b"));
+                    params.width = MATCH_PARENT*2/5;
+                    params.height = MATCH_PARENT/7;
+                    break;
+                case 4:
+                    relativeLayout.setBackgroundColor(Color.parseColor("#ffde3c50"));
+                    params.width = MATCH_PARENT/5;
+                    params.height = MATCH_PARENT/7;
+                    break;
+                    default:
+                        relativeLayout.setBackgroundColor(Color.parseColor("transparent"));
+                        params.width = MATCH_PARENT;
+                        params.height = MATCH_PARENT/7;
+            }
+        }
     }
 }

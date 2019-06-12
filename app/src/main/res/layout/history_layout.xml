@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/History"
     android:layout_width="match_parent"
@@ -10,17 +11,16 @@
         android:id="@+id/Test_taille_ecran"
         android:layout_width="412dp"
         android:layout_height="605dp"
-        android:background="@android:color/transparent"
-        android:keepScreenOn="false">
+        android:background="@android:color/transparent">
 
         <RelativeLayout
-            android:id="@+id/Day_7"
+            android:id="@+id/Day7"
             android:layout_width="match_parent"
             android:layout_height="86dp"
             android:background="#ffde3c50">
 
             <ImageView
-                android:id="@+id/Share_Sms_Day_7"
+                android:id="@+id/Share_Sms_Day7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -34,14 +34,14 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/Day_6"
+            android:id="@+id/Day6"
             android:layout_width="match_parent"
             android:layout_height="86dp"
-            android:layout_below="@id/Day_7"
+            android:layout_below="@id/Day7"
             android:background="#a5468ad9">
 
             <ImageView
-                android:id="@+id/Share_Sms_Day_6"
+                android:id="@+id/Share_Sms_Day6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -55,14 +55,14 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/Day_5"
+            android:id="@+id/Day5"
             android:layout_width="match_parent"
             android:layout_height="86dp"
-            android:layout_below="@id/Day_6"
+            android:layout_below="@id/Day6"
             android:background="#fff9ec4f">
 
             <ImageView
-                android:id="@+id/Share_Sms_Day_5"
+                android:id="@+id/Share_Sms_Day5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -76,14 +76,14 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/Day_4"
+            android:id="@+id/Day4"
             android:layout_width="match_parent"
             android:layout_height="86dp"
-            android:layout_below="@id/Day_5"
+            android:layout_below="@id/Day5"
             android:background="#a5468ad9">
 
             <ImageView
-                android:id="@+id/Share_Sms_Day_4"
+                android:id="@+id/Share_Sms_Day4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -97,14 +97,14 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/Day_3"
+            android:id="@+id/Day3"
             android:layout_width="match_parent"
             android:layout_height="86dp"
-            android:layout_below="@id/Day_4"
+            android:layout_below="@id/Day4"
             android:background="#ffb8e986">
 
             <ImageView
-                android:id="@+id/Share_Sms_Day_3"
+                android:id="@+id/Share_Sms_Day3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -121,11 +121,11 @@
             android:id="@+id/Day2"
             android:layout_width="match_parent"
             android:layout_height="86dp"
-            android:layout_below="@id/Day_3"
+            android:layout_below="@id/Day3"
             android:background="#fff9ec4f">
 
             <ImageView
-                android:id="@+id/Share_Sms_Day_2"
+                android:id="@+id/Share_Sms_Day2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
@@ -143,8 +143,7 @@
             android:layout_width="match_parent"
             android:layout_height="86dp"
             android:layout_below="@id/Day2"
-            android:background="#ff9b9b9b"
-            android:contentDescription="@string/content_description_day1">
+            android:background="#ff9b9b9b">
 
             <ImageView
                 android:id="@+id/Share_Sms_Yesterday"
