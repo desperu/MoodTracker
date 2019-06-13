@@ -70,8 +70,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 comment.getText().clear();
                 // fonctionne pas bien, test inputText = null and resave
+                inputText = null;
                 History delComment = new History();
-                delComment.delLastComment(getBaseContext());
+                //delComment.delLastComment(getBaseContext());
+                delComment.saveCurrentMood(getBaseContext(), mPager.getCurrentItem());
                 ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
                 viewSwitcher.showPrevious();
                 ((InputMethodManager) Objects.requireNonNull(getSystemService(Activity.INPUT_METHOD_SERVICE)))
@@ -104,7 +106,8 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener historyButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(MainActivity.this, History.class);
+            Intent i = new Intent(MainActivity.this, HistoryView.class);
+            //Intent i = new Intent(MainActivity.this, History.class);
             startActivity(i);
         }
     };
@@ -151,15 +154,15 @@ public class MainActivity extends AppCompatActivity {
             //onDestroy(); // too violent can't print toast
             // TODO : do nothing if the date change when the activity have the focus
         } else if (checkDate.checkSavedDate(getBaseContext()) > 0) {
-            History.newDate = true;
             History newDate = new History();
-            newDate.manageHistory(getBaseContext());
+            newDate.manageHistory(getBaseContext(), true);
         }
         super.onResume();
     }
 
     // Better here than MoodFragment.onStop ??? Yes less power used... save current date when is modif!!!
     // onDestroy??? I think it's dangerous to lose data
+    @Override
     protected void onStop() {
         if (goodDate) {
             History saveCurrentItem = new History();
