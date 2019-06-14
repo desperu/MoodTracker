@@ -18,7 +18,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    MyAdapter mAdapter;
+    MoodAdapter mAdapter;
     VerticalViewPager mPager;
 
     ImageButton historyButton = null;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAdapter = new MyAdapter(getSupportFragmentManager());
+        mAdapter = new MoodAdapter(getSupportFragmentManager());
         mPager = findViewById(R.id.viewpager);
         mPager.setAdapter(mAdapter);
 
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         if (goodDate) {
             History saveCurrentItem = new History();
-            saveCurrentItem.saveCurrentMood(getBaseContext(), MyAdapter.currentPage);
+            saveCurrentItem.saveCurrentMood(getBaseContext(), MoodAdapter.currentPage);
         }
         super.onStop();
     }

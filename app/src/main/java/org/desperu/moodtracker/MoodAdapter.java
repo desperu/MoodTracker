@@ -6,12 +6,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-public class MyAdapter extends FragmentPagerAdapter {
+public class MoodAdapter extends FragmentPagerAdapter {
 
     private static final int NUMBER_OF_PAGES = 5;
     static int currentPage;
 
-    public MyAdapter(FragmentManager fm) { super(fm); }
+    public MoodAdapter(FragmentManager fm) { super(fm); }
 
     @Override
     public int getCount() { return NUMBER_OF_PAGES; }

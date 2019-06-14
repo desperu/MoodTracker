@@ -117,7 +117,6 @@ public class History extends AppCompatActivity {
         SharedPreferences historyFile = context.getSharedPreferences(moodHistory, MODE_PRIVATE);
         SharedPreferences.Editor editorHistory = historyFile.edit();
         for (int i = 7; i > -1; i--) {
-            boolean isRanged = false;
             if (i == 0 && newDate) {
                 mood[i] = dayFile.getInt(currentMood, -1);
                 date[i] = dayFile.getInt(currentDate, 0);
@@ -138,14 +137,7 @@ public class History extends AppCompatActivity {
                     editorHistory.putInt("Mood" + j, mood[i]).apply(); mood[j] = mood[i];
                     editorHistory.putInt("Date" + j, date[i]).apply(); date[j] = date[i];
                     editorHistory.putString("Comment" + j, comment[i]).apply(); comment[j] = comment[i];
-                    isRanged = true;
                 }
-            }
-            // TODO : useless, defValue do the same in tabs
-            if (!isRanged && i != 0) {
-                editorHistory.putInt("Mood" + i, -1).apply(); mood[i] = -1;
-                editorHistory.putInt("Date" + i, 0).apply(); date[i] = 0;
-                editorHistory.putString("Comment" + i, null).apply(); comment[i] = null;
             }
         }
     }

@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 public class MoodFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
-    private int layoutId;
+    private int layoutId; // TODO : get for the font of dialog comment box --> need static or getView something like this
 
     public MoodFragment() {
         // Required empty public constructor
@@ -57,7 +57,7 @@ public class MoodFragment extends Fragment {
         super.onStart();
         // TODO : test call sharedpreferences, it's rocks but prechargement!!!
         History saveCurrentItem = new History();
-        saveCurrentItem.saveCurrentMood(getActivity(), MyAdapter.currentPage);
+        saveCurrentItem.saveCurrentMood(getActivity(), MoodAdapter.currentPage);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class MoodFragment extends Fragment {
     /*@Override
     public void onStop() {
         History saveCurrentItem = new History();
-        saveCurrentItem.saveCurrentMood(getContext(), MyAdapter.currentPage);
+        saveCurrentItem.saveCurrentMood(getContext(), MoodAdapter.currentPage);
         super.onStop();
     }*/
 }

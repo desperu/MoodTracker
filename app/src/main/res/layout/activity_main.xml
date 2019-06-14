@@ -9,6 +9,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <EditText
+        android:id="@+id/For_Test_only"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="For Test only" />
+
     <ViewSwitcher
         android:id="@+id/viewSwitcher"
         android:layout_width="wrap_content"
@@ -54,10 +60,9 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:hint="@string/hint_comment"
-                android:inputType="text"
-                android:textColorHighlight="@color/colorAccent"
-                android:textColorLink="@color/colorPrimary"
-                android:textCursorDrawable="@color/colorAccent" />
+                android:inputType="text|textAutoComplete"
+                android:textColorHighlight="#F34987"
+                android:textColorLink="@color/colorPrimary" />
 
             <Button
                 android:id="@+id/ok_button"
