@@ -12,7 +12,7 @@ import java.util.Calendar;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
-public class History extends AppCompatActivity {
+public class MoodHistory extends AppCompatActivity {
 
     private static final String moodDayFile = "MoodDay";
     private static final String currentMood = "CurrentMood";
@@ -23,7 +23,7 @@ public class History extends AppCompatActivity {
 
     static int[] mood = new int[8];
     int[] date = new int[8];
-    String[] comment = new String[8];
+    static String[] comment = new String[8];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +102,7 @@ public class History extends AppCompatActivity {
 
     // TODO : create method if date change during run activity, must be run by checkSavedDate
     public void onNewDayWhenRun() {
-
+        //use wait();
     }
 
     // TODO : create method for create history, manage and print it, with tab
@@ -111,6 +111,7 @@ public class History extends AppCompatActivity {
     // TODO : create class SharedPreferences for simplify access to pref ???
 
     // TODO : simplify -> create method to serialize action read clear, read only, write
+    // TODO : use i-1 not length 8
     public void manageHistory(Context context, boolean newDate) {
         SharedPreferences dayFile = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
         SharedPreferences.Editor editorDay = dayFile.edit();

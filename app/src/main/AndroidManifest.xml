@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="org.desperu.moodtracker">
+
+    <!--<uses-permission-sdk-23 android:name="android.permission.SEND_SMS"/>-->
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <!-- to verify -->
 
     <application
         android:allowBackup="true"
@@ -19,14 +24,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".History"
+        <activity android:name=".MoodHistory"
             android:label="@string/title_activity_history"
-            android:parentActivityName=".MainActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".HistoryView"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".MoodHistoryView"
             android:label="@string/title_activity_history"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_VIEW" />
+                <action android:name="android.intent.action.ACTION_SEND" />
+                <action android:name="android.intent.action.ACTION_SENTO" />
+            </intent-filter>
         </activity>
     </application>
 

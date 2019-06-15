@@ -1,192 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/History"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/Test_taille_ecran"
-        android:layout_width="412dp"
-        android:layout_height="605dp"
-        android:background="@android:color/transparent">
+        android:id="@+id/Day7"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:background="#ffde3c50">
 
-        <RelativeLayout
-            android:id="@+id/Day7"
-            android:layout_width="match_parent"
-            android:layout_height="86dp"
-            android:background="#ffde3c50">
+        <TextView
+            android:id="@+id/text_day7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/text_day7" />
 
-            <ImageView
-                android:id="@+id/Share_Sms_Day7"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
-                android:contentDescription="@string/content_description_share_sms"
-                app:srcCompat="@drawable/ic_comment_black_48px" />
-        </RelativeLayout>
+    </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/Day6"
-            android:layout_width="match_parent"
-            android:layout_height="86dp"
-            android:layout_below="@id/Day7"
-            android:background="#a5468ad9">
+    <RelativeLayout
+        android:id="@+id/Day6"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:layout_below="@id/Day7"
+        android:background="#a5468ad9">
 
-            <ImageView
-                android:id="@+id/Share_Sms_Day6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
-                android:contentDescription="@string/content_description_share_sms"
-                app:srcCompat="@drawable/ic_comment_black_48px" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/text_day6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/text_day6" />
 
-        <RelativeLayout
-            android:id="@+id/Day5"
-            android:layout_width="match_parent"
-            android:layout_height="86dp"
-            android:layout_below="@id/Day6"
-            android:background="#fff9ec4f">
+    </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/Share_Sms_Day5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
-                android:contentDescription="@string/content_description_share_sms"
-                app:srcCompat="@drawable/ic_comment_black_48px" />
-        </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/Day5"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:layout_below="@id/Day6"
+        android:background="#fff9ec4f">
 
-        <RelativeLayout
-            android:id="@+id/Day4"
-            android:layout_width="match_parent"
-            android:layout_height="86dp"
-            android:layout_below="@id/Day5"
-            android:background="#a5468ad9">
+        <TextView
+            android:id="@+id/text_day5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/text_day5" />
 
-            <ImageView
-                android:id="@+id/Share_Sms_Day4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
-                android:contentDescription="@string/content_description_share_sms"
-                app:srcCompat="@drawable/ic_comment_black_48px" />
-        </RelativeLayout>
+    </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/Day3"
-            android:layout_width="match_parent"
-            android:layout_height="86dp"
-            android:layout_below="@id/Day4"
-            android:background="#ffb8e986">
+    <RelativeLayout
+        android:id="@+id/Day4"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:layout_below="@id/Day5"
+        android:background="#a5468ad9">
 
-            <ImageView
-                android:id="@+id/Share_Sms_Day3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
-                android:contentDescription="@string/content_description_share_sms"
-                app:srcCompat="@drawable/ic_comment_black_48px" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/text_day4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/text_day4" />
 
-        <RelativeLayout
-            android:id="@+id/Day2"
-            android:layout_width="match_parent"
-            android:layout_height="86dp"
-            android:layout_below="@id/Day3"
-            android:background="#fff9ec4f">
+    </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/Share_Sms_Day2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
-                android:contentDescription="@string/content_description_share_sms"
-                app:srcCompat="@drawable/ic_comment_black_48px" />
-        </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/Day3"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:layout_below="@id/Day4"
+        android:background="#ffb8e986">
 
-        <RelativeLayout
-            android:id="@+id/Day1"
-            android:layout_width="match_parent"
-            android:layout_height="86dp"
-            android:layout_below="@id/Day2"
-            android:background="#ff9b9b9b">
+        <TextView
+            android:id="@+id/text_day3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/text_day3" />
 
-            <ImageView
-                android:id="@+id/Share_Sms_Yesterday"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerHorizontal="false"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginBottom="15dp"
-                android:contentDescription="@string/content_description_share_sms"
-                app:srcCompat="@drawable/ic_comment_black_48px" />
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/text_day1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_toStartOf="@id/Share_Sms_Yesterday"
-                android:text="@string/text_day1" />
-        </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/Day2"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:layout_below="@id/Day3"
+        android:background="#fff9ec4f">
 
-        <RelativeLayout
-            android:id="@+id/Test2"
-            android:layout_width="match_parent"
-            android:layout_height="126dp"
-            android:layout_marginTop="605dp"
-            android:background="#CA1C1C">
+        <TextView
+            android:id="@+id/text_day2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/text_day2" />
 
-            <EditText
-                android:id="@+id/Test"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textAutoComplete" />
-        </RelativeLayout>
+    </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/Day1"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:layout_below="@id/Day2"
+        android:background="#ff9b9b9b">
+
+        <TextView
+            android:id="@+id/text_day1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:text="@string/text_day1" />
     </RelativeLayout>
 
 </LinearLayout>

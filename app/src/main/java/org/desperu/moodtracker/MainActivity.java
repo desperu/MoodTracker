@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         onResume(); // to check date before read in pref file
 
-        History check = new History();
+        MoodHistory check = new MoodHistory();
         int lastMood = check.getLastMood(getBaseContext());
         if (lastMood > -1)
             mPager.setCurrentItem(lastMood);
@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Witch code is better??
         // It's rocks but can do better
-        // TODO : use dialog box...
+        // TODO : use EditPreferencesDialog box...
         ImageButton commentButton = findViewById(R.id.comment_button);
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 comment.getText().clear();
                 // fonctionne pas bien, test inputText = null and resave
                 inputText = null;
-                History delComment = new History();
+                MoodHistory delComment = new MoodHistory();
                 //delComment.delLastComment(getBaseContext());
                 delComment.saveCurrentMood(getBaseContext(), mPager.getCurrentItem());
                 ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 inputText = String.valueOf(comment.getText());
-                History save = new History();
+                MoodHistory save = new MoodHistory();
                 save.saveCurrentMood(getBaseContext(), mPager.getCurrentItem());
                 ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
                 viewSwitcher.showPrevious();
@@ -98,16 +98,13 @@ public class MainActivity extends AppCompatActivity {
         comment = findViewById(R.id.write_comment);
         comment.addTextChangedListener(textWatcher);
         comment.setText(check.getLastComment(getBaseContext()));
-
-        //        EditTextPreference
     }
 
     // Witch code is better??
     private View.OnClickListener historyButtonListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent i = new Intent(MainActivity.this, HistoryView.class);
-            //Intent i = new Intent(MainActivity.this, History.class);
+            Intent i = new Intent(MainActivity.this, MoodHistoryView.class);
             startActivity(i);
         }
     };
@@ -145,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
         // Test getCurrentItem from ViewPager
         Toast.makeText(getBaseContext(), "MainActivity.onResume " + mPager.getCurrentItem(), Toast.LENGTH_SHORT).show();
         // TODO : all in the same method ? in checkSavedDate???
-        History checkDate = new History();
+        MoodHistory checkDate = new MoodHistory();
         if (checkDate.checkSavedDate(getBaseContext()) < 0) {
             goodDate = false;
             Toast.makeText(getBaseContext(), "The date isn't good!! You can't change the past!!!", Toast.LENGTH_LONG).show();
@@ -154,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
             //onDestroy(); // too violent can't print toast
             // TODO : do nothing if the date change when the activity have the focus
         } else if (checkDate.checkSavedDate(getBaseContext()) > 0) {
-            History newDate = new History();
+            MoodHistory newDate = new MoodHistory();
             newDate.manageHistory(getBaseContext(), true);
         }
         super.onResume();
@@ -165,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         if (goodDate) {
-            History saveCurrentItem = new History();
+            MoodHistory saveCurrentItem = new MoodHistory();
             saveCurrentItem.saveCurrentMood(getBaseContext(), MoodAdapter.currentPage);
         }
         super.onStop();
