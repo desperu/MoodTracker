@@ -56,7 +56,7 @@ public class MoodFragment extends Fragment {
     public void onStart() {
         super.onStart();
         // TODO : test call sharedpreferences, it's rocks but prechargement!!!
-        MoodHistory saveCurrentItem = new MoodHistory();
+        MoodUtils saveCurrentItem = new MoodUtils();
         saveCurrentItem.saveCurrentMood(getActivity(), MoodAdapter.currentPage);
     }
 
@@ -80,7 +80,7 @@ public class MoodFragment extends Fragment {
 
     /*@Override
     public void onStop() {
-        MoodHistory saveCurrentItem = new MoodHistory();
+        MoodUtils saveCurrentItem = new MoodUtils();
         saveCurrentItem.saveCurrentMood(getContext(), MoodAdapter.currentPage);
         super.onStop();
     }*/

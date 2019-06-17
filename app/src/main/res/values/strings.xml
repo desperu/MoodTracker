@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">MoodTracker</string>
 
+    <!-- activity -->
+    <string name="title_activity_history">MoodTracker History</string>
+
     <!-- activity_main.xml -->
     <string name="content_description_comment">button comment</string>
     <string name="content_description_history">button history</string>
@@ -20,7 +23,7 @@
 
     <!-- imagesView for history -->
     <string name="text_day1">Yesterday</string>
-    <string name="text_day2">"There's 2 Days"</string>
+    <string name="text_day2">"There's %1$d Days"</string>
     <string name="text_day3">"There's 3 Days"</string>
     <string name="text_day4">"There's 4 Days"</string>
     <string name="text_day5">"There's 5 Days"</string>
@@ -28,11 +31,7 @@
     <string name="text_day7">"There's one Week"</string>
     <string name="content_description_share_sms">Share_Sms</string>
 
-    <!-- MoodHistoryView -->
-    <string name="noMood">"No Mood saved!!"</string>
-
-    <!-- activity -->
-    <string name="title_activity_history">MoodTracker History</string>
-    <string name="title_activity_comment">Mood Comment</string>
+    <!-- MoodHistoryActivity -->
+    <string name="no_mood">"No Mood saved!!"</string>
 
 </resources>

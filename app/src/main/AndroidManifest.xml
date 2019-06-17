@@ -22,10 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MoodHistory"
-            android:label="@string/title_activity_history"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name=".MoodHistoryView"
+        <activity android:name=".MoodHistoryActivity"
             android:label="@string/title_activity_history"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">

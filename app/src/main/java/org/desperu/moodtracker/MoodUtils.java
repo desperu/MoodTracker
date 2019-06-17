@@ -2,32 +2,45 @@ package org.desperu.moodtracker;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.os.AsyncTask;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
-public class MoodHistory extends AppCompatActivity {
+import static android.content.Context.MODE_PRIVATE;
+
+public class MoodUtils {
 
     private static final String moodDayFile = "MoodDay";
     private static final String currentMood = "CurrentMood";
     private static final String currentDate = "CurrentDate";
     private static final String currentComment = "CurrentComment";
-    private static final String moodHistory = "MoodHistory";
+    private static final String moodHistory = "MoodUtils";
     SharedPreferences sharedPreferences;
 
     static int[] mood = new int[8];
     int[] date = new int[8];
     static String[] comment = new String[8];
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    /**
+     * Save the current mood selected
+     *
+     * @param moodNum the number of the selected mood view
+     * @param context get context from super activity
+     */
+    public void saveCurrentMood(Context context, int moodNum, String comment) {
+        sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(currentMood, moodNum);
+        editor.putInt(currentDate, getTime());
+        editor.putString(currentComment, comment);
+        editor.apply();
+        Toast.makeText(context, "Current Mood Saved! For : " + moodNum + " ,Date " + getTime(), Toast.LENGTH_SHORT).show();
     }
 
     /**
      * Check if there was a mood saved and print it
+     *
      * @param context The base context from the method is call
      * @return The number of the mood view
      */
@@ -46,27 +59,13 @@ public class MoodHistory extends AppCompatActivity {
 
     /**
      * Get the comment saved for the current day
+     *
      * @param context The base context from the method is call
      * @return Return the comment, null if there isn't
      */
     public String getLastComment(Context context) {
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
         return sharedPreferences.getString(currentComment, null);
-    }
-
-    /**
-     * Save the current mood selected
-     * @param moodNum the number of the selected mood view
-     * @param context get context from super activity
-     */
-    public void saveCurrentMood(Context context, int moodNum) {
-        sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(currentMood, moodNum);
-        editor.putInt(currentDate, getTime());
-        editor.putString(currentComment, MainActivity.inputText);
-        editor.apply();
-        Toast.makeText(context, "Current Mood Saved! For : " + moodNum + " ,Date " + getTime(), Toast.LENGTH_SHORT).show();
     }
 
     /*public int getDate() {
@@ -83,6 +82,7 @@ public class MoodHistory extends AppCompatActivity {
         int date = calendar.get(Calendar.HOUR_OF_DAY) * 100;
         date += calendar.get(Calendar.MINUTE);
         return date;
+        //System.currentTimeMillis(); + convertisseur
     }
 
     public int checkSavedDate(Context context) {
@@ -106,7 +106,25 @@ public class MoodHistory extends AppCompatActivity {
                 Toast.LENGTH_LONG).show();*/
     }
 
-    // search on web compte à rebourd
+    static class CheckDateWhenRun extends AsyncTask<Void, Integer, Integer> {
+
+        @Override
+        protected Integer doInBackground(Void... voids) {
+            int beforeNewMood = 2400;
+            MoodUtils moodHistory = new MoodUtils();
+            try {
+                while ( beforeNewMood > 41) {
+                    beforeNewMood = 2400 - moodHistory.getTime();
+                    Thread.sleep(60000);
+                }
+                return 1;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return  0;
+            }
+        }
+    }
+
     public int onNewDayWhenRun(Context context) {
         Calendar calendar = Calendar.getInstance();
         int time = calendar.get(Calendar.HOUR_OF_DAY) * 100;
@@ -118,14 +136,13 @@ public class MoodHistory extends AppCompatActivity {
             // wait(60000); // object not locked by thread before wait()
             if (beforeNewMood == 41) {
                 this.manageHistory(context, true);
-                onRestart();
+                //onRestart();
             }
         } while (again);
         return onNewDayWhenRun(context);
     }
 
     // TODO : create class SharedPreferences for simplify access to pref ???
-
     // TODO : simplify -> create method to serialize action read clear, read only, write
     // TODO : use i-1 not length 8
     public void manageHistory(Context context, boolean newDate) {
@@ -151,9 +168,12 @@ public class MoodHistory extends AppCompatActivity {
             }
             for (int j = 1; j < 8; j++) {
                 if (getTime() - date[i] == j) {
-                    editorHistory.putInt("Mood" + j, mood[i]).apply(); mood[j] = mood[i];
-                    editorHistory.putInt("Date" + j, date[i]).apply(); date[j] = date[i];
-                    editorHistory.putString("Comment" + j, comment[i]).apply(); comment[j] = comment[i];
+                    editorHistory.putInt("Mood" + j, mood[i]).apply();
+                    mood[j] = mood[i];
+                    editorHistory.putInt("Date" + j, date[i]).apply();
+                    date[j] = date[i];
+                    editorHistory.putString("Comment" + j, comment[i]).apply();
+                    comment[j] = comment[i];
                 }
             }
         }
