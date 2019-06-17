@@ -3,8 +3,8 @@
     <item name="imageS1" type="id" />
     <item name="imageS2" type="id" />
     <item name="imageS3" type="id" />
-    <item name="imageS7" type="id" />
-    <item name="imageS6" type="id" />
-    <item name="imageS5" type="id" />
     <item name="imageS4" type="id" />
+    <item name="imageS5" type="id" />
+    <item name="imageS6" type="id" />
+    <item name="imageS7" type="id" />
 </resources>

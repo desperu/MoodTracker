@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="org.desperu.moodtracker">
 
-    <!--<uses-permission-sdk-23 android:name="android.permission.SEND_SMS"/>-->
     <uses-permission android:name="android.permission.SEND_SMS"/>
-    <!-- to verify -->
 
     <application
         android:allowBackup="true"
@@ -32,9 +30,10 @@
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="android.intent.action.ACTION_VIEW" />
                 <action android:name="android.intent.action.ACTION_SEND" />
-                <action android:name="android.intent.action.ACTION_SENTO" />
+                <action android:name="android.intent.action.ACTION_SENDTO" />
+                <action android:name="android.intent.action.ACTION_SEND_MULTIPLE" />
+                <action android:name="android.intent.action.ACTION_VIEW" />
             </intent-filter>
         </activity>
     </application>

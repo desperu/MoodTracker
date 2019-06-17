@@ -17,4 +17,18 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!--<style name="InputCommentDialog" parent="Theme.AppCompat.Dialog.Alert">-->
+    <style name="InputCommentDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowSoftInputMode">stateVisible</item>
+    </style>
+
+    <style name="ShowCommentDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:color">#42000000</item>
+        <item name="android:windowBackground">@android:color/darker_gray</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:gravity">bottom</item>
+    </style>
+
 </resources>

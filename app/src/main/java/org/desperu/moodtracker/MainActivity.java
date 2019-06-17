@@ -1,20 +1,15 @@
 package org.desperu.moodtracker;
 
-import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
-
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,10 +17,9 @@ public class MainActivity extends AppCompatActivity {
     VerticalViewPager mPager;
 
     ImageButton historyButton = null;
-    EditText comment = null;
     static String inputText;
 
-    boolean goodDate = true;
+    static boolean goodDate = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         onResume(); // to check date before read in pref file
 
-        MoodHistory check = new MoodHistory();
+        final MoodHistory check = new MoodHistory();
         int lastMood = check.getLastMood(getBaseContext());
         if (lastMood > -1)
             mPager.setCurrentItem(lastMood);
@@ -47,57 +41,48 @@ public class MainActivity extends AppCompatActivity {
         historyButton.setOnClickListener(historyButtonListener);
 
         // Witch code is better??
-        // It's rocks but can do better
-        // TODO : use EditPreferencesDialog box...
+
         ImageButton commentButton = findViewById(R.id.comment_button);
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
-                viewSwitcher.showNext();
-                Toast.makeText(getBaseContext(), "MainActivity.onClick-comment_button " + getCurrentFocus(), Toast.LENGTH_SHORT).show();
-                // TODO : to test with view id for keyboard and onBackPressed action
-                ((InputMethodManager) Objects.requireNonNull(getSystemService(Activity.INPUT_METHOD_SERVICE)))
-                        .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
-                //getInstrumentation().sendKeyDownUpSync(KeyEvent.KEYCODE_BACK);
-                // TODO : call keyboard not perfect =( and onBackPressed close comment dialog
+                AlertDialog.Builder dialogComment = new AlertDialog.Builder(
+                        MainActivity.this, R.style.InputCommentDialog);
+                dialogComment.setTitle("Comment");
+
+                final EditText inputComment = new EditText(MainActivity.this);
+                inputComment.setText(check.getLastComment(getBaseContext()));
+                inputComment.setHint(R.string.hint_comment);
+                LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT);
+                //llParams.setMargins(50,0, 50, 0);
+                inputComment.setLayoutParams(llParams);
+                dialogComment.setView(inputComment);
+
+                dialogComment.setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                inputText = inputComment.getText().toString();
+                                MoodHistory save = new MoodHistory();
+                                save.saveCurrentMood(getBaseContext(), mPager.getCurrentItem());
+                            }
+                        });
+
+                dialogComment.setNegativeButton("CANCEL",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                inputComment.getText().clear();
+                                inputText = null;
+                                MoodHistory delComment = new MoodHistory();
+                                delComment.saveCurrentMood(getBaseContext(), mPager.getCurrentItem());
+                            }
+                        });
+
+                dialogComment.show();
             }
         });
-
-        Button cancel_button = findViewById(R.id.cancel_button);
-        cancel_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                comment.getText().clear();
-                // fonctionne pas bien, test inputText = null and resave
-                inputText = null;
-                MoodHistory delComment = new MoodHistory();
-                //delComment.delLastComment(getBaseContext());
-                delComment.saveCurrentMood(getBaseContext(), mPager.getCurrentItem());
-                ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
-                viewSwitcher.showPrevious();
-                ((InputMethodManager) Objects.requireNonNull(getSystemService(Activity.INPUT_METHOD_SERVICE)))
-                        .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_NOT_ALWAYS);
-            }
-        });
-
-        Button ok_button = findViewById(R.id.ok_button);
-        ok_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                inputText = String.valueOf(comment.getText());
-                MoodHistory save = new MoodHistory();
-                save.saveCurrentMood(getBaseContext(), mPager.getCurrentItem());
-                ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
-                viewSwitcher.showPrevious();
-                ((InputMethodManager) Objects.requireNonNull(getSystemService(Activity.INPUT_METHOD_SERVICE)))
-                        .toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-            }
-        });
-
-        comment = findViewById(R.id.write_comment);
-        comment.addTextChangedListener(textWatcher);
-        comment.setText(check.getLastComment(getBaseContext()));
     }
 
     // Witch code is better??
@@ -109,24 +94,9 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    private TextWatcher textWatcher = new TextWatcher() {
-        // TODO : override useless???
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) { }
-
-        @Override
-        public void afterTextChanged(Editable s) { }
-    };
-
     // Call method from ViewPager get and set currentItem
     @Override
     public void onBackPressed() {
-        // TODO : si vue active is better than si pair si impaire pensez aux bouttons aussi
-        //ViewSwitcher viewSwitcher = findViewById(R.id.viewSwitcher);
-        //viewSwitcher.showPrevious();
         if (mPager.getCurrentItem() == 0) {
             // If the user is currently looking at the first step or in comment, allow the system
             // to handle the Back button. This calls finish() on this activity and pops the back stack.
@@ -139,26 +109,27 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        goodDate = true;
         // Test getCurrentItem from ViewPager
-        Toast.makeText(getBaseContext(), "MainActivity.onResume " + mPager.getCurrentItem(), Toast.LENGTH_SHORT).show();
-        // TODO : all in the same method ? in checkSavedDate???
+        Toast.makeText(getBaseContext(), "MainActivity.onResume " + mPager.getCurrentItem(),
+                Toast.LENGTH_SHORT).show();
         MoodHistory checkDate = new MoodHistory();
         if (checkDate.checkSavedDate(getBaseContext()) < 0) {
             goodDate = false;
             Toast.makeText(getBaseContext(), "The date isn't good!! You can't change the past!!!", Toast.LENGTH_LONG).show();
             // TODO print this message in a dialog box? and answer for RAZ??
-            finish(); // don't kill process
+            finishAffinity(); // to see the result
+            MainActivity.this.finish(); // don't kill process
             //onDestroy(); // too violent can't print toast
             // TODO : do nothing if the date change when the activity have the focus
         } else if (checkDate.checkSavedDate(getBaseContext()) > 0) {
             MoodHistory newDate = new MoodHistory();
             newDate.manageHistory(getBaseContext(), true);
+            inputText = null;
         }
         super.onResume();
     }
 
-    // Better here than MoodFragment.onStop ??? Yes less power used... save current date when is modif!!!
-    // onDestroy??? I think it's dangerous to lose data
     @Override
     protected void onStop() {
         if (goodDate) {

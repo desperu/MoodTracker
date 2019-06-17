@@ -1,15 +1,18 @@
 package org.desperu.moodtracker;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,55 +27,52 @@ public class MoodHistoryView extends AppCompatActivity {
     int screenWidth;
     int screenHeight;
 
-    Context savedContext;
-    String noMoodText;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        noMoodText = getString(R.string.noMood);
-        this.getScreenWidthHeight();
-        setContentView(this.onCreateHistoryView(getBaseContext()));
-        savedContext = getBaseContext();
+        setContentView(this.onCreateHistoryView());
     }
 
-    public View onCreateHistoryView(Context context) {
+    public View onCreateHistoryView() {
 
-        historyView = LayoutInflater.from(context).inflate(R.layout.history_layout, null);
+        historyView = LayoutInflater.from(this).inflate(R.layout.history_layout, null);
 
         MoodHistory getTabs = new MoodHistory();
-        getTabs.manageHistory(context, false);
+        getTabs.manageHistory(this, false);
 
         for (int i = 7; i > 0; i--) {
             switch (MoodHistory.mood[i]) {
                 case 0:
-                    this.setHistoryView(context, rLayout[i - 1], "#fff9ec4f", 1,
+                    this.setHistoryView(rLayout[i - 1], "#fff9ec4f", 1,
                             MoodHistory.comment[i], imageS[i - 1], 0.915);
                     break;
                 case 1:
-                    this.setHistoryView(context, rLayout[i - 1], "#ffb8e986", 0.825,
+                    this.setHistoryView(rLayout[i - 1], "#ffb8e986", 0.825,
                             MoodHistory.comment[i], imageS[i - 1], 0.74);
                     break;
                 case 2:
-                    this.setHistoryView(context, rLayout[i - 1], "#a5468ad9", 0.65,
+                    this.setHistoryView(rLayout[i - 1], "#a5468ad9", 0.65,
                             MoodHistory.comment[i], imageS[i - 1], 0.565);
                     break;
                 case 3:
-                    this.setHistoryView(context, rLayout[i - 1], "#ff9b9b9b", 0.475,
+                    this.setHistoryView(rLayout[i - 1], "#ff9b9b9b", 0.475,
                             MoodHistory.comment[i], imageS[i - 1], 0.39);
                     break;
                 case 4:
-                    this.setHistoryView(context, rLayout[i - 1], "#ffde3c50", 0.3,
+                    this.setHistoryView(rLayout[i - 1], "#ffde3c50", 0.3,
                             MoodHistory.comment[i], imageS[i - 1], 0.215);
                     break;
                 default:
-                    this.setHistoryView(context, rLayout[i - 1], "#ffffffff", 1,
+                    this.setHistoryView(rLayout[i - 1], "#ffffffff", 1,
                             null, 0, 0);
-                    TextView noMood = new TextView(context);
-                    noMood.setText(noMoodText);
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup
-                            .LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    params.setMargins(screenWidth / 4, screenHeight / 20, 0, 0);
+                    TextView noMood = new TextView(this);
+                    noMood.setText(getString(R.string.noMood));
+                    noMood.setTextSize(16);
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT);
+                    params.setMargins(screenWidth / 3,
+                            screenHeight / 18, 0, 0);
                     RelativeLayout rlDay = historyView.findViewById(rLayout[i - 1]);
                     rlDay.addView(noMood, params);
             }
@@ -80,8 +80,10 @@ public class MoodHistoryView extends AppCompatActivity {
         return historyView;
     }
 
-    public void setHistoryView(Context context, int rLayoutDay, String color, double moodWidth,
+    public void setHistoryView(int rLayoutDay, String color, double moodWidth,
                                String comment, int imageS, double smsWidht) {
+
+        this.getScreenWidthHeight();
 
         historyView.findViewById(rLayoutDay).setBackgroundColor(Color.parseColor(color));
         ViewGroup.LayoutParams params = historyView.findViewById(rLayoutDay).getLayoutParams();
@@ -92,7 +94,7 @@ public class MoodHistoryView extends AppCompatActivity {
         if (comment != null) {
             RelativeLayout rlButton = historyView.findViewById(rLayoutDay);
             rlButton.setOnClickListener(showCommentListener);
-            this.setImageSMS(context, rLayoutDay, color, imageS, smsWidht);
+            this.setImageSMS(rLayoutDay, color, imageS, smsWidht);
             ImageButton imageButtonSMS = historyView.findViewById(imageS);
             imageButtonSMS.setOnClickListener(shareBySMSListener);
         }
@@ -107,14 +109,14 @@ public class MoodHistoryView extends AppCompatActivity {
         //double layoutDecorations = screenHeight * 0.1678; // so 0.832
     }
 
-    public void setImageSMS(Context context, int rLayoutDay, String color,
-                            int imageS, double smsWidht) {
-        ImageButton imageSMS = new ImageButton(context);
+    public void setImageSMS(int rLayoutDay, String color, int imageS, double smsWidht) {
+        ImageButton imageSMS = new ImageButton(this);
         imageSMS.setBackgroundColor(Color.parseColor(color));
         imageSMS.setImageResource(R.drawable.ic_comment_black_48px);
         imageSMS.setId(imageS);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins((int) (screenWidth * smsWidht), screenHeight / 18,
                 0, screenHeight / 18);//right :screenWidth / 50
         RelativeLayout rlDay = historyView.findViewById(rLayoutDay);
@@ -126,23 +128,15 @@ public class MoodHistoryView extends AppCompatActivity {
         public void onClick(View v) {
             for (int i = 7; i > 0; i--) {
                 if (v.getId() == rLayout[i - 1]) {
-                    RelativeLayout rlComment = new RelativeLayout(savedContext);
-                    rlComment.setBackgroundColor(Color.parseColor("#42000000"));
-                    rlComment.setGravity(RelativeLayout.ALIGN_PARENT_BOTTOM); // Don't function
-                    MoodHistoryView reCreate = new MoodHistoryView();
-                    reCreate.onCreateHistoryView(savedContext);
-                    TextView showComment = new TextView(savedContext);
-                    showComment.setText(MoodHistory.comment[i]);
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(ViewGroup.
-                            LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                    params.setMargins(screenWidth / 100, 0,
-                            screenWidth / 100, screenHeight / 100);
-                    rlComment.addView(showComment, params);
-                    RelativeLayout rlDay = historyView.findViewById(R.id.Day1);
-                    rlDay.addView(rlComment, params);
-                    //LinearLayout llDay = historyView.findViewById(R.id.History); // Not print...
-                    //llDay.addView(rlComment, params);
-                    setContentView(historyView);
+                    AlertDialog.Builder showComment = new AlertDialog.
+                            Builder(MoodHistoryView.this, R.style.ShowCommentDialog);
+                    AlertDialog dialog = showComment.create();
+                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+                    params.gravity = Gravity.BOTTOM;
+                    dialog.setMessage(MoodHistory.comment[i]);
+                    //showComment.show();
+                    dialog.show();
                 }
             }
         }
@@ -151,18 +145,38 @@ public class MoodHistoryView extends AppCompatActivity {
     public View.OnClickListener shareBySMSListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            // TODO : Dialog box for ask share media?
             for (int i = 7; i > 0; i--) {
                 if (v.getId() == imageS[i - 1]) {
-                    //Uri sms = Uri.parse("tel:1234567891");
-                    Uri sms = Uri.parse("sms:");
-                    Intent intent = new Intent(Intent.ACTION_VIEW, sms);
-                    //intent.setType("vnd.android-dir/mms-sms");
-                    //intent.putExtra("address", "");
-                    intent.putExtra("body", MoodHistory.comment[i]);
-                    startActivity(intent);
-                    //SmsManager sms = SmsManager.getDefault();
-                    //sms.sendTextMessage("+0290874890", null, "slt",
-                    //null, null);
+                    String day = null;
+                    switch (i - 1) {
+                        case 0: day = "There's one day"; break;
+                        case 1: day = "There's two day"; break;
+                        case 2: day = "There's three day"; break;
+                        case 3: day = "There's for day"; break;
+                        case 4: day = "There's five day"; break;
+                        case 5: day = "There's six day"; break;
+                        case 6: day = "There's one week"; break;
+                        default: day = "There's a few day";
+                    }
+                    // TODO : get the mood to share it
+                    String moodDay = null;
+                    switch (MoodHistory.mood[i]) {
+                        case 0: moodDay = ", i was super happy because : "; break;
+                        case 1: moodDay = ", i was happy because : "; break;
+                        case 2: moodDay = ", i was normal because : "; break;
+                        case 3: moodDay = ", i was disappointed because : "; break;
+                        case 4: moodDay = ", i was sad because : "; break;
+                        default: moodDay = " : ";
+                    }
+
+                    Intent share = new Intent(Intent.ACTION_SEND);
+                    share.setType("text/plain");
+                    share.putExtra(Intent.EXTRA_TEXT, day + moodDay + MoodHistory.comment[i]);
+                    //share.setType("image/*");
+                    //String mypath = "sdcard/Pictures/Screenshots/Screenshot_20190316-084054.png";
+                    //share.putExtra(Intent.EXTRA_STREAM,Uri.parse("file:///"+mypath));
+                    startActivity(Intent.createChooser(share, "Share Your Mood"));
                 }
             }
         }

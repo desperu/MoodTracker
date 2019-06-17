@@ -4,7 +4,8 @@
     android:id="@+id/History"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@android:color/transparent">
 
     <RelativeLayout
         android:id="@+id/Day7"
@@ -22,7 +23,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/text_day7" />
+            android:text="@string/text_day7"
+            android:textSize="16sp"/>
 
     </RelativeLayout>
 
@@ -43,7 +45,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/text_day6" />
+            android:text="@string/text_day6"
+            android:textSize="16sp"/>
 
     </RelativeLayout>
 
@@ -64,7 +67,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/text_day5" />
+            android:text="@string/text_day5"
+            android:textSize="16sp"/>
 
     </RelativeLayout>
 
@@ -85,7 +89,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/text_day4" />
+            android:text="@string/text_day4"
+            android:textSize="16sp" />
 
     </RelativeLayout>
 
@@ -106,7 +111,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/text_day3" />
+            android:text="@string/text_day3"
+            android:textSize="16sp" />
 
     </RelativeLayout>
 
@@ -127,7 +133,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/text_day2" />
+            android:text="@string/text_day2"
+            android:textSize="16sp"/>
 
     </RelativeLayout>
 
@@ -148,7 +155,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/text_day1" />
+            android:text="@string/text_day1"
+            android:textSize="16sp"/>
     </RelativeLayout>
 
 </LinearLayout>

@@ -25,13 +25,11 @@
     <string name="text_day4">"There's 4 Days"</string>
     <string name="text_day5">"There's 5 Days"</string>
     <string name="text_day6">"There's 6 Days"</string>
-    <string name="text_day7">"There's 7 Days"</string>
+    <string name="text_day7">"There's one Week"</string>
     <string name="content_description_share_sms">Share_Sms</string>
 
     <!-- MoodHistoryView -->
-    <!-- not uses -->
-    <string name="noMood">"There's no Mood saved for this Day!!"</string>
-    <string name="imageSMS">Share_SMS</string>
+    <string name="noMood">"No Mood saved!!"</string>
 
     <!-- activity -->
     <string name="title_activity_history">MoodTracker History</string>
