@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 public class MoodHistoryActivity extends AppCompatActivity {
 
-    View historyView = null; // LinearLayout? No not here, must be a View object to be inflate!!
+    View historyView = null;
     int[] rLayout = {R.id.day1, R.id.day2, R.id.day3,
             R.id.day4, R.id.day5, R.id.day6, R.id.day7};
     int[] imageS = {R.id.imageS1, R.id.imageS2, R.id.imageS3,
@@ -39,30 +39,31 @@ public class MoodHistoryActivity extends AppCompatActivity {
         MoodUtils getTabs = new MoodUtils();
         getTabs.manageHistory(this, false);
 
-        for (int i = 7; i > 0; i--) {
+        for (int i = 6; i >= 0; i--) {
             switch (MoodUtils.mood[i]) {
                 case 0:
-                    this.setHistoryView(rLayout[i - 1], "#fff9ec4f", 1,
-                            MoodUtils.comment[i], imageS[i - 1], 0.915);
+                    this.setHistoryView(rLayout[i], "#fff9ec4f", 1,
+                            MoodUtils.comment[i], imageS[i], 0.915);
                     break;
                 case 1:
-                    this.setHistoryView(rLayout[i - 1], "#ffb8e986", 0.825,
-                            MoodUtils.comment[i], imageS[i - 1], 0.74);
+                    this.setHistoryView(rLayout[i], "#ffb8e986", 0.825,
+                            MoodUtils.comment[i], imageS[i], 0.74);
                     break;
                 case 2:
-                    this.setHistoryView(rLayout[i - 1], "#a5468ad9", 0.65,
-                            MoodUtils.comment[i], imageS[i - 1], 0.565);
+                    this.setHistoryView(rLayout[i], "#a5468ad9", 0.65,
+                            MoodUtils.comment[i], imageS[i], 0.565);
                     break;
                 case 3:
-                    this.setHistoryView(rLayout[i - 1], "#ff9b9b9b", 0.475,
-                            MoodUtils.comment[i], imageS[i - 1], 0.39);
+                    this.setHistoryView(rLayout[i], "#ff9b9b9b", 0.475,
+                            MoodUtils.comment[i], imageS[i], 0.39);
                     break;
                 case 4:
-                    this.setHistoryView(rLayout[i - 1], "#ffde3c50", 0.3,
-                            MoodUtils.comment[i], imageS[i - 1], 0.215);
+                    this.setHistoryView(rLayout[i], "#ffde3c50", 0.3,
+                            MoodUtils.comment[i], imageS[i], 0.215);
                     break;
+                    // TODO : to delete
                 default:
-                    this.setHistoryView(rLayout[i - 1], "#ffffffff", 1,
+                    this.setHistoryView(rLayout[i], "#ffffffff", 1,
                             null, 0, 0);
                     TextView noMood = new TextView(this);
                     noMood.setText(getString(R.string.no_mood));
@@ -125,14 +126,15 @@ public class MoodHistoryActivity extends AppCompatActivity {
     public View.OnClickListener showCommentListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            for (int i = 7; i > 0; i--) {
-                if (v.getId() == rLayout[i - 1]) {
+            for (int i = 6; i >= 0; i--) {
+                if (v.getId() == rLayout[i]) {
                     AlertDialog.Builder showComment = new AlertDialog.
                             Builder(MoodHistoryActivity.this, R.style.ShowCommentDialog);
                     AlertDialog dialog = showComment.create();
                     dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
                     params.gravity = Gravity.BOTTOM;
+                    params.verticalMargin = 10;
                     dialog.setMessage(MoodUtils.comment[i]);
                     //showComment.show();
                     dialog.show();
@@ -145,9 +147,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             // TODO : Dialog box for ask share media?
-            for (int i = 7; i > 0; i--) {
+            for (int i = 6; i >= 0; i--) {
                 if (v.getId() == imageS[i - 1]) {
-                    String day = null;
+                    String day;
                     switch (i - 1) {
                         case 0: day = "There's one day"; break;
                         case 1: day = "There's two day"; break;
@@ -159,9 +161,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
                         default: day = "There's a few day";
                     }
                     // TODO : get the mood to share it
-                    String moodDay = null;
+                    String moodDay;
                     switch (MoodUtils.mood[i]) {
-                        case 0: moodDay = ", i was super happy because : "; break;
+                        case 0: moodDay = ", i was super happy because : "; break;//TODO : use =)
                         case 1: moodDay = ", i was happy because : "; break;
                         case 2: moodDay = ", i was normal because : "; break;
                         case 3: moodDay = ", i was disappointed because : "; break;

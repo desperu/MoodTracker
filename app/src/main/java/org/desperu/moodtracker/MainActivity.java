@@ -29,11 +29,6 @@ public class MainActivity extends AppCompatActivity {
         mPager.setAdapter(mAdapter);
     }
 
-    public void historyClick(View view) {
-            Intent i = new Intent(MainActivity.this, MoodHistoryActivity.class);
-            startActivity(i);
-    }
-
     public void commentClick(View view) {
         AlertDialog.Builder dialogComment = new AlertDialog.Builder(
                 MainActivity.this, R.style.InputCommentDialog);
@@ -69,6 +64,15 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         dialogComment.show();
+    }
+
+    public void historyClick(View view) {
+        Intent i = new Intent(MainActivity.this, MoodHistoryActivity.class);
+        startActivity(i);
+    }
+
+    public void badDateDialogBox() {
+
     }
 
     // Call method from ViewPager get and set currentItem
@@ -110,9 +114,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        if (goodDate) {
-            moodUtils.saveCurrentMood(getBaseContext(), MoodAdapter.currentPage, "");
-        }
+        if (goodDate)
+            moodUtils.saveCurrentMood(getBaseContext(), MoodAdapter.currentPage, inputText);
         super.onStop();
     }
 }
