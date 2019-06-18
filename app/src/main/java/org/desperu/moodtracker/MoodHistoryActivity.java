@@ -73,7 +73,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                             ViewGroup.LayoutParams.WRAP_CONTENT);
                     params.setMargins(screenWidth / 3,
                             screenHeight / 18, 0, 0);
-                    RelativeLayout rlDay = historyView.findViewById(rLayout[i - 1]);
+                    RelativeLayout rlDay = historyView.findViewById(rLayout[i]);
                     rlDay.addView(noMood, params);
             }
         }
@@ -128,16 +128,15 @@ public class MoodHistoryActivity extends AppCompatActivity {
         public void onClick(View v) {
             for (int i = 6; i >= 0; i--) {
                 if (v.getId() == rLayout[i]) {
-                    AlertDialog.Builder showComment = new AlertDialog.
+                    AlertDialog.Builder builder = new AlertDialog.
                             Builder(MoodHistoryActivity.this, R.style.ShowCommentDialog);
-                    AlertDialog dialog = showComment.create();
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+                    AlertDialog showComment = builder.create();
+                    showComment.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    WindowManager.LayoutParams params = showComment.getWindow().getAttributes();
                     params.gravity = Gravity.BOTTOM;
                     params.verticalMargin = 10;
-                    dialog.setMessage(MoodUtils.comment[i]);
-                    //showComment.show();
-                    dialog.show();
+                    showComment.setMessage(MoodUtils.comment[i]);
+                    showComment.show();
                 }
             }
         }
@@ -148,7 +147,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         public void onClick(View v) {
             // TODO : Dialog box for ask share media?
             for (int i = 6; i >= 0; i--) {
-                if (v.getId() == imageS[i - 1]) {
+                if (v.getId() == imageS[i]) {
                     String day;
                     switch (i - 1) {
                         case 0: day = "There's one day"; break;

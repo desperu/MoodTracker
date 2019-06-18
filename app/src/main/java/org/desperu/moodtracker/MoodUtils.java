@@ -17,7 +17,8 @@ class MoodUtils {
     private static final String moodHistory = "MoodHistory";
     private SharedPreferences sharedPreferences;
 
-    // TODO : don't use static use method get tab
+    // TODO : don't use static, use method to get tab
+    // TODO : use string for all Toast
     static int[] mood = new int[7];
     static int[] date = new int[7];
     static String[] comment = new String[7];
@@ -35,8 +36,8 @@ class MoodUtils {
         editor.putInt(currentDate, getTime());
         editor.putString(currentComment, comment);
         editor.apply();
-        Toast.makeText(context, "Current Mood Saved! For : " + moodNum + " ,Date " + getTime(),
-                Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Current Mood Saved! For : " + moodNum + ",Date " + getTime() +
+                "New Date Format" + System.currentTimeMillis(), Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -70,6 +71,14 @@ class MoodUtils {
         return sharedPreferences.getString(currentComment, null);
     }
 
+    void deleteAllMood(Context context) {
+        sharedPreferences = context.getSharedPreferences(moodHistory, MODE_PRIVATE);
+        sharedPreferences.edit().clear().apply();
+        sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
+        sharedPreferences.edit().clear().apply();
+
+    }
+
     /*public int getDate() {
         Calendar calendar = Calendar.getInstance();
         int date = calendar.get(Calendar.YEAR) * 10000;
@@ -87,7 +96,10 @@ class MoodUtils {
         //System.currentTimeMillis(); + convertisseur
     }
 
-    long convertDate() {
+    long convertDate(long date) {
+        long year = (long) (getTime() / (365.25 * 24 * 60 * 60 * 1000));
+        long month = (long) ((getTime() % (365.25 * 24 * 60 * 60 * 1000)) / 12);
+        long day = (getTime() - month) / 30;
         long convertDate = 0;
         return convertDate;
     }
@@ -97,19 +109,6 @@ class MoodUtils {
         int savedDate = sharedPreferences.getInt(currentDate, 0);
         if (savedDate == 0) return savedDate;
         return getTime() - savedDate;
-        /*if (getTime() - savedDate > 0) {
-            this.manageHistory(context, true);
-            onRestart();
-        } else if (getTime() - savedDate < 0) {
-            MainActivity.goodDate = false;
-            Toast.makeText(context, "The date isn't good!! You can't change the past!!!",
-                    Toast.LENGTH_LONG).show();
-            // TODO print this message in a dialog box? and answer for RAZ all prefs??
-            //finishAffinity(); // to see the result... do nothing!!
-            finish(); // don't kill process
-            //onDestroy(); // too violent can't print toast
-        } else if (savedDate == 0) Toast.makeText(context, "The date is good!!",
-                Toast.LENGTH_LONG).show();*/
     }
 
     // TODO : create class SharedPreferences for simplify access to pref ???

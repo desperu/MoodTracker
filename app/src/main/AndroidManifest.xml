@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".MoodHistoryActivity"
-            android:label="@string/title_activity_history"
+            android:label="@string/activity_mood_history"
             android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>

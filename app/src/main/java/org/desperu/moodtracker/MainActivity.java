@@ -16,9 +16,9 @@ public class MainActivity extends AppCompatActivity {
     VerticalViewPager mPager;
     MoodUtils moodUtils = new MoodUtils();
 
-    private String inputText;
+    private String comment;
     private boolean goodDate = true;
-
+    // TODO : use string for all Toast
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     public void commentClick(View view) {
         AlertDialog.Builder dialogComment = new AlertDialog.Builder(
                 MainActivity.this, R.style.InputCommentDialog);
-        dialogComment.setTitle("Comment");
+        dialogComment.setTitle(R.string.title_comment);
 
         final EditText inputComment = new EditText(MainActivity.this);
         inputComment.setText(moodUtils.getLastComment(getBaseContext()));
@@ -44,25 +44,26 @@ public class MainActivity extends AppCompatActivity {
         inputComment.setLayoutParams(llParams);
         dialogComment.setView(inputComment);
 
-        dialogComment.setPositiveButton("OK",
+        dialogComment.setPositiveButton(R.string.button_valid_comment,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        inputText = inputComment.getText().toString();
+                        comment = inputComment.getText().toString();
                         moodUtils.saveCurrentMood(getBaseContext(),
-                                mPager.getCurrentItem(), inputText);
+                                mPager.getCurrentItem(), comment);
                     }
                 });
 
-        dialogComment.setNegativeButton("CANCEL",
+        dialogComment.setNegativeButton(R.string.button_cancel_comment,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                         inputComment.getText().clear();
-                        inputText = "";
+                        comment = "";
                         moodUtils.saveCurrentMood(getBaseContext(),
-                                mPager.getCurrentItem(), inputText);
+                                mPager.getCurrentItem(), comment);
                     }
                 });
+
         dialogComment.show();
     }
 
@@ -71,11 +72,42 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    public void badDateDialogBox() {
+    // TODO : check if pass on onResume, i think no
+    public void wrongDateDialog() {
+        AlertDialog.Builder wrongDate = new AlertDialog.Builder(MainActivity.this);
+        wrongDate.setTitle(R.string.title_wrong_date);
+        wrongDate.setMessage(R.string.message_wrong_date);
+        wrongDate.setCancelable(false);
 
+        wrongDate.setPositiveButton(R.string.button_valid_date,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (moodUtils.checkSavedDate(MainActivity.this) >= 0)
+                            goodDate = true;
+                        else {
+                            wrongDateDialog();
+                            Toast.makeText(MainActivity.this,
+                                    R.string.toast_date_always_wrong, Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+        wrongDate.setNegativeButton(R.string.button_delete_mood,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        goodDate = true; // TODO : go to onCreate to restart apk??
+                        //dialog.cancel(); // TODO : Useless??
+                        moodUtils.deleteAllMood(MainActivity.this);
+                        Toast.makeText(MainActivity.this, R.string.toast_all_mood_delete,
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        wrongDate.show();
     }
 
-    // Call method from ViewPager get and set currentItem
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {
@@ -91,21 +123,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         goodDate = true;
-        // Test getCurrentItem from ViewPager
+        // TODO : Test getCurrentItem from ViewPager
         Toast.makeText(getBaseContext(), "MainActivity.onResume " + mPager.getCurrentItem(),
                 Toast.LENGTH_SHORT).show();
 
         if (moodUtils.checkSavedDate(getBaseContext()) < 0) {
             goodDate = false;
-            Toast.makeText(getBaseContext(), "The date isn't good!! You can't change the past!!!", Toast.LENGTH_LONG).show();
-            // TODO print this message in a dialog box? and answer for RAZ??
-            finishAffinity(); // to see the result
-            //MainActivity.this.finish(); // don't kill process
-            // TODO : do nothing if the date change when the activity have the focus
+            this.wrongDateDialog();
         } else if (moodUtils.checkSavedDate(getBaseContext()) > 0) {
             moodUtils.manageHistory(getBaseContext(), true);
-            inputText = null;
-        } else {
+            comment = null;
+        } else if (moodUtils.checkSavedDate(getBaseContext()) == 0) {
             int lastMood = moodUtils.getLastMood(getBaseContext());
             if (lastMood > -1) mPager.setCurrentItem(lastMood);
         }
@@ -115,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         if (goodDate)
-            moodUtils.saveCurrentMood(getBaseContext(), MoodAdapter.currentPage, inputText);
+            moodUtils.saveCurrentMood(getBaseContext(), mPager.getCurrentItem(), comment);
         super.onStop();
     }
 }

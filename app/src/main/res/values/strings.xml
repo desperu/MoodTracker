@@ -1,18 +1,26 @@
 <resources>
     <string name="app_name">MoodTracker</string>
 
-    <!-- activity -->
-    <string name="title_activity_history">MoodTracker History</string>
 
-    <!-- activity_main.xml -->
-    <string name="content_description_comment">button comment</string>
-    <string name="content_description_history">button history</string>
+    <!-- MainActivity -->
 
-    <!-- comment_layout.xml -->
+    <!-- comment_dialog -->
     <string name="title_comment">Comment</string>
     <string name="hint_comment">Your comment here!</string>
     <string name="button_valid_comment">OK</string>
     <string name="button_cancel_comment">Cancel</string>
+
+    <!-- wrong_date_dialog -->
+    <string name="title_wrong_date">Wrong Date</string>
+    <string name="message_wrong_date">"The Date is lower than the last saved, correct it on your device and then press OK. Or, if you want, you can delete all moods and comments saved, so press Delete."</string>
+    <string name="button_valid_date">OK</string>
+    <string name="button_delete_mood">Delete</string>
+    <string name="toast_date_always_wrong">The date is always wrong, correct it!!</string>
+    <string name="toast_all_mood_delete">All mood was delete!</string>
+
+    <!-- activity_main.xml -->
+    <string name="content_description_comment">button comment</string>
+    <string name="content_description_history">button history</string>
 
     <!-- imagesView for fragments-->
     <string name="content_description_super_happy">smiley supper happy</string>
@@ -20,6 +28,11 @@
     <string name="content_description_normal">smiley normal</string>
     <string name="content_description_disappointed">smiley disappointed</string>
     <string name="content_description_sad">smiley sad</string>
+
+
+    <!-- MoodHistoryActivity -->
+    <string name="activity_mood_history">MoodTracker History</string>
+    <string name="no_mood">"No Mood saved!!"</string>
 
     <!-- imagesView for history -->
     <string name="text_day1">Yesterday</string>
@@ -30,8 +43,5 @@
     <string name="text_day6">"There's 6 Days"</string>
     <string name="text_day7">"There's one Week"</string>
     <string name="content_description_share_sms">Share_Sms</string>
-
-    <!-- MoodHistoryActivity -->
-    <string name="no_mood">"No Mood saved!!"</string>
 
 </resources>
