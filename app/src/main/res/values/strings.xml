@@ -36,10 +36,6 @@
     <string name="content_description_share_sms">Share_Sms</string>
     <string name="text_yesterday">Yesterday</string>
     <string name="text_day">"There's %1$d Days"</string>
-    <string name="text_day3">"There's 3 Days"</string>
-    <string name="text_day4">"There's 4 Days"</string>
-    <string name="text_day5">"There's 5 Days"</string>
-    <string name="text_day6">"There's 6 Days"</string>
     <string name="text_week">"There's %1$d Week"</string>
     <string name="text_month">"There's %1$d Month</string>
     <string name="text_year">"There's %1$d Year</string>
@@ -49,5 +45,6 @@
     <string name="mood_day_normal">", i was :| because : "</string>
     <string name="mood_day_disappointed">", i was :/ because : "</string>
     <string name="mood_day_sad">", i was :( because : "</string>
+    <string name="share_title">Share Your Mood</string>
 
 </resources>
