@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/History"
+    android:id="@+id/history_old"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/transparent">
 
     <RelativeLayout
-        android:id="@+id/day7"
+        android:id="@+id/day7_old"
         android:layout_width="match_parent"
         android:layout_height="86dp"
         android:background="#ffde3c50">
@@ -23,16 +23,16 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/text_day7"
+            android:text="@string/text_week"
             android:textSize="16sp"/>
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/day6"
+        android:id="@+id/day6_old"
         android:layout_width="match_parent"
         android:layout_height="86dp"
-        android:layout_below="@id/day7"
+        android:layout_below="@id/day7_old"
         android:background="#a5468ad9">
 
         <TextView
@@ -51,10 +51,10 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/day5"
+        android:id="@+id/day5_old"
         android:layout_width="match_parent"
         android:layout_height="86dp"
-        android:layout_below="@id/day6"
+        android:layout_below="@id/day6_old"
         android:background="#fff9ec4f">
 
         <TextView
@@ -73,10 +73,10 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/day4"
+        android:id="@+id/day4_old"
         android:layout_width="match_parent"
         android:layout_height="86dp"
-        android:layout_below="@id/day5"
+        android:layout_below="@id/day5_old"
         android:background="#a5468ad9">
 
         <TextView
@@ -95,10 +95,10 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/day3"
+        android:id="@+id/day3_old"
         android:layout_width="match_parent"
         android:layout_height="86dp"
-        android:layout_below="@id/day4"
+        android:layout_below="@id/day4_old"
         android:background="#ffb8e986">
 
         <TextView
@@ -117,10 +117,10 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/day2"
+        android:id="@+id/day2_old"
         android:layout_width="match_parent"
         android:layout_height="86dp"
-        android:layout_below="@id/day3"
+        android:layout_below="@id/day3_old"
         android:background="#fff9ec4f">
 
         <TextView
@@ -133,16 +133,16 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/text_day2"
+            android:text="@string/text_day"
             android:textSize="16sp"/>
 
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/day1"
+        android:id="@+id/day1_old"
         android:layout_width="match_parent"
         android:layout_height="86dp"
-        android:layout_below="@id/day2"
+        android:layout_below="@id/day2_old"
         android:background="#ff9b9b9b">
 
         <TextView
@@ -155,7 +155,7 @@
             android:layout_marginTop="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/text_day1"
+            android:text="@string/text_yesterday"
             android:textSize="16sp"/>
     </RelativeLayout>
 

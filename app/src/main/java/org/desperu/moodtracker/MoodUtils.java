@@ -82,21 +82,11 @@ class MoodUtils {
 
     }
 
-    // TODO : Delete
-    /*public int getDate() {
-        Calendar calendar = Calendar.getInstance();
-        int date = calendar.get(Calendar.YEAR) * 10000;
-        date += (calendar.get(Calendar.MONTH) + 1) * 100;
-        date += calendar.get(Calendar.DATE);
-        return date;
-    }*/
-
-    private long getTime() {
+    long getTime() {
         return System.currentTimeMillis();
     }
 
-    //long convertDate(long date) {
-    private int convertDate(long currentTime) {
+    int convertDate(long currentTime) {
         // we start in 01/01/1970, first leap year february 1972
         /*Instant firstInstant = null;
         ZoneId zoneId = null;
@@ -117,6 +107,7 @@ class MoodUtils {
             });
         }*/
 
+        // TODO : find a better way, with a class of java utils
         currentTime += TimeZone.getDefault().getRawOffset() + TimeZone.getDefault().getDSTSavings();
         long oneDay = (24 * 60 * 60 * 1000);
         int i = 0;
@@ -151,12 +142,12 @@ class MoodUtils {
         int minutes = (int) (currentTime / (60 * 1000));
         /*currentTime = currentTime % (60 * 1000);
 
-        int seconds = (int) (currentTime / 1000) + 1;
+        int seconds = (int) (currentTime / 1000);
         currentTime = currentTime % 1000;*/
 
-        return (year * 10000) + (month * 100) + day;
+        //return (year * 10000) + (month * 100) + day;
         // TODO : For test only
-        //return (month * 1000000) + (day * 10000) + (hour * 100) + minutes;
+        return (day * 10000) + (hour * 100) + minutes;
     }
 
     long checkSavedDate(Context context) {
@@ -167,7 +158,7 @@ class MoodUtils {
         return convertDate(getTime()) - convertDate(savedDate);
     }
 
-    // TODO : Do for mood, date and comment
+    // TODO : Do for mood, date and comment or one return String and use valueOf
     /*int getMood(Context context, int nb) {
         SharedPreferences historyFile = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
         return historyFile.getInt("Mood" + (nb + 1), -1);

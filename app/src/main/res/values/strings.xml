@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">MoodTracker</string>
 
-
     <!-- MainActivity -->
 
     <!-- comment_dialog -->
@@ -32,16 +31,23 @@
 
     <!-- MoodHistoryActivity -->
     <string name="activity_mood_history">MoodTracker History</string>
-    <string name="no_mood">"No Mood saved!!"</string>
 
-    <!-- imagesView for history -->
-    <string name="text_day1">Yesterday</string>
-    <string name="text_day2">"There's %1$d Days"</string>
+    <string name="no_mood">"No Mood saved!!"</string>
+    <string name="content_description_share_sms">Share_Sms</string>
+    <string name="text_yesterday">Yesterday</string>
+    <string name="text_day">"There's %1$d Days"</string>
     <string name="text_day3">"There's 3 Days"</string>
     <string name="text_day4">"There's 4 Days"</string>
     <string name="text_day5">"There's 5 Days"</string>
     <string name="text_day6">"There's 6 Days"</string>
-    <string name="text_day7">"There's one Week"</string>
-    <string name="content_description_share_sms">Share_Sms</string>
+    <string name="text_week">"There's %1$d Week"</string>
+    <string name="text_month">"There's %1$d Month</string>
+    <string name="text_year">"There's %1$d Year</string>
+    <string name="text_problem">"There's a problem with the date!</string>
+    <string name="mood_day_super_happy">", i was :D because : "</string>
+    <string name="mood_day_happy">", i was :) because : "</string>
+    <string name="mood_day_normal">", i was :| because : "</string>
+    <string name="mood_day_disappointed">", i was :/ because : "</string>
+    <string name="mood_day_sad">", i was :( because : "</string>
 
 </resources>

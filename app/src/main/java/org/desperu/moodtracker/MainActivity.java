@@ -51,19 +51,21 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         comment = inputComment.getText().toString();
-                        moodUtils.saveCurrentMood(getBaseContext(),
-                                mPager.getCurrentItem(), comment);
+                        // TODO : To test but useless, onStop do it
+                        //moodUtils.saveCurrentMood(getBaseContext(),
+                          //      mPager.getCurrentItem(), comment);
                     }
                 });
 
         dialogComment.setNegativeButton(R.string.button_cancel_comment,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
+                        dialog.cancel(); // TODO : Useless?
                         inputComment.getText().clear();
                         comment = "";
-                        moodUtils.saveCurrentMood(getBaseContext(),
-                                mPager.getCurrentItem(), comment);
+                        // TODO : To test but useless, onStop do it
+                        //moodUtils.saveCurrentMood(getBaseContext(),
+                          //      mPager.getCurrentItem(), comment);
                     }
                 });
 
@@ -75,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
-    // TODO : check if pass on onResume, i think no
     public void wrongDateDialog() {
         AlertDialog.Builder wrongDate = new AlertDialog.Builder(MainActivity.this);
         wrongDate.setTitle(R.string.title_wrong_date);
@@ -101,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel(); // TODO : Useless??
-                        goodDate = true; // TODO : go to onCreate to restart apk??
+                        goodDate = true; // TODO : + go to onCreate to restart apk??
                         moodUtils.deleteAllMoods(MainActivity.this);
                         Toast.makeText(MainActivity.this, R.string.toast_all_mood_delete,
                                 Toast.LENGTH_SHORT).show();
@@ -146,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         if (goodDate)
-            moodUtils.saveCurrentMood(getBaseContext(), mPager.getCurrentItem(), comment);
+            moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment);// TODO : test this
         super.onStop();
     }
 }
