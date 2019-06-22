@@ -91,6 +91,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
         params.height = screenHeight / 7;
         historyView.findViewById(rLayoutDay).setLayoutParams(params);
 
+        // TODO : create the good textView for the day!!!!
+
         if (comment != null && comment.length() > 0) {
             RelativeLayout rlButton = historyView.findViewById(rLayoutDay);
             rlButton.setOnClickListener(showCommentListener);
@@ -100,13 +102,14 @@ public class MoodHistoryActivity extends AppCompatActivity {
         }
     }
 
-    // TODO : must be good in portrait...
+    // TODO : must be good in portrait... and the decorations?
     public void getScreenWidthHeight() {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenWidth = displayMetrics.widthPixels;
         screenHeight = (int) (displayMetrics.heightPixels * 0.887);
         //double layoutDecorations = screenHeight * 0.1678; // so 0.832
+        //this.getWindowManager().getDefaultDisplay().getPresentationDeadlineNanos(toto);
     }
 
     public void setImageSMS(int rLayoutDay, String color, int imageS, double smsWidht) {
@@ -117,6 +120,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT);
+        // TODO : screen orientation test : getRequestedOrientation();
         params.setMargins((int) (screenWidth * smsWidht), screenHeight / 18,
                 0, screenHeight / 18);//right :screenWidth / 50
         RelativeLayout rlDay = historyView.findViewById(rLayoutDay);
@@ -130,18 +134,24 @@ public class MoodHistoryActivity extends AppCompatActivity {
                 if (v.getId() == rLayout[i]) {
                     AlertDialog.Builder builder = new AlertDialog.
                             Builder(MoodHistoryActivity.this, R.style.ShowCommentDialog);
+                            //Builder(MoodHistoryActivity.this,
+                            //android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
                     AlertDialog showComment = builder.create();
                     showComment.requestWindowFeature(Window.FEATURE_NO_TITLE);
                     WindowManager.LayoutParams params = showComment.getWindow().getAttributes();
                     params.gravity = Gravity.BOTTOM;
-                    params.verticalMargin = 10;
+                    //params.screenBrightness = 1;// the intensity of the light of the screen
+                    //showComment.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                    params.y = 20; // TODO : a little below?
                     showComment.setMessage(MoodUtils.comment[i]);
                     showComment.show();
+
                 }
             }
         }
     };
 
+    // TODO : Delete hard coded!! put in string!!
     public View.OnClickListener shareBySMSListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

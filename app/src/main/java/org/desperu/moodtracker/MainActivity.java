@@ -27,21 +27,24 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MoodAdapter(getSupportFragmentManager());
         mPager = findViewById(R.id.viewpager);
         mPager.setAdapter(mAdapter);
+        // TODO : Mood default ? =2??
     }
 
     public void commentClick(View view) {
         AlertDialog.Builder dialogComment = new AlertDialog.Builder(
                 MainActivity.this, R.style.InputCommentDialog);
         dialogComment.setTitle(R.string.title_comment);
+        // TODO : params.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE;
 
         final EditText inputComment = new EditText(MainActivity.this);
         inputComment.setText(moodUtils.getLastComment(getBaseContext()));
         inputComment.setHint(R.string.hint_comment);
+        // TODO : use theme for the line color!!
         LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);
-        llParams.setMargins(50, 0, 50, 0); //don't function
-        inputComment.setLayoutParams(llParams);
+        llParams.setMargins(50, 0, 50, 0); // TODO : don't function, use AlertDialog
+        inputComment.setLayoutParams(llParams); // TODO : find the name of the line below the text to change the color
         dialogComment.setView(inputComment);
 
         dialogComment.setPositiveButton(R.string.button_valid_comment,
@@ -97,9 +100,9 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel(); // TODO : Useless??
                         goodDate = true; // TODO : go to onCreate to restart apk??
-                        //dialog.cancel(); // TODO : Useless??
-                        moodUtils.deleteAllMood(MainActivity.this);
+                        moodUtils.deleteAllMoods(MainActivity.this);
                         Toast.makeText(MainActivity.this, R.string.toast_all_mood_delete,
                                 Toast.LENGTH_SHORT).show();
                     }
