@@ -22,6 +22,8 @@
     <string name="content_description_history">button history</string>
 
     <!-- imagesView for fragments-->
+    <string name="content_description_fragment">smiley fragment</string>
+
     <string name="content_description_super_happy">smiley supper happy</string>
     <string name="content_description_happy">smiley happy</string>
     <string name="content_description_normal">smiley normal</string>

@@ -1,37 +1,28 @@
 package org.desperu.moodtracker;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 public class MoodFragment extends Fragment {
 
+    View moodFragment = null;
     private static final String ARG_PARAM1 = "param1";
-    private int layoutId; // TODO : get for the font of dialog comment box --> need static or getView something like this
+    private int layoutId;
 
     public MoodFragment() {
         // Required empty public constructor
     }
 
-    // TODO : switch between background and smiley or Relative =)
     public static MoodFragment newInstance(int position) {
         MoodFragment fragment = new MoodFragment();
         Bundle args = new Bundle();
-
-        int layoutFragment;
-        switch (position) {
-            case 0 : layoutFragment = R.layout.super_happy_layout; break;
-            case 1 : layoutFragment = R.layout.happy_layout; break;
-            case 2 : layoutFragment = R.layout.normal_layout; break;
-            case 3 : layoutFragment = R.layout.disappointed_layout; break;
-            case 4 : layoutFragment = R.layout.sad_layout; break;
-            default : layoutFragment = R.layout.super_happy_layout;
-        }
-        // Why need to put in Bundle??? Because Fragment function with?
-        args.putInt(ARG_PARAM1, layoutFragment);
+        args.putInt(ARG_PARAM1, position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -44,44 +35,25 @@ public class MoodFragment extends Fragment {
         }
     }
 
+    public void setMoodFragment(String color, int drawable) {
+        moodFragment.findViewById(R.id.fragment).setBackgroundColor(Color.parseColor(color));
+        ImageView superHappy = moodFragment.findViewById(R.id.mood_image);
+        superHappy.setImageResource(drawable);
+    }
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        moodFragment = inflater.inflate(R.layout.mood_fragment, container, false);
 
-        return inflater.inflate(layoutId, container, false);
+        switch (layoutId) {
+            case 0: this.setMoodFragment("#fff9ec4f", R.drawable.smiley_super_happy); break;
+            case 1: this.setMoodFragment("#ffb8e986", R.drawable.smiley_happy); break;
+            case 2: this.setMoodFragment("#a5468ad9", R.drawable.smiley_normal); break;
+            case 3: this.setMoodFragment("#ff9b9b9b", R.drawable.smiley_disappointed); break;
+            case 4: this.setMoodFragment("#ffde3c50", R.drawable.smiley_sad); break;
+            default: this.setMoodFragment("#a5468ad9", R.drawable.smiley_normal); break;
+        }
+        return moodFragment;
     }
-
-    /*
-    @Override
-    public void onStart() {
-        super.onStart();
-        // TODO : test call sharedpreferences, it's rocks but prechargement!!!
-        MoodUtils saveCurrentItem = new MoodUtils();
-        saveCurrentItem.saveCurrentMood(getActivity(), MoodAdapter.currentPage);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        Toast.makeText(context, "MoodFragment.onAttach", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Toast.makeText(getContext(), "MoodFragment.onSaveInstanceState", Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        Toast.makeText(getContext(), "MoodFragment.onViewStateRestored", Toast.LENGTH_SHORT).show();
-    }*/
-
-    /*@Override
-    public void onStop() {
-        MoodUtils saveCurrentItem = new MoodUtils();
-        saveCurrentItem.saveCurrentMood(getContext(), MoodAdapter.currentPage);
-        super.onStop();
-    }*/
 }

@@ -37,8 +37,11 @@ public class MainActivity extends AppCompatActivity {
         // TODO : params.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE;
 
         final EditText inputComment = new EditText(MainActivity.this);
-        inputComment.setText(moodUtils.getLastComment(getBaseContext()));
+        inputComment.setText(moodUtils.getLastComment(this));
+        if (inputComment.getText() != null && inputComment.getText().length() > 0)
+            comment = inputComment.getText().toString();
         inputComment.setHint(R.string.hint_comment);
+        inputComment.setRawInputType(R.style.InputCommentDialog); // TODO : to see
         // TODO : use theme for the line color!!
         LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
@@ -128,17 +131,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         goodDate = true;
         // TODO : Test getCurrentItem from ViewPager
-        Toast.makeText(getBaseContext(), "MainActivity.onResume " + mPager.getCurrentItem(),
+        Toast.makeText(this, "MainActivity.onResume " + mPager.getCurrentItem(),
                 Toast.LENGTH_SHORT).show();
 
-        if (moodUtils.checkSavedDate(getBaseContext()) < 0) {
+        if (moodUtils.checkSavedDate(this) < 0) {
             goodDate = false;
             this.wrongDateDialog();
-        } else if (moodUtils.checkSavedDate(getBaseContext()) > 0) {
-            moodUtils.manageHistory(getBaseContext(), true);
+        } else if (moodUtils.checkSavedDate(this) > 0) {
+            moodUtils.manageHistory(this, true);
             comment = null;
-        } else if (moodUtils.checkSavedDate(getBaseContext()) == 0) {
-            int lastMood = moodUtils.getLastMood(getBaseContext());
+        } else if (moodUtils.checkSavedDate(this) == 0) {
+            int lastMood = moodUtils.getLastMood(this);
             if (lastMood > -1) mPager.setCurrentItem(lastMood);
         }
         super.onResume();
