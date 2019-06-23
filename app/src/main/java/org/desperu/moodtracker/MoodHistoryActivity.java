@@ -52,7 +52,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                 case 3:
                     this.setHistoryView(i, "#ff9b9b9b", 0.475, 0.325); break;//0.39
                 case 4:
-                    this.setHistoryView(i, "#ffde3c50", 0.3, 0.175); break;//0.215
+                    this.setHistoryView(i, "#ffde3c50", 0.3, 0.15); break;//0.175; 0.215
                 default:
                     this.setHistoryView(i, "#ffffffff", 1, 0);
             }
@@ -79,7 +79,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         params.width = (int) (screenWidth * (moodWidth));
         params.height = screenHeight / 7;
         historyView.findViewById(rLayout[i]).setLayoutParams(params);*/
-        if (MoodUtils.mood[i] != -1) this.setMoodAgeText(i);
+
         if (MoodUtils.comment[i] != null && MoodUtils.comment[i].length() > 0) {
             RelativeLayout rlButton = historyView.findViewById(rLayout[i]);
             rlButton.setOnClickListener(showCommentListener);
@@ -87,6 +87,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
             ImageButton imageButtonSMS = historyView.findViewById(imageS[i]);
             imageButtonSMS.setOnClickListener(shareBySMSListener);
         }
+        // TODO : test to write on button share, and if no Mood??
+        //if (MoodUtils.mood[i] != -1) this.setMoodAgeText(i);
+        this.setMoodAgeText(i);
     }
 
     public void getScreenWidthHeight() {
@@ -115,13 +118,14 @@ public class MoodHistoryActivity extends AppCompatActivity {
         else return getString(R.string.no_mood);
     }
 
+    // TODO : must be on the button to send
     public void setMoodAgeText(int i) {
         TextView moodAgeText = new TextView(this);
         moodAgeText.setText(getMoodAgeText(i));
         moodAgeText.setTextSize(16);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(screenWidth / 100, screenHeight / 100, screenWidth /8, 0);
+        params.setMargins(screenWidth / 100, screenHeight / 100, 0, 0);//screenWidth /8, 0);
         RelativeLayout rlDay = historyView.findViewById(rLayout[i]);
         rlDay.addView(moodAgeText, params);
     }
@@ -141,6 +145,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         rlDay.addView(imageSMS, params);
     }
 
+    // TODO : must be a Toast???
     public View.OnClickListener showCommentListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

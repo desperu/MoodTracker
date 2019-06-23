@@ -52,7 +52,7 @@ public class MoodFragment extends Fragment {
             case 2: this.setMoodFragment("#a5468ad9", R.drawable.smiley_normal); break;
             case 3: this.setMoodFragment("#ff9b9b9b", R.drawable.smiley_disappointed); break;
             case 4: this.setMoodFragment("#ffde3c50", R.drawable.smiley_sad); break;
-            default: this.setMoodFragment("#a5468ad9", R.drawable.smiley_normal); break;
+            default: this.setMoodFragment("#a5468ad9", R.drawable.smiley_normal);
         }
         return moodFragment;
     }

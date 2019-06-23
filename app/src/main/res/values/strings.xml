@@ -15,7 +15,7 @@
     <string name="button_valid_date">OK</string>
     <string name="button_delete_mood">Delete</string>
     <string name="toast_date_always_wrong">The date is always wrong, correct it!!</string>
-    <string name="toast_all_mood_delete">All mood was delete!</string>
+    <string name="toast_all_mood_delete">All moods are delete!</string>
 
     <!-- activity_main.xml -->
     <string name="content_description_comment">button comment</string>
@@ -23,12 +23,6 @@
 
     <!-- imagesView for fragments-->
     <string name="content_description_fragment">smiley fragment</string>
-
-    <string name="content_description_super_happy">smiley supper happy</string>
-    <string name="content_description_happy">smiley happy</string>
-    <string name="content_description_normal">smiley normal</string>
-    <string name="content_description_disappointed">smiley disappointed</string>
-    <string name="content_description_sad">smiley sad</string>
 
 
     <!-- MoodHistoryActivity -->

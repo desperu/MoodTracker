@@ -15,6 +15,9 @@ class MoodUtils {
     private static final String currentDate = "CurrentDate";
     private static final String currentComment = "CurrentComment";
     private static final String moodHistoryFile = "MoodHistory";
+    private static final String moodHistory = "Mood";
+    private static final String dateHistory = "Date";
+    private static final String commentHistory = "Comment";
     private SharedPreferences sharedPreferences;
 
     // TODO : don't use static, use method to get tab
@@ -125,7 +128,7 @@ class MoodUtils {
             if (i == 4) i = 0;
         }
 
-        // division by one day and find the day?
+        // TODO : division by one day and find the day?
         int[] monthDays = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         for (i = 0; currentTime > (monthDays[i + 1] * oneDay); i++) {
             if (i == 1 && leapYear) monthDays[1] = 29;
@@ -136,17 +139,14 @@ class MoodUtils {
         int day = (int) (currentTime / oneDay) + 1;
         currentTime = currentTime % oneDay;
 
+        // TODO : For test only
         int hour = (int) (currentTime / (60 * 60 * 1000));
         currentTime = currentTime % (60 * 60 * 1000);
 
         int minutes = (int) (currentTime / (60 * 1000));
-        /*currentTime = currentTime % (60 * 1000);
-
-        int seconds = (int) (currentTime / 1000);
-        currentTime = currentTime % 1000;*/
 
         return (year * 10000) + (month * 100) + day;
-        // TODO : For test only
+
         //return (day * 10000) + (hour * 100) + minutes;
     }
 
@@ -158,11 +158,17 @@ class MoodUtils {
         return convertDate(getTime()) - convertDate(savedDate);
     }
 
-    // TODO : Do for mood, date and comment or one return String and use valueOf
-    /*int getMood(Context context, int nb) {
-        SharedPreferences historyFile = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
-        return historyFile.getInt("Mood" + (nb + 1), -1);
-    }*/
+    // TODO : Tabs????
+    String getHistoryPrefs(Context context, String file, String key, int nb, String defValue) {
+        sharedPreferences = context.getSharedPreferences(file, MODE_PRIVATE);
+        if (key.equals(moodHistory))
+            return String.valueOf(sharedPreferences.getInt(key + nb, Integer.parseInt(defValue)));
+        if (key.equals(dateHistory))
+            return String.valueOf(sharedPreferences.getLong(key + nb, Long.parseLong(defValue)));
+        if (key.equals(commentHistory))
+            return sharedPreferences.getString(key + nb, defValue);
+        return defValue;
+    }
 
     // TODO : create class SharedPreferences for simplify access to pref ???
     // TODO : simplify -> create method to serialize action read clear, read only, write
@@ -174,14 +180,14 @@ class MoodUtils {
         SharedPreferences.Editor editorHistory = historyFile.edit();
 
         for (int i = 6; i >= 0; i--) {
-            mood[i] = historyFile.getInt("Mood" + (i + 1), -1);
-            date[i] = historyFile.getLong("Date" + (i + 1), 0);
-            comment[i] = historyFile.getString("Comment" + (i + 1), null);
+            mood[i] = historyFile.getInt(moodHistory + (i + 1), -1);
+            date[i] = historyFile.getLong(dateHistory + (i + 1), 0);
+            comment[i] = historyFile.getString(commentHistory + (i + 1), null);
 
             if (i != 6 && newDate) {
-                mood[i + 1] = mood[i]; editorHistory.putInt("Mood" + (i + 2), mood[i]).apply();
-                date[i + 1] = date[i]; editorHistory.putLong("Date" + (i + 2), date[i]).apply();
-                comment[i + 1] = comment[i]; editorHistory.putString("Comment" + (i + 2),
+                mood[i + 1] = mood[i]; editorHistory.putInt(moodHistory + (i + 2), mood[i]).apply();
+                date[i + 1] = date[i]; editorHistory.putLong(dateHistory + (i + 2), date[i]).apply();
+                comment[i + 1] = comment[i]; editorHistory.putString(commentHistory + (i + 2),
                         comment[i]).apply();
             }
 
@@ -192,9 +198,9 @@ class MoodUtils {
                 editorDay.remove(currentMood).apply();
                 editorDay.remove(currentDate).apply();
                 editorDay.remove(currentComment).apply();
-                editorHistory.putInt("Mood" + (i + 1), mood[i]).apply();
-                editorHistory.putLong("Date" + (i + 1), date[i]).apply();
-                editorHistory.putString("Comment" + (i + 1), comment[i]).apply();
+                editorHistory.putInt(moodHistory + (i + 1), mood[i]).apply();
+                editorHistory.putLong(dateHistory + (i + 1), date[i]).apply();
+                editorHistory.putString(commentHistory + (i + 1), comment[i]).apply();
             }
         }
     }

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -18,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String comment;
     private boolean goodDate = true;
-    // TODO : use string for all Toast
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new MoodAdapter(getSupportFragmentManager());
         mPager = findViewById(R.id.viewpager);
         mPager.setAdapter(mAdapter);
-        // TODO : Mood default ? =2??
     }
 
     public void commentClick(View view) {
@@ -41,22 +39,19 @@ public class MainActivity extends AppCompatActivity {
         if (inputComment.getText() != null && inputComment.getText().length() > 0)
             comment = inputComment.getText().toString();
         inputComment.setHint(R.string.hint_comment);
-        inputComment.setRawInputType(R.style.InputCommentDialog); // TODO : to see
+        /*inputComment.setbas(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
         // TODO : use theme for the line color!!
         LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-        llParams.setMargins(50, 0, 50, 0); // TODO : don't function, use AlertDialog
-        inputComment.setLayoutParams(llParams); // TODO : find the name of the line below the text to change the color
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        llParams.setMargins(100, 0, 100, 0); // TODO : don't function, use AlertDialog
+        inputComment.setLayoutParams(llParams);*/ // TODO : find the name of the line below the text to change the color
         dialogComment.setView(inputComment);
 
         dialogComment.setPositiveButton(R.string.button_valid_comment,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         comment = inputComment.getText().toString();
-                        // TODO : To test but useless, onStop do it
-                        //moodUtils.saveCurrentMood(getBaseContext(),
-                          //      mPager.getCurrentItem(), comment);
                     }
                 });
 
@@ -66,9 +61,6 @@ public class MainActivity extends AppCompatActivity {
                         dialog.cancel(); // TODO : Useless?
                         inputComment.getText().clear();
                         comment = "";
-                        // TODO : To test but useless, onStop do it
-                        //moodUtils.saveCurrentMood(getBaseContext(),
-                          //      mPager.getCurrentItem(), comment);
                     }
                 });
 
@@ -139,10 +131,10 @@ public class MainActivity extends AppCompatActivity {
             this.wrongDateDialog();
         } else if (moodUtils.checkSavedDate(this) > 0) {
             moodUtils.manageHistory(this, true);
-            comment = null;
         } else if (moodUtils.checkSavedDate(this) == 0) {
             int lastMood = moodUtils.getLastMood(this);
             if (lastMood > -1) mPager.setCurrentItem(lastMood);
+            else mPager.setCurrentItem(2);
         }
         super.onResume();
     }
@@ -150,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         if (goodDate)
-            moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment);// TODO : test this
+            moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment);
         super.onStop();
     }
 }
