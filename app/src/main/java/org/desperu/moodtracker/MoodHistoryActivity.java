@@ -39,10 +39,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
     // TODO : String here is a pb???
     public void getHistoryTabs() {
         for (int i = 0; i <= 6; i++) {
-            mood[i] = moodUtils.getHistoryIntPrefs(this, "Mood" + (i + 1), -1);
-            date[i] = moodUtils.getHistoryLongPrefs(this, "Date" + (i + 1), 0);
-            comment[i] = moodUtils.getHistoryStringPrefs(this,
-                    "Comment" + (i + 1), null);
+            mood[i] = moodUtils.getHistoryIntPrefs(this, "Mood" + (i + 1));
+            date[i] = moodUtils.getHistoryLongPrefs(this, "Date" + (i + 1));
+            comment[i] = moodUtils.getHistoryStringPrefs(this, "Comment" + (i + 1));
         }
     }
 
@@ -143,7 +142,6 @@ public class MoodHistoryActivity extends AppCompatActivity {
         rlDay.addView(imageSMS, params);
     }
 
-    // TODO : must be a Toast???
     public View.OnClickListener showCommentListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -178,7 +176,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                         case 2: moodDay = getString(R.string.mood_day_normal); break;
                         case 3: moodDay = getString(R.string.mood_day_disappointed); break;
                         case 4: moodDay = getString(R.string.mood_day_sad); break;
-                        default: moodDay = " : "; // TODO : Is it good???
+                        default: moodDay = " : "; // TODO : String here, is it good???
                     }
                     Intent share = new Intent(Intent.ACTION_SEND);
                     share.setType("text/plain");

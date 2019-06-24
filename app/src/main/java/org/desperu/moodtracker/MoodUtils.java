@@ -70,17 +70,24 @@ class MoodUtils {
     }
 
     // TODO : Use in all apk??
-    int getHistoryIntPrefs(Context context, String key, int defValue) {
+
+    /**
+     * Methods to get values in MoodHistory file
+     * @param context The base context from the method is called
+     * @param key The key name of the value
+     * @return The value
+     */
+    int getHistoryIntPrefs(Context context, String key) {
         sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
-        return sharedPreferences.getInt(key, defValue);
+        return sharedPreferences.getInt(key, -1);
     }
-    long getHistoryLongPrefs(Context context, String key, long defValue) {
+    long getHistoryLongPrefs(Context context, String key) {
         sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
-        return sharedPreferences.getLong(key, defValue);
+        return sharedPreferences.getLong(key, 0);
     }
-    String getHistoryStringPrefs(Context context, String key, String defValue) {
+    String getHistoryStringPrefs(Context context, String key) {
         sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
-        return sharedPreferences.getString(key, defValue);
+        return sharedPreferences.getString(key, null);
     }
 
     /**
@@ -130,8 +137,8 @@ class MoodUtils {
         int hour = (int) (currentTime / (60 * 60 * 1000));
         currentTime = currentTime % (60 * 60 * 1000);
         int minutes = (int) (currentTime / (60 * 1000));
-
         //return (year * 10000) + (month * 100) + day;
+
         return (day * 10000) + (hour * 100) + minutes;
     }
 

@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText inputComment = new EditText(MainActivity.this);
         inputComment.setText(moodUtils.getLastComment(this));
-        if (inputComment.getText() != null && inputComment.getText().length() > 0)
+        //if (inputComment.getText() != null && inputComment.getText().length() > 0)
             comment = inputComment.getText().toString();
         inputComment.setHint(R.string.hint_comment);
         inputComment.getBackground().mutate().setColorFilter(getResources().getColor(
