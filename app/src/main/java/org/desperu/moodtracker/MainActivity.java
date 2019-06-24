@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
             goodDate = false;
             this.wrongDateDialog();
         } else if (moodUtils.checkSavedDate(this) > 0) {
-            moodUtils.manageHistory(this, true);
+            moodUtils.manageHistory(this);
             mPager.setCurrentItem(2);
         } else if (moodUtils.checkSavedDate(this) == 0) {
             int lastMood = moodUtils.getLastMood(this);

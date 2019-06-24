@@ -20,9 +20,7 @@ class MoodUtils {
     private static final String commentHistory = "Comment";
     private SharedPreferences sharedPreferences;
 
-    // TODO : don't use static, use method to get tab
-    // TODO : use string for all Toast
-
+    // TODO : use string for all Toast, and clear others for test
 
     /**
      * Save the current mood selected
@@ -71,6 +69,20 @@ class MoodUtils {
         return sharedPreferences.getString(currentComment, null);
     }
 
+    // TODO : Use in all apk??
+    int getHistoryIntPrefs(Context context, String key, int defValue) {
+        sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
+        return sharedPreferences.getInt(key, defValue);
+    }
+    long getHistoryLongPrefs(Context context, String key, long defValue) {
+        sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
+        return sharedPreferences.getLong(key, defValue);
+    }
+    String getHistoryStringPrefs(Context context, String key, String defValue) {
+        sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
+        return sharedPreferences.getString(key, defValue);
+    }
+
     /**
      * Delete all mood saved
      * @param context The base context from the method is called
@@ -88,27 +100,7 @@ class MoodUtils {
     }
 
     int convertDate(long currentTime) {
-        // we start in 01/01/1970, first leap year february 1972
-        /*Instant firstInstant = null;
-        ZoneId zoneId = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            firstInstant = Instant.ofEpochMilli(System.currentTimeMillis());
-            zoneId = ZoneId.systemDefault();
-            ZonedDateTime zdt1 = ZonedDateTime.ofInstant( firstInstant, zoneId );
-            System.out.println(firstInstant.toString());
-            Comparator<ZonedDateTime> comparator = Comparator.comparing(new Function<ZonedDateTime,
-                    Comparable>() {
-                @Override
-                public Comparable apply(ZonedDateTime zdt) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        return zdt.truncatedTo(ChronoUnit.SECONDS);
-                    }
-                    return
-                }
-            });
-        }*/
-
-        // TODO : find a better way, with a class of java utils
+        // TODO : find a better way, with a class of java utils, witch???
         currentTime += TimeZone.getDefault().getRawOffset() + TimeZone.getDefault().getDSTSavings();
         long oneDay = (24 * 60 * 60 * 1000);
         int i = 0;
@@ -125,26 +117,21 @@ class MoodUtils {
             i++;
             if (i == 4) i = 0;
         }
-
-        // TODO : division by one day and find the day?
         int[] monthDays = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         for (i = 0; currentTime > (monthDays[i + 1] * oneDay); i++) {
             if (i == 1 && leapYear) monthDays[1] = 29;
             currentTime -= (monthDays[i] * oneDay);
             month++;
         }
-
         int day = (int) (currentTime / oneDay) + 1;
         currentTime = currentTime % oneDay;
 
         // TODO : For test only
         int hour = (int) (currentTime / (60 * 60 * 1000));
         currentTime = currentTime % (60 * 60 * 1000);
-
         int minutes = (int) (currentTime / (60 * 1000));
 
         //return (year * 10000) + (month * 100) + day;
-
         return (day * 10000) + (hour * 100) + minutes;
     }
 
@@ -152,28 +139,10 @@ class MoodUtils {
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
         long savedDate = sharedPreferences.getLong(currentDate, 0);
         if (savedDate == 0) return savedDate;
-        //return (getTime() - savedDate);
         return convertDate(getTime()) - convertDate(savedDate);
     }
 
-    // TODO : Tabs????
-    int getHistoryIntPrefs(Context context, String key, int defValue) {
-        sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
-        return sharedPreferences.getInt(key, defValue);
-    }
-    long getHistoryLongPrefs(Context context, String key, long defValue) {
-        sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
-        return sharedPreferences.getLong(key, defValue);
-    }
-    String getHistoryStringPrefs(Context context, String key, String defValue) {
-        sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
-        return sharedPreferences.getString(key, defValue);
-    }
-
-    // TODO : create class SharedPreferences for simplify access to pref ???
-    // TODO : simplify -> create method to serialize action read clear, read only, write
-    // TODO : crete method for get Tabs, and not use static
-    void manageHistory(Context context, boolean newDate) {
+    void manageHistory(Context context) {
         SharedPreferences dayFile = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
         SharedPreferences.Editor editorDay = dayFile.edit();
         SharedPreferences historyFile = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
@@ -187,14 +156,14 @@ class MoodUtils {
             date[i] = historyFile.getLong(dateHistory + (i + 1), 0);
             comment[i] = historyFile.getString(commentHistory + (i + 1), null);
 
-            if (i != 6 && newDate) {
+            if (i != 6) {
                 mood[i + 1] = mood[i]; editorHistory.putInt(moodHistory + (i + 2), mood[i]).apply();
                 date[i + 1] = date[i]; editorHistory.putLong(dateHistory + (i + 2), date[i]).apply();
                 comment[i + 1] = comment[i]; editorHistory.putString(commentHistory + (i + 2),
                         comment[i]).apply();
             }
 
-            if (i == 0 && newDate) {
+            if (i == 0) {
                 mood[i] = dayFile.getInt(currentMood, -1);
                 date[i] = dayFile.getLong(currentDate, 0);
                 comment[i] = dayFile.getString(currentComment, null);
