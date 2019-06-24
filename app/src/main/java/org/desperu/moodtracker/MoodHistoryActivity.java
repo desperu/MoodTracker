@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsoluteLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -20,6 +19,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
 
     View historyView = null;
     MoodUtils moodUtils = new MoodUtils();
+    int[] mood = new int[7];
+    long[] date = new long[7];
+    String[] comment = new String[7];
     int[] rLayout = {R.id.day1, R.id.day2, R.id.day3,
             R.id.day4, R.id.day5, R.id.day6, R.id.day7};
     int[] imageS = {R.id.imageS1, R.id.imageS2, R.id.imageS3,
@@ -31,18 +33,25 @@ public class MoodHistoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.getHistoryTabs();
         setContentView(this.onCreateHistoryView());
+    }
+
+    public void getHistoryTabs() {
+        for (int i = 0; i <= 6; i++) {
+            mood[i] = moodUtils.getHistoryIntPrefs(this, "Mood" + (i + 1), -1);
+            date[i] = moodUtils.getHistoryLongPrefs(this, "Date" + (i + 1), 0);
+            comment[i] = moodUtils.getHistoryStringPrefs(this,
+                    "Comment" + (i + 1), null);
+        }
     }
 
     public View onCreateHistoryView() {
 
         historyView = LayoutInflater.from(this).inflate(R.layout.activity_mood_history, null);
 
-        MoodUtils getTabs = new MoodUtils();
-        getTabs.manageHistory(this, false);
-
         for (int i = 6; i >= 0; i--) {
-            switch (MoodUtils.mood[i]) {
+            switch (mood[i]) {
                 case 0:
                     this.setHistoryView(i, "#fff9ec4f", 1, 0.85); break;//0.915
                 case 1:
@@ -80,7 +89,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         params.height = screenHeight / 7;
         historyView.findViewById(rLayout[i]).setLayoutParams(params);*/
 
-        if (MoodUtils.comment[i] != null && MoodUtils.comment[i].length() > 0) {
+        if (comment[i] != null && comment[i].length() > 0) {
             RelativeLayout rlButton = historyView.findViewById(rLayout[i]);
             rlButton.setOnClickListener(showCommentListener);
             this.setImageSMS(i, smsWidht);
@@ -108,14 +117,15 @@ public class MoodHistoryActivity extends AppCompatActivity {
 
     public String getMoodAgeText(int i) {
         int age = moodUtils.convertDate(moodUtils.getTime()) -
-                moodUtils.convertDate(MoodUtils.date[i]);
+                moodUtils.convertDate(date[i]);
         // TODO : can use switch with < 7 ????
         if (age == 1) return getString(R.string.text_yesterday);
         if (age < 7) return getResources().getString(R.string.text_day, age);
         else if (age < 100) return getResources().getString(R.string.text_week, (int) (age / 7));
         else if (age < 10000) return getResources().getString(R.string.text_month, (int) (age / 30)); // TODO : must do better
         else if (age < 1000000) return getResources().getString(R.string.text_year, (int) (age / 365));
-        else return getString(R.string.no_mood); // TODO : don't function
+        else if(age == moodUtils.convertDate(moodUtils.getTime())) getString(R.string.no_mood); // TODO : don't function, use if == getTime
+        return "pb"; // TODO : to finish
     }
 
     // TODO : must be on the button to send
@@ -152,7 +162,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
             for (int i = 6; i >= 0; i--) {
                 if (v.getId() == rLayout[i]) {
                     Toast toast = Toast.makeText(MoodHistoryActivity.this,
-                            MoodUtils.comment[i], Toast.LENGTH_LONG);
+                            comment[i], Toast.LENGTH_LONG);
                     View toastView = toast.getView();
                     TextView toastMessage = toastView.findViewById(android.R.id.message);
                     toastMessage.setTextSize(20);
@@ -174,7 +184,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
             for (int i = 6; i >= 0; i--) {
                 if (v.getId() == imageS[i]) {
                     String moodDay;
-                    switch (MoodUtils.mood[i]) {
+                    switch (mood[i]) {
                         case 0: moodDay = getString(R.string.mood_day_super_happy); break;
                         case 1: moodDay = getString(R.string.mood_day_happy); break;
                         case 2: moodDay = getString(R.string.mood_day_normal); break;
@@ -185,7 +195,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                     Intent share = new Intent(Intent.ACTION_SEND);
                     share.setType("text/plain");
                     share.putExtra(Intent.EXTRA_TEXT, getMoodAgeText(i) + moodDay +
-                            MoodUtils.comment[i]);
+                            comment[i]);
                     startActivity(Intent.createChooser(share, getString(R.string.share_title)));
                 }
             }

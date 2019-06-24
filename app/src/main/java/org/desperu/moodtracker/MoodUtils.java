@@ -22,9 +22,7 @@ class MoodUtils {
 
     // TODO : don't use static, use method to get tab
     // TODO : use string for all Toast
-    static int[] mood = new int[7];
-    static long[] date = new long[7];
-    static String[] comment = new String[7];
+
 
     /**
      * Save the current mood selected
@@ -145,9 +143,9 @@ class MoodUtils {
 
         int minutes = (int) (currentTime / (60 * 1000));
 
-        return (year * 10000) + (month * 100) + day;
+        //return (year * 10000) + (month * 100) + day;
 
-        //return (day * 10000) + (hour * 100) + minutes;
+        return (day * 10000) + (hour * 100) + minutes;
     }
 
     long checkSavedDate(Context context) {
@@ -159,15 +157,17 @@ class MoodUtils {
     }
 
     // TODO : Tabs????
-    String getHistoryPrefs(Context context, String file, String key, int nb, String defValue) {
-        sharedPreferences = context.getSharedPreferences(file, MODE_PRIVATE);
-        if (key.equals(moodHistory))
-            return String.valueOf(sharedPreferences.getInt(key + nb, Integer.parseInt(defValue)));
-        if (key.equals(dateHistory))
-            return String.valueOf(sharedPreferences.getLong(key + nb, Long.parseLong(defValue)));
-        if (key.equals(commentHistory))
-            return sharedPreferences.getString(key + nb, defValue);
-        return defValue;
+    int getHistoryIntPrefs(Context context, String key, int defValue) {
+        sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
+        return sharedPreferences.getInt(key, defValue);
+    }
+    long getHistoryLongPrefs(Context context, String key, long defValue) {
+        sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
+        return sharedPreferences.getLong(key, defValue);
+    }
+    String getHistoryStringPrefs(Context context, String key, String defValue) {
+        sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
+        return sharedPreferences.getString(key, defValue);
     }
 
     // TODO : create class SharedPreferences for simplify access to pref ???
@@ -178,6 +178,9 @@ class MoodUtils {
         SharedPreferences.Editor editorDay = dayFile.edit();
         SharedPreferences historyFile = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
         SharedPreferences.Editor editorHistory = historyFile.edit();
+        int[] mood = new int[7];
+        long[] date = new long[7];
+        String[] comment = new String[7];
 
         for (int i = 6; i >= 0; i--) {
             mood[i] = historyFile.getInt(moodHistory + (i + 1), -1);
