@@ -1,4 +1,4 @@
-package org.desperu.moodtracker.Controller;
+package org.desperu.moodtracker.controller;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -11,10 +11,10 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import org.desperu.moodtracker.MoodAdapter;
-import org.desperu.moodtracker.MoodUtils;
+import org.desperu.moodtracker.view.MoodAdapter;
+import org.desperu.moodtracker.utils.MoodUtils;
 import org.desperu.moodtracker.R;
-import org.desperu.moodtracker.VerticalViewPager;
+import org.desperu.moodtracker.view.VerticalViewPager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         mPager.setAdapter(mAdapter);
     }
 
-    public void commentClick(View view) {
+    public void commentClick(View view) { // TODO : inflate .xml
         AlertDialog.Builder dialogComment = new AlertDialog.Builder(
                 MainActivity.this, R.style.InputCommentDialog);
         dialogComment.setTitle(R.string.title_comment);

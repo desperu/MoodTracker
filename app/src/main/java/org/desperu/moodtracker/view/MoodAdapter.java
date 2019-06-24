@@ -1,8 +1,10 @@
-package org.desperu.moodtracker;
+package org.desperu.moodtracker.view;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import org.desperu.moodtracker.controller.MoodFragment;
 
 public class MoodAdapter extends FragmentPagerAdapter {
 

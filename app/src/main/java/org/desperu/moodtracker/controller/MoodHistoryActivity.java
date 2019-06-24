@@ -1,4 +1,4 @@
-package org.desperu.moodtracker.Controller;
+package org.desperu.moodtracker.controller;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,22 +15,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.desperu.moodtracker.MoodUtils;
+import org.desperu.moodtracker.utils.MoodUtils;
 import org.desperu.moodtracker.R;
 
 public class MoodHistoryActivity extends AppCompatActivity {
 
     View historyView = null;
     MoodUtils moodUtils = new MoodUtils();
-    int[] mood = new int[7];
-    long[] date = new long[7];
-    String[] comment = new String[7];
-    int[] rLayout = {R.id.day1, R.id.day2, R.id.day3,
+    private int[] mood = new int[7];
+    private long[] date = new long[7];
+    private String[] comment = new String[7];
+    private int[] rLayout = {R.id.day1, R.id.day2, R.id.day3,
             R.id.day4, R.id.day5, R.id.day6, R.id.day7};
-    int[] imageS = {R.id.imageS1, R.id.imageS2, R.id.imageS3,
+    private int[] imageS = {R.id.imageS1, R.id.imageS2, R.id.imageS3,
             R.id.imageS4, R.id.imageS5, R.id.imageS6, R.id.imageS7};
-    int screenWidth;
-    int screenHeight;
+    private int screenWidth;
+    private int screenHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,6 @@ public class MoodHistoryActivity extends AppCompatActivity {
         setContentView(this.onCreateHistoryView());
     }
 
-    // TODO : String here is a pb???
     public void getHistoryTabs() {
         for (int i = 0; i <= 6; i++) {
             mood[i] = moodUtils.getHistoryIntPrefs(this, MoodUtils.moodHistory + (i + 1));
@@ -122,7 +121,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     public void setMoodAgeText(int i) {
         TextView moodAgeText = new TextView(this);
         moodAgeText.setText(getMoodAgeText(i));
-        moodAgeText.setTextSize(16);
+        moodAgeText.setTextSize(16); // TODO : use dp TypedValue_COMPLEX8UNIT_SP, 16
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(screenWidth / 100, screenHeight / 100, 0, 0);//screenWidth /8, 0);
@@ -147,7 +146,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
 
     public View.OnClickListener showCommentListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(View v) { // TODO : inflate .xml
             for (int i = 6; i >= 0; i--) {
                 if (v.getId() == rLayout[i]) {
                     Toast toast = Toast.makeText(MoodHistoryActivity.this,
@@ -189,7 +188,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                         case 2: moodDay = getString(R.string.mood_day_normal); break;
                         case 3: moodDay = getString(R.string.mood_day_disappointed); break;
                         case 4: moodDay = getString(R.string.mood_day_sad); break;
-                        default: moodDay = " : "; // TODO : String here, is it good???
+                        default: moodDay = " : ";
                     }
                     Intent share = new Intent(Intent.ACTION_SEND);
                     share.setType("text/plain");

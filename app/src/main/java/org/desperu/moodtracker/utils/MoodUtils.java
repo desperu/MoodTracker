@@ -1,9 +1,12 @@
-package org.desperu.moodtracker;
+package org.desperu.moodtracker.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+import org.desperu.moodtracker.R;
+
+import java.util.Calendar;
 import java.util.TimeZone;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -85,14 +88,20 @@ public class MoodUtils {
         sharedPreferences.edit().clear().apply();
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
-
     }
 
     public long getTime() {
         return System.currentTimeMillis();
     }
 
-    public int compareDate() {
+    public int compareDate(long givenTime) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(givenTime);
+
+
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.setTimeInMillis(getTime());
+        if (calendar.get(Calendar.YEAR) < calendar2.get(Calendar.YEAR));
         return 0;
     }
 
