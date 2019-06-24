@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MoodHistoryActivity extends AppCompatActivity {
 
@@ -28,6 +29,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     int screenWidth;
     int screenHeight;
 
+    // TODO : get tabs here to not use static
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +117,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         else if (age < 100) return getResources().getString(R.string.text_week, (int) (age / 7));
         else if (age < 10000) return getResources().getString(R.string.text_month, (int) (age / 30)); // TODO : must do better
         else if (age < 1000000) return getResources().getString(R.string.text_year, (int) (age / 365));
-        else return getString(R.string.no_mood);
+        else return getString(R.string.no_mood); // TODO : don't function
     }
 
     // TODO : must be on the button to send
@@ -151,7 +153,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         public void onClick(View v) {
             for (int i = 6; i >= 0; i--) {
                 if (v.getId() == rLayout[i]) {
-                    AlertDialog.Builder builder = new AlertDialog.
+                    /*AlertDialog.Builder builder = new AlertDialog.
                             Builder(MoodHistoryActivity.this, R.style.ShowCommentDialog);
                             //Builder(MoodHistoryActivity.this,
                             //android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
@@ -161,7 +163,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
                     params.gravity = Gravity.BOTTOM;
                     params.y = 20;
                     showComment.setMessage(MoodUtils.comment[i]);
-                    showComment.show();
+                    showComment.show();*/
+                    // TODO : make custom Toast
+                    Toast.makeText(MoodHistoryActivity.this, MoodUtils.comment[i],Toast.LENGTH_LONG).show();
                 }
             }
         }

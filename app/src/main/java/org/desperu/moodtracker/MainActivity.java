@@ -3,10 +3,12 @@ package org.desperu.moodtracker;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,21 +34,22 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog.Builder dialogComment = new AlertDialog.Builder(
                 MainActivity.this, R.style.InputCommentDialog);
         dialogComment.setTitle(R.string.title_comment);
-        // TODO : params.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE;
 
         final EditText inputComment = new EditText(MainActivity.this);
         inputComment.setText(moodUtils.getLastComment(this));
         if (inputComment.getText() != null && inputComment.getText().length() > 0)
             comment = inputComment.getText().toString();
         inputComment.setHint(R.string.hint_comment);
-        /*inputComment.setbas(ColorStateList.valueOf(getResources().getColor(R.color.colorPrimary)));
-        // TODO : use theme for the line color!!
-        LinearLayout.LayoutParams llParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT);
-        llParams.setMargins(100, 0, 100, 0); // TODO : don't function, use AlertDialog
-        inputComment.setLayoutParams(llParams);*/ // TODO : find the name of the line below the text to change the color
-        dialogComment.setView(inputComment);
+        inputComment.getBackground().mutate().setColorFilter(getResources().getColor(
+                R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+        FrameLayout container = new FrameLayout(this);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT);
+        params.setMargins(50, 0, 50, 0);
+        inputComment.setLayoutParams(params);
+        container.addView(inputComment);
+        dialogComment.setView(container);
 
         dialogComment.setPositiveButton(R.string.button_valid_comment,
                 new DialogInterface.OnClickListener() {
@@ -131,11 +134,12 @@ public class MainActivity extends AppCompatActivity {
             this.wrongDateDialog();
         } else if (moodUtils.checkSavedDate(this) > 0) {
             moodUtils.manageHistory(this, true);
+            mPager.setCurrentItem(2);
         } else if (moodUtils.checkSavedDate(this) == 0) {
             int lastMood = moodUtils.getLastMood(this);
             if (lastMood > -1) mPager.setCurrentItem(lastMood);
-            else mPager.setCurrentItem(2);
         }
+        else mPager.setCurrentItem(2);
         super.onResume();
     }
 
