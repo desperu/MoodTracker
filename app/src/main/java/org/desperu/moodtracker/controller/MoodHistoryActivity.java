@@ -25,7 +25,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     private int[] mood = new int[7];
     private long[] date = new long[7];
     private String[] comment = new String[7];
-    private int[] rLayout = {R.id.day1, R.id.day2, R.id.day3,
+    int[] rLayout = {R.id.day1, R.id.day2, R.id.day3,
             R.id.day4, R.id.day5, R.id.day6, R.id.day7};
     private int[] imageS = {R.id.imageS1, R.id.imageS2, R.id.imageS3,
             R.id.imageS4, R.id.imageS5, R.id.imageS6, R.id.imageS7};
@@ -41,9 +41,12 @@ public class MoodHistoryActivity extends AppCompatActivity {
 
     public void getHistoryTabs() {
         for (int i = 0; i <= 6; i++) {
-            mood[i] = moodUtils.getHistoryIntPrefs(this, MoodUtils.moodHistory + (i + 1));
-            date[i] = moodUtils.getHistoryLongPrefs(this, MoodUtils.dateHistory + (i + 1));
-            comment[i] = moodUtils.getHistoryStringPrefs(this, MoodUtils.commentHistory + (i + 1));
+            mood[i] = moodUtils.getHistoryIntPrefs(this,
+                    MoodUtils.moodHistory + (i + 1));
+            date[i] = moodUtils.getHistoryLongPrefs(this,
+                    MoodUtils.dateHistory + (i + 1));
+            comment[i] = moodUtils.getHistoryStringPrefs(this,
+                    MoodUtils.commentHistory + (i + 1));
         }
     }
 
@@ -53,27 +56,26 @@ public class MoodHistoryActivity extends AppCompatActivity {
 
         for (int i = 6; i >= 0; i--) {
             switch (mood[i]) {
-                case 0:
-                    this.setHistoryView(i, "#fff9ec4f", 1, 0.85); break;
-                case 1:
-                    this.setHistoryView(i, "#ffb8e986", 0.825, 0.675); break;
-                case 2:
-                    this.setHistoryView(i, "#a5468ad9", 0.65, 0.50); break;
-                case 3:
-                    this.setHistoryView(i, "#ff9b9b9b", 0.475, 0.325); break;
-                case 4:
-                    this.setHistoryView(i, "#ffde3c50", 0.3, 0.15); break;
-                default:
-                    this.setHistoryView(i, "#ffffffff", 1, 0);
+                case 0: this.setHistoryView(i, R.color.colorSuperHappy, 1, 0.85);
+                    break;
+                case 1: this.setHistoryView(i, R.color.colorHappy, 0.825, 0.675);
+                    break;
+                case 2: this.setHistoryView(i, R.color.colorNormal, 0.65, 0.50);
+                    break;
+                case 3: this.setHistoryView(i, R.color.colorDisappointed, 0.475, 0.325);
+                    break;
+                case 4: this.setHistoryView(i, R.color.colorSad, 0.3, 0.15);
+                    break;
+                default: this.setHistoryView(i, R.color.colorNoMood, 1, 0);
             }
         }
         return historyView;
     }
 
-    public void setHistoryView(int i, String color, double moodWidth, double smsWidht) {
+    public void setHistoryView(int i, int color, double moodWidth, double smsWidht) {
         this.getScreenWidthHeight();
         RelativeLayout rLayoutDay = new RelativeLayout(this);
-        rLayoutDay.setBackgroundColor(Color.parseColor(color));
+        rLayoutDay.setBackgroundColor(getResources().getColor(color));
         rLayoutDay.setTop(screenHeight * ((6 - i) / 7));
         rLayoutDay.setId(rLayout[i]);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
@@ -87,7 +89,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
             rlButton.setOnClickListener(showCommentListener);
             this.setImageSMS(i, smsWidht);
             ImageButton imageButtonSMS = historyView.findViewById(imageS[i]);
-            imageButtonSMS.setOnClickListener(shareBySMSListener);
+            imageButtonSMS.setOnClickListener(shareListener);
         }
         this.setMoodAgeText(i);
     }
@@ -121,15 +123,15 @@ public class MoodHistoryActivity extends AppCompatActivity {
     public void setMoodAgeText(int i) {
         TextView moodAgeText = new TextView(this);
         moodAgeText.setText(getMoodAgeText(i));
-        moodAgeText.setTextSize(16); // TODO : use dp TypedValue_COMPLEX8UNIT_SP, 16
+        moodAgeText.setTextSize(16); // TODO : use dp TypedValue_COMPLEX_UNIT_SP, 16
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(screenWidth / 100, screenHeight / 100, 0, 0);//screenWidth /8, 0);
+        params.setMargins(screenWidth / 100, screenHeight / 100, 0, 0);
         RelativeLayout rlDay = historyView.findViewById(rLayout[i]);
         rlDay.addView(moodAgeText, params);
     }
 
-    public void setImageSMS(int i, double smsWidht) {
+    public void setImageSMS(int i, double smsWidht) {// TODO : Comment code !!!!!
         ImageButton imageSMS = new ImageButton(this);
         imageSMS.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         imageSMS.setImageResource(R.drawable.ic_comment_black_48px);
@@ -176,7 +178,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         }
     };
 
-    public View.OnClickListener shareBySMSListener = new View.OnClickListener() {
+    public View.OnClickListener shareListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             for (int i = 6; i >= 0; i--) {

@@ -3,6 +3,12 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colorSuperHappy">#FFF9EC4f</color>
+    <color name="colorHappy">#FFB8E986</color>
+    <color name="colorNormal">#A5468AD9</color>
+    <color name="colorDisappointed">#FF9B9B9B</color>
+    <color name="colorSad">#FFDE3C50</color>
+    <color name="colorNoMood">#FFFFFFFF</color>
     <color name="colorBackgroundShowComment">#575757</color>
     <color name="colorTransparent">#00000000</color>
 </resources>
