@@ -20,8 +20,6 @@ class MoodUtils {
     private static final String commentHistory = "Comment";
     private SharedPreferences sharedPreferences;
 
-    // TODO : use string for all Toast, and clear others for test
-
     /**
      * Save the current mood selected
      * @param moodNum the number of the selected mood view
@@ -34,10 +32,6 @@ class MoodUtils {
         editor.putLong(currentDate, getTime());
         editor.putString(currentComment, comment);
         editor.apply();
-        // TODO : Correct it or for test only
-        Toast.makeText(context, "Current Mood Saved! For : " + moodNum + ", Date " + getTime()
-                , Toast.LENGTH_SHORT).show();
-        Toast.makeText(context, "ConvertDate : "+ convertDate(getTime()), Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -47,16 +41,10 @@ class MoodUtils {
      */
     int getLastMood(Context context) {
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
-        if (sharedPreferences.contains(currentMood)) {
-            int lastMood = sharedPreferences.getInt(currentMood, -1);
-            Toast.makeText(context, "Last Mood selected today : " + lastMood,
-                    Toast.LENGTH_SHORT).show();
-            return lastMood;
-        } else {
+        int lastMood = sharedPreferences.getInt(currentMood, -1);
+        if (lastMood == -1)
             Toast.makeText(context, "Hi! What's your mood today??", Toast.LENGTH_SHORT).show();
-            // TODO : Useless, defValue give the same...only for the Toast??
-            return -1;
-        }
+        return sharedPreferences.getInt(currentMood, -1);
     }
 
     /**
@@ -68,8 +56,6 @@ class MoodUtils {
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
         return sharedPreferences.getString(currentComment, null);
     }
-
-    // TODO : Use in all apk??
 
     /**
      * Methods to get values in MoodHistory file
@@ -137,9 +123,9 @@ class MoodUtils {
         int hour = (int) (currentTime / (60 * 60 * 1000));
         currentTime = currentTime % (60 * 60 * 1000);
         int minutes = (int) (currentTime / (60 * 1000));
-        return (year * 10000) + (month * 100) + day;
-
         //return (day * 10000) + (hour * 100) + minutes;
+
+        return (year * 10000) + (month * 100) + day;
     }
 
     long checkSavedDate(Context context) {

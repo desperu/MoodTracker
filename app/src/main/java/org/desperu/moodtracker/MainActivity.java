@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         final EditText inputComment = new EditText(MainActivity.this);
         inputComment.setText(moodUtils.getLastComment(this));
-        //if (inputComment.getText() != null && inputComment.getText().length() > 0)
             comment = inputComment.getText().toString();
         inputComment.setHint(R.string.hint_comment);
         inputComment.getBackground().mutate().setColorFilter(getResources().getColor(
@@ -117,11 +116,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step or in comment, allow the system
-            // to handle the Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
         } else {
-            // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
     }
@@ -129,10 +125,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         goodDate = true;
-        // TODO : Test getCurrentItem from ViewPager
-        Toast.makeText(this, "MainActivity.onResume " + mPager.getCurrentItem(),
-                Toast.LENGTH_SHORT).show();
-
         if (moodUtils.checkSavedDate(this) < 0) {
             goodDate = false;
             this.wrongDateDialog();
