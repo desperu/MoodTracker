@@ -29,7 +29,6 @@ public class MoodHistoryActivity extends AppCompatActivity {
     int screenWidth;
     int screenHeight;
 
-    // TODO : get tabs here to not use static
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +36,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         setContentView(this.onCreateHistoryView());
     }
 
+    // TODO : String here is a pb???
     public void getHistoryTabs() {
         for (int i = 0; i <= 6; i++) {
             mood[i] = moodUtils.getHistoryIntPrefs(this, "Mood" + (i + 1), -1);
@@ -53,15 +53,15 @@ public class MoodHistoryActivity extends AppCompatActivity {
         for (int i = 6; i >= 0; i--) {
             switch (mood[i]) {
                 case 0:
-                    this.setHistoryView(i, "#fff9ec4f", 1, 0.85); break;//0.915
+                    this.setHistoryView(i, "#fff9ec4f", 1, 0.85); break;
                 case 1:
-                    this.setHistoryView(i, "#ffb8e986", 0.825, 0.675); break;//0.74
+                    this.setHistoryView(i, "#ffb8e986", 0.825, 0.675); break;
                 case 2:
-                    this.setHistoryView(i, "#a5468ad9", 0.65, 0.50); break;//0.565
+                    this.setHistoryView(i, "#a5468ad9", 0.65, 0.50); break;
                 case 3:
-                    this.setHistoryView(i, "#ff9b9b9b", 0.475, 0.325); break;//0.39
+                    this.setHistoryView(i, "#ff9b9b9b", 0.475, 0.325); break;
                 case 4:
-                    this.setHistoryView(i, "#ffde3c50", 0.3, 0.15); break;//0.175; 0.215
+                    this.setHistoryView(i, "#ffde3c50", 0.3, 0.15); break;
                 default:
                     this.setHistoryView(i, "#ffffffff", 1, 0);
             }
@@ -81,14 +81,6 @@ public class MoodHistoryActivity extends AppCompatActivity {
         params.height = screenHeight / 7;
         LinearLayout history = historyView.findViewById(R.id.history);
         history.addView(rLayoutDay, params);
-
-        /*historyView.findViewById(rLayout[i]).setBackgroundColor(Color.parseColor(color));
-        historyView.findViewById(rLayout[i]).setTop(screenHeight * ((6 - i) / 7));
-        ViewGroup.LayoutParams params = historyView.findViewById(rLayout[i]).getLayoutParams();
-        params.width = (int) (screenWidth * (moodWidth));
-        params.height = screenHeight / 7;
-        historyView.findViewById(rLayout[i]).setLayoutParams(params);*/
-
         if (comment[i] != null && comment[i].length() > 0) {
             RelativeLayout rlButton = historyView.findViewById(rLayout[i]);
             rlButton.setOnClickListener(showCommentListener);
@@ -96,8 +88,6 @@ public class MoodHistoryActivity extends AppCompatActivity {
             ImageButton imageButtonSMS = historyView.findViewById(imageS[i]);
             imageButtonSMS.setOnClickListener(shareBySMSListener);
         }
-        // TODO : test to write on button share, and if no Mood??
-        //if (MoodUtils.mood[i] != -1) this.setMoodAgeText(i);
         this.setMoodAgeText(i);
     }
 
@@ -107,28 +97,26 @@ public class MoodHistoryActivity extends AppCompatActivity {
         if (this.getResources().getConfiguration().orientation == 1) {
             screenWidth = displayMetrics.widthPixels;
             screenHeight = (int) (displayMetrics.heightPixels * 0.887);
-            //double layoutDecorations = screenHeight * 0.1678; // so 0.832
         } else if (this.getResources().getConfiguration().orientation == 2) {
             screenWidth = displayMetrics.widthPixels;
             screenHeight = (int) (displayMetrics.heightPixels * 0.825);
         }
+        //double layoutDecorations = screenHeight * 0.1678; // so 0.832
         // TODO : this.getWindowManager().getDefaultDisplay().getPresentationDeadlineNanos(toto);
     }
 
     public String getMoodAgeText(int i) {
         int age = moodUtils.convertDate(moodUtils.getTime()) -
                 moodUtils.convertDate(date[i]);
-        // TODO : can use switch with < 7 ????
-        if (age == 1) return getString(R.string.text_yesterday);
-        if (age < 7) return getResources().getString(R.string.text_day, age);
+        if(age == moodUtils.convertDate(moodUtils.getTime())) getString(R.string.no_mood);
+        else if (age == 1) return getString(R.string.text_yesterday);
+        else if (age < 7) return getResources().getString(R.string.text_day, age);
         else if (age < 100) return getResources().getString(R.string.text_week, (int) (age / 7));
-        else if (age < 10000) return getResources().getString(R.string.text_month, (int) (age / 30)); // TODO : must do better
+        else if (age < 10000) return getResources().getString(R.string.text_month, (int) (age / 30));
         else if (age < 1000000) return getResources().getString(R.string.text_year, (int) (age / 365));
-        else if(age == moodUtils.convertDate(moodUtils.getTime())) getString(R.string.no_mood); // TODO : don't function, use if == getTime
-        return "pb"; // TODO : to finish
+        return getString(R.string.problem);
     }
 
-    // TODO : must be on the button to send
     public void setMoodAgeText(int i) {
         TextView moodAgeText = new TextView(this);
         moodAgeText.setText(getMoodAgeText(i));
@@ -148,8 +136,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
-        params.setMargins((int) (screenWidth * smsWidht), 0,//screenHeight / 22,
-                0, 0);// screenHeight / 15);//right :screenWidth / 50
+        params.setMargins((int) (screenWidth * smsWidht), 0,
+                0, 0);
         params.width = screenWidth / 6;
         RelativeLayout rlDay = historyView.findViewById(rLayout[i]);
         rlDay.addView(imageSMS, params);

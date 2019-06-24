@@ -17,11 +17,13 @@
     <string name="toast_date_always_wrong">The date is always wrong, correct it!!</string>
     <string name="toast_all_mood_delete">All moods are delete!</string>
 
+
     <!-- activity_main.xml -->
     <string name="content_description_comment">button comment</string>
     <string name="content_description_history">button history</string>
 
-    <!-- imagesView for fragments-->
+
+    <!-- mood_fragments.xml imagesView-->
     <string name="content_description_fragment">smiley fragment</string>
 
 
@@ -29,6 +31,7 @@
     <string name="activity_mood_history">MoodTracker History</string>
 
     <string name="no_mood">"No Mood saved!!"</string>
+    <string name="problem">"There's a problem!!"</string>
     <string name="content_description_share_sms">Share_Sms</string>
     <string name="text_yesterday">Yesterday</string>
     <string name="text_day">"There's %1$d Days"</string>
