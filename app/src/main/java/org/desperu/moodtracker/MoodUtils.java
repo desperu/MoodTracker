@@ -137,9 +137,9 @@ class MoodUtils {
         int hour = (int) (currentTime / (60 * 60 * 1000));
         currentTime = currentTime % (60 * 60 * 1000);
         int minutes = (int) (currentTime / (60 * 1000));
-        //return (year * 10000) + (month * 100) + day;
+        return (year * 10000) + (month * 100) + day;
 
-        return (day * 10000) + (hour * 100) + minutes;
+        //return (day * 10000) + (hour * 100) + minutes;
     }
 
     long checkSavedDate(Context context) {

@@ -151,9 +151,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
                             comment[i], Toast.LENGTH_LONG);
                     View toastView = toast.getView();
                     TextView toastMessage = toastView.findViewById(android.R.id.message);
-                    toastMessage.setTextSize(20);
+                    toastMessage.setTextSize(18);
                     toastMessage.setTextColor(Color.WHITE);
-                    // TODO : change color
+                    toastMessage.setPadding(20, 0, 20, 0);
                     toastView.setBackgroundColor(getResources().getColor(
                             R.color.colorBackgroundShowComment));
                     toastView.setMinimumWidth(screenWidth - screenWidth / 20);

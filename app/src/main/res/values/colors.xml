@@ -3,7 +3,6 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="colorBackgroundShowComment">#99000000</color>
-    <!-- 1F000000 ou 39000000 too light, too dark #DD000000, test #89000000-->
+    <color name="colorBackgroundShowComment">#575757</color>
     <color name="colorTransparent">#00000000</color>
 </resources>
