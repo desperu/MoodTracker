@@ -24,7 +24,7 @@
         </activity>
         <activity android:name=".MoodHistoryActivity"
             android:label="@string/activity_mood_history"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".Controller.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_SEND" />
             </intent-filter>

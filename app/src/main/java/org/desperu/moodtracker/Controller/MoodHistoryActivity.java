@@ -1,4 +1,4 @@
-package org.desperu.moodtracker;
+package org.desperu.moodtracker.Controller;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,6 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.desperu.moodtracker.MoodUtils;
+import org.desperu.moodtracker.R;
 
 public class MoodHistoryActivity extends AppCompatActivity {
 
@@ -39,9 +42,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
     // TODO : String here is a pb???
     public void getHistoryTabs() {
         for (int i = 0; i <= 6; i++) {
-            mood[i] = moodUtils.getHistoryIntPrefs(this, "Mood" + (i + 1));
-            date[i] = moodUtils.getHistoryLongPrefs(this, "Date" + (i + 1));
-            comment[i] = moodUtils.getHistoryStringPrefs(this, "Comment" + (i + 1));
+            mood[i] = moodUtils.getHistoryIntPrefs(this, MoodUtils.moodHistory + (i + 1));
+            date[i] = moodUtils.getHistoryLongPrefs(this, MoodUtils.dateHistory + (i + 1));
+            comment[i] = moodUtils.getHistoryStringPrefs(this, MoodUtils.commentHistory + (i + 1));
         }
     }
 
@@ -157,6 +160,16 @@ public class MoodHistoryActivity extends AppCompatActivity {
                     toastView.setBackgroundColor(getResources().getColor(
                             R.color.colorBackgroundShowComment));
                     toastView.setMinimumWidth(screenWidth - screenWidth / 20);
+
+                    /*RelativeLayout container = new RelativeLayout(MoodHistoryActivity.this);
+                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.MATCH_PARENT,
+                            RelativeLayout.LayoutParams.WRAP_CONTENT);
+                    params.setMargins(50, 0, 50, 0);
+                    toastView.setLayoutParams(params);
+                    container.addView(toastView);
+                    toast.setView(container);*/
+
                     toast.setGravity(Gravity.BOTTOM,0, 50);
                     toast.show();
                 }

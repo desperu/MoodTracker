@@ -8,16 +8,16 @@ import java.util.TimeZone;
 
 import static android.content.Context.MODE_PRIVATE;
 
-class MoodUtils {
+public class MoodUtils {
 
-    private static final String moodDayFile = "MoodDay";
-    private static final String currentMood = "CurrentMood";
-    private static final String currentDate = "CurrentDate";
-    private static final String currentComment = "CurrentComment";
-    private static final String moodHistoryFile = "MoodHistory";
-    private static final String moodHistory = "Mood";
-    private static final String dateHistory = "Date";
-    private static final String commentHistory = "Comment";
+    private final String moodDayFile = "MoodDay";
+    private final String currentMood = "CurrentMood";
+    private final String currentDate = "CurrentDate";
+    private final String currentComment = "CurrentComment";
+    private final String moodHistoryFile = "MoodHistory";
+    public static final String moodHistory = "Mood";
+    public static final String dateHistory = "Date";
+    public static final String commentHistory = "Comment";
     private SharedPreferences sharedPreferences;
 
     /**
@@ -25,7 +25,7 @@ class MoodUtils {
      * @param moodNum the number of the selected mood view
      * @param context get context from super activity
      */
-    void saveCurrentMood(Context context, int moodNum, String comment) {
+    public void saveCurrentMood(Context context, int moodNum, String comment) {
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(currentMood, moodNum);
@@ -39,11 +39,11 @@ class MoodUtils {
      * @param context The base context from the method is call
      * @return The number of the mood view
      */
-    int getLastMood(Context context) {
+    public int getLastMood(Context context) {
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
         int lastMood = sharedPreferences.getInt(currentMood, -1);
         if (lastMood == -1)
-            Toast.makeText(context, "Hi! What's your mood today??", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, R.string.toast_new_day, Toast.LENGTH_SHORT).show();
         return sharedPreferences.getInt(currentMood, -1);
     }
 
@@ -52,7 +52,7 @@ class MoodUtils {
      * @param context The base context from the method is called
      * @return Return the comment, null if there isn't
      */
-    String getLastComment(Context context) {
+    public String getLastComment(Context context) {
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
         return sharedPreferences.getString(currentComment, null);
     }
@@ -63,15 +63,15 @@ class MoodUtils {
      * @param key The key name of the value
      * @return The value
      */
-    int getHistoryIntPrefs(Context context, String key) {
+    public int getHistoryIntPrefs(Context context, String key) {
         sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
         return sharedPreferences.getInt(key, -1);
     }
-    long getHistoryLongPrefs(Context context, String key) {
+    public long getHistoryLongPrefs(Context context, String key) {
         sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
         return sharedPreferences.getLong(key, 0);
     }
-    String getHistoryStringPrefs(Context context, String key) {
+    public String getHistoryStringPrefs(Context context, String key) {
         sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
         return sharedPreferences.getString(key, null);
     }
@@ -80,7 +80,7 @@ class MoodUtils {
      * Delete all mood saved
      * @param context The base context from the method is called
      */
-    void deleteAllMoods(Context context) {
+    public void deleteAllMoods(Context context) {
         sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
         sharedPreferences.edit().clear().apply();
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
@@ -88,11 +88,15 @@ class MoodUtils {
 
     }
 
-    long getTime() {
+    public long getTime() {
         return System.currentTimeMillis();
     }
 
-    int convertDate(long currentTime) {
+    public int compareDate() {
+        return 0;
+    }
+
+    public int convertDate(long currentTime) {
         // TODO : find a better way, with a class of java utils, witch???
         currentTime += TimeZone.getDefault().getRawOffset() + TimeZone.getDefault().getDSTSavings();
         long oneDay = (24 * 60 * 60 * 1000);
@@ -128,14 +132,14 @@ class MoodUtils {
         return (year * 10000) + (month * 100) + day;
     }
 
-    long checkSavedDate(Context context) {
+    public long checkSavedDate(Context context) {
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
         long savedDate = sharedPreferences.getLong(currentDate, 0);
         if (savedDate == 0) return savedDate;
         return convertDate(getTime()) - convertDate(savedDate);
     }
 
-    void manageHistory(Context context) {
+    public void manageHistory(Context context) {
         SharedPreferences dayFile = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
         SharedPreferences.Editor editorDay = dayFile.edit();
         SharedPreferences historyFile = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);

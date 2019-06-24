@@ -27,6 +27,9 @@
     <string name="content_description_fragment">smiley fragment</string>
 
 
+    <!-- MoodUtils -->
+    <string name="toast_new_day">"Hi! What's your mood today??"</string>
+
     <!-- MoodHistoryActivity -->
     <string name="activity_mood_history">MoodTracker History</string>
 

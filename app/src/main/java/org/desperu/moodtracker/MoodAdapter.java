@@ -8,7 +8,7 @@ public class MoodAdapter extends FragmentPagerAdapter {
 
     private static final int NUMBER_OF_PAGES = 5;
 
-    MoodAdapter(FragmentManager fm) { super(fm); }
+    public MoodAdapter(FragmentManager fm) { super(fm); }
 
     @Override
     public int getCount() { return NUMBER_OF_PAGES; }

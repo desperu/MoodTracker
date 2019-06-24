@@ -46,7 +46,7 @@ public class MoodFragment extends Fragment {
                              Bundle savedInstanceState) {
         moodFragment = inflater.inflate(R.layout.mood_fragment, container, false);
 
-        switch (layoutId) {
+        switch (layoutId) { // TODO : use color.xml, and model MVC, cmment the code to explain
             case 0: this.setMoodFragment("#fff9ec4f", R.drawable.smiley_super_happy); break;
             case 1: this.setMoodFragment("#ffb8e986", R.drawable.smiley_happy); break;
             case 2: this.setMoodFragment("#a5468ad9", R.drawable.smiley_normal); break;

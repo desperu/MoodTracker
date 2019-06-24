@@ -1,4 +1,4 @@
-package org.desperu.moodtracker;
+package org.desperu.moodtracker.Controller;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,6 +10,11 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
+
+import org.desperu.moodtracker.MoodAdapter;
+import org.desperu.moodtracker.MoodUtils;
+import org.desperu.moodtracker.R;
+import org.desperu.moodtracker.VerticalViewPager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         dialogComment.setNegativeButton(R.string.button_cancel_comment,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel(); // TODO : Useless?
+                        dialog.cancel();
                         inputComment.getText().clear();
                         comment = "";
                         moodUtils.saveCurrentMood(getBaseContext(),
@@ -102,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel(); // TODO : Useless??
-                        goodDate = true; // TODO : + go to onCreate to restart apk??
+                        dialog.cancel();
+                        goodDate = true;
                         moodUtils.deleteAllMoods(MainActivity.this);
                         Toast.makeText(MainActivity.this, R.string.toast_all_mood_delete,
                                 Toast.LENGTH_SHORT).show();
