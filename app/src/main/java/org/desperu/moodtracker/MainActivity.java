@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         comment = inputComment.getText().toString();
+                        moodUtils.saveCurrentMood(getBaseContext(),
+                              mPager.getCurrentItem(), comment);
                     }
                 });
 
@@ -64,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
                         dialog.cancel(); // TODO : Useless?
                         inputComment.getText().clear();
                         comment = "";
+                        moodUtils.saveCurrentMood(getBaseContext(),
+                                mPager.getCurrentItem(), comment);
                     }
                 });
 

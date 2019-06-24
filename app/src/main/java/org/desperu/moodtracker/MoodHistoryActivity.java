@@ -1,6 +1,5 @@
 package org.desperu.moodtracker;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,8 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
+import android.widget.AbsoluteLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -153,19 +151,18 @@ public class MoodHistoryActivity extends AppCompatActivity {
         public void onClick(View v) {
             for (int i = 6; i >= 0; i--) {
                 if (v.getId() == rLayout[i]) {
-                    /*AlertDialog.Builder builder = new AlertDialog.
-                            Builder(MoodHistoryActivity.this, R.style.ShowCommentDialog);
-                            //Builder(MoodHistoryActivity.this,
-                            //android.R.style.Theme_Translucent_NoTitleBar_Fullscreen);
-                    AlertDialog showComment = builder.create();
-                    showComment.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    WindowManager.LayoutParams params = showComment.getWindow().getAttributes();
-                    params.gravity = Gravity.BOTTOM;
-                    params.y = 20;
-                    showComment.setMessage(MoodUtils.comment[i]);
-                    showComment.show();*/
-                    // TODO : make custom Toast
-                    Toast.makeText(MoodHistoryActivity.this, MoodUtils.comment[i],Toast.LENGTH_LONG).show();
+                    Toast toast = Toast.makeText(MoodHistoryActivity.this,
+                            MoodUtils.comment[i], Toast.LENGTH_LONG);
+                    View toastView = toast.getView();
+                    TextView toastMessage = toastView.findViewById(android.R.id.message);
+                    toastMessage.setTextSize(20);
+                    toastMessage.setTextColor(Color.WHITE);
+                    // TODO : change color
+                    toastView.setBackgroundColor(getResources().getColor(
+                            R.color.colorBackgroundShowComment));
+                    toastView.setMinimumWidth(screenWidth - screenWidth / 20);
+                    toast.setGravity(Gravity.BOTTOM,0, 50);
+                    toast.show();
                 }
             }
         }
@@ -174,7 +171,6 @@ public class MoodHistoryActivity extends AppCompatActivity {
     public View.OnClickListener shareBySMSListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            // TODO : Dialog box for ask share media?
             for (int i = 6; i >= 0; i--) {
                 if (v.getId() == imageS[i]) {
                     String moodDay;
