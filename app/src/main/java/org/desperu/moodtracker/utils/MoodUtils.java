@@ -24,7 +24,7 @@ public class MoodUtils {
     private SharedPreferences sharedPreferences;
 
     /**
-     * Save the current mood selected
+     * Save the current mood selected, current date and the comment
      * @param moodNum the number of the selected mood view
      * @param context get context from super activity
      */
@@ -61,20 +61,20 @@ public class MoodUtils {
     }
 
     /**
-     * Methods to get values in MoodHistory file
+     * Methods to get values in MoodHistory preference file
      * @param context The base context from the method is called
      * @param key The key name of the value
      * @return The value
      */
-    public int getHistoryIntPrefs(Context context, String key) {
+    public int getIntHistoryPrefs(Context context, String key) {
         sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
         return sharedPreferences.getInt(key, -1);
     }
-    public long getHistoryLongPrefs(Context context, String key) {
+    public long getLongHistoryPrefs(Context context, String key) {
         sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
         return sharedPreferences.getLong(key, 0);
     }
-    public String getHistoryStringPrefs(Context context, String key) {
+    public String getStringHistoryPrefs(Context context, String key) {
         sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
         return sharedPreferences.getString(key, null);
     }
@@ -98,9 +98,9 @@ public class MoodUtils {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(givenTime);
 
-
         Calendar calendar2 = Calendar.getInstance();
         calendar2.setTimeInMillis(getTime());
+
         if (calendar.get(Calendar.YEAR) < calendar2.get(Calendar.YEAR));
         return 0;
     }
@@ -136,9 +136,9 @@ public class MoodUtils {
         int hour = (int) (currentTime / (60 * 60 * 1000));
         currentTime = currentTime % (60 * 60 * 1000);
         int minutes = (int) (currentTime / (60 * 1000));
-        //return (day * 10000) + (hour * 100) + minutes;
+        return (day * 10000) + (hour * 100) + minutes;
 
-        return (year * 10000) + (month * 100) + day;
+        //return (year * 10000) + (month * 100) + day;
     }
 
     public long checkSavedDate(Context context) {

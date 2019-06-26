@@ -25,7 +25,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     private int[] mood = new int[7];
     private long[] date = new long[7];
     private String[] comment = new String[7];
-    int[] rLayout = {R.id.day1, R.id.day2, R.id.day3,
+    private int[] rLayout = {R.id.day1, R.id.day2, R.id.day3,
             R.id.day4, R.id.day5, R.id.day6, R.id.day7};
     private int[] imageS = {R.id.imageS1, R.id.imageS2, R.id.imageS3,
             R.id.imageS4, R.id.imageS5, R.id.imageS6, R.id.imageS7};
@@ -41,11 +41,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
 
     public void getHistoryTabs() {
         for (int i = 0; i <= 6; i++) {
-            mood[i] = moodUtils.getHistoryIntPrefs(this,
-                    MoodUtils.moodHistory + (i + 1));
-            date[i] = moodUtils.getHistoryLongPrefs(this,
-                    MoodUtils.dateHistory + (i + 1));
-            comment[i] = moodUtils.getHistoryStringPrefs(this,
+            mood[i] = moodUtils.getIntHistoryPrefs(this, MoodUtils.moodHistory + (i + 1));
+            date[i] = moodUtils.getLongHistoryPrefs(this, MoodUtils.dateHistory + (i + 1));
+            comment[i] = moodUtils.getStringHistoryPrefs(this,
                     MoodUtils.commentHistory + (i + 1));
         }
     }
@@ -87,22 +85,23 @@ public class MoodHistoryActivity extends AppCompatActivity {
         if (comment[i] != null && comment[i].length() > 0) {
             RelativeLayout rlButton = historyView.findViewById(rLayout[i]);
             rlButton.setOnClickListener(showCommentListener);
-            this.setImageSMS(i, smsWidht);
+            this.setImageShare(i, smsWidht);
             ImageButton imageButtonSMS = historyView.findViewById(imageS[i]);
             imageButtonSMS.setOnClickListener(shareListener);
         }
         this.setMoodAgeText(i);
     }
 
-    public void getScreenWidthHeight() {
+    public void getScreenWidthHeight() { // TODO : pb if not same decor!!!
         DisplayMetrics displayMetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        // TODO : to test this.getWindowManager().getDefaultDisplay().getRealMetrics(displayMetrics);
         if (this.getResources().getConfiguration().orientation == 1) {
             screenWidth = displayMetrics.widthPixels;
             screenHeight = (int) (displayMetrics.heightPixels * 0.887);
         } else if (this.getResources().getConfiguration().orientation == 2) {
             screenWidth = displayMetrics.widthPixels;
-            screenHeight = (int) (displayMetrics.heightPixels * 0.825);
+            screenHeight = (int) (displayMetrics.heightPixels * 0.825); // TODO : little white
         }
         //double layoutDecorations = screenHeight * 0.1678; // so 0.832
         // TODO : this.getWindowManager().getDefaultDisplay().getPresentationDeadlineNanos(toto);
@@ -111,7 +110,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     public String getMoodAgeText(int i) {
         int age = moodUtils.convertDate(moodUtils.getTime()) -
                 moodUtils.convertDate(date[i]);
-        if(age == moodUtils.convertDate(moodUtils.getTime())) getString(R.string.no_mood);
+        if(age == moodUtils.convertDate(moodUtils.getTime())) getString(R.string.no_mood); // TODO : never show
         else if (age == 1) return getString(R.string.text_yesterday);
         else if (age < 7) return getResources().getString(R.string.text_day, age);
         else if (age < 100) return getResources().getString(R.string.text_week, (int) (age / 7));
@@ -131,7 +130,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         rlDay.addView(moodAgeText, params);
     }
 
-    public void setImageSMS(int i, double smsWidht) {// TODO : Comment code !!!!!
+    public void setImageShare(int i, double smsWidht) {// TODO : Comment code !!!!!
         ImageButton imageSMS = new ImageButton(this);
         imageSMS.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         imageSMS.setImageResource(R.drawable.ic_comment_black_48px);
@@ -155,13 +154,12 @@ public class MoodHistoryActivity extends AppCompatActivity {
                             comment[i], Toast.LENGTH_LONG);
                     View toastView = toast.getView();
                     TextView toastMessage = toastView.findViewById(android.R.id.message);
-                    toastMessage.setTextSize(18);
+                    toastMessage.setTextSize(18); // it use sp
                     toastMessage.setTextColor(Color.WHITE);
-                    toastMessage.setPadding(20, 0, 20, 0);
+                    toastMessage.setPadding(20, 0, 20, 0);// TODO : use dp
                     toastView.setBackgroundColor(getResources().getColor(
                             R.color.colorBackgroundShowComment));
                     toastView.setMinimumWidth(screenWidth - screenWidth / 20);
-
                     /*RelativeLayout container = new RelativeLayout(MoodHistoryActivity.this);
                     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                             RelativeLayout.LayoutParams.MATCH_PARENT,
@@ -170,7 +168,6 @@ public class MoodHistoryActivity extends AppCompatActivity {
                     toastView.setLayoutParams(params);
                     container.addView(toastView);
                     toast.setView(container);*/
-
                     toast.setGravity(Gravity.BOTTOM,0, 50);
                     toast.show();
                 }

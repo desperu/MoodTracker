@@ -41,8 +41,7 @@ public class MainActivity extends AppCompatActivity {
         dialogComment.setTitle(R.string.title_comment);
 
         final EditText inputComment = new EditText(MainActivity.this);
-        inputComment.setText(moodUtils.getLastComment(this));
-            comment = inputComment.getText().toString();
+        inputComment.setText(comment);
         inputComment.setHint(R.string.hint_comment);
         inputComment.getBackground().mutate().setColorFilter(getResources().getColor(
                 R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(50, 0, 50, 0);
+        params.setMargins(50, 0, 50, 0); // TODO : don't use pixels
         inputComment.setLayoutParams(params);
         container.addView(inputComment);
         dialogComment.setView(container);
@@ -59,8 +58,8 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         comment = inputComment.getText().toString();
-                        moodUtils.saveCurrentMood(getBaseContext(),
-                              mPager.getCurrentItem(), comment);
+                        //moodUtils.saveCurrentMood(getBaseContext(), // TODO : Useless?? on test
+                          //    mPager.getCurrentItem(), comment);
                     }
                 });
 
@@ -70,8 +69,8 @@ public class MainActivity extends AppCompatActivity {
                         dialog.cancel();
                         inputComment.getText().clear();
                         comment = "";
-                        moodUtils.saveCurrentMood(getBaseContext(),
-                                mPager.getCurrentItem(), comment);
+                        //moodUtils.saveCurrentMood(getBaseContext(), // TODO : Useless?? on test
+                          //      mPager.getCurrentItem(), comment);
                     }
                 });
 
@@ -135,10 +134,12 @@ public class MainActivity extends AppCompatActivity {
             this.wrongDateDialog();
         } else if (moodUtils.checkSavedDate(this) > 0) {
             moodUtils.manageHistory(this);
+            comment = "";
             mPager.setCurrentItem(2);
         } else if (moodUtils.checkSavedDate(this) == 0) {
             int lastMood = moodUtils.getLastMood(this);
             if (lastMood > -1) mPager.setCurrentItem(lastMood);
+            comment = moodUtils.getLastComment(this);
         }
         else mPager.setCurrentItem(2);
         super.onResume();
