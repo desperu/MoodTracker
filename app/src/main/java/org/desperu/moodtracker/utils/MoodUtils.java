@@ -2,12 +2,8 @@ package org.desperu.moodtracker.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.Toast;
-
-import org.desperu.moodtracker.R;
 
 import java.util.Calendar;
-import java.util.TimeZone;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -44,11 +40,8 @@ public class MoodUtils {
      */
     public int getLastMood(Context context) {
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
-        int lastMood = sharedPreferences.getInt(currentMood, -1);
-        if (lastMood == -1)
-            Toast.makeText(context, R.string.toast_new_day, Toast.LENGTH_SHORT).show();
         return sharedPreferences.getInt(currentMood, -1);
-    } // TODO : to do better
+    }
 
     /**
      * Get the comment saved for the current day
@@ -100,9 +93,11 @@ public class MoodUtils {
         sharedPreferences.edit().clear().apply();
     }
 
-    public long getTime() {
-        return System.currentTimeMillis();
-    }
+    /**
+     * Get the current time in milliseconds since 01/01/1970
+     * @return time in millis
+     */
+    public long getTime() { return System.currentTimeMillis(); }
 
     /**
      * Compare given time with current time
@@ -127,52 +122,16 @@ public class MoodUtils {
     public int convertDate(long givenTime) {
         Calendar givenCalendar = Calendar.getInstance();
         givenCalendar.setTimeInMillis(givenTime);
-        /*int givenDate = givenCalendar.get(Calendar.YEAR) * 10000;
+        int givenDate = givenCalendar.get(Calendar.YEAR) * 10000;
         givenDate += givenCalendar.get(Calendar.MONTH) * 100;
-        givenDate += givenCalendar.get(Calendar.DAY_OF_MONTH);*/
+        givenDate += givenCalendar.get(Calendar.DAY_OF_MONTH);
         // TODO : for test only
-        int givenDate = givenCalendar.get(Calendar.DAY_OF_MONTH) * 10000;
+        /*int givenDate = givenCalendar.get(Calendar.DAY_OF_MONTH) * 10000;
         givenDate += givenCalendar.get(Calendar.HOUR_OF_DAY) * 100;
-        givenDate += givenCalendar.get(Calendar.MINUTE);
+        givenDate += givenCalendar.get(Calendar.MINUTE);*/
 
         return givenDate;
     }
-
-    /*public int convertDate(long currentTime) {
-        // TODO : find a better way, with a class of java utils, witch???
-        currentTime += TimeZone.getDefault().getRawOffset() + TimeZone.getDefault().getDSTSavings();
-        long oneDay = (24 * 60 * 60 * 1000);
-        int i = 0;
-        int year = 1970;
-        int[] yearDays = {365, 365, 366, 365}; // we start in 01/01/1970, first leap year february 1972
-        boolean leapYear = false;
-        int month = 1; // first month of the year
-
-        while (currentTime > (365 * oneDay)) {
-            leapYear = false;
-            if (i == 2) leapYear = true;
-            currentTime -= (yearDays[i] * oneDay);
-            year++;
-            i++;
-            if (i == 4) i = 0;
-        }
-        int[] monthDays = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-        for (i = 0; currentTime > (monthDays[i + 1] * oneDay); i++) {
-            if (i == 1 && leapYear) monthDays[1] = 29;
-            currentTime -= (monthDays[i] * oneDay);
-            month++;
-        }
-        int day = (int) (currentTime / oneDay) + 1;
-        currentTime = currentTime % oneDay;
-
-        // TODO : For test only
-        int hour = (int) (currentTime / (60 * 60 * 1000));
-        currentTime = currentTime % (60 * 60 * 1000);
-        int minutes = (int) (currentTime / (60 * 1000));
-        return (day * 10000) + (hour * 100) + minutes;
-
-        //return (year * 10000) + (month * 100) + day;
-    }*/
 
     public long checkSavedDate(Context context) {
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
@@ -181,6 +140,10 @@ public class MoodUtils {
         return convertDate(getTime()) - convertDate(savedDate);
     }
 
+    /**
+     * Manage history when it's a new date
+     * @param context The base context from the method is called
+     */
     public void manageHistory(Context context) {
         SharedPreferences dayFile = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
         SharedPreferences.Editor editorDay = dayFile.edit();

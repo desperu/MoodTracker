@@ -39,9 +39,6 @@ public class MoodHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.getHistoryTabs();
         setContentView(this.onCreateHistoryView());
-        // TODO : for test only
-        Toast.makeText(this, "Test time 0 = " + moodUtils.convertDate(0) +
-                " , " + date[6], Toast.LENGTH_LONG).show();
     }
 
     public void getHistoryTabs() {
@@ -59,15 +56,15 @@ public class MoodHistoryActivity extends AppCompatActivity {
 
         for (int i = 6; i >= 0; i--) {
             switch (mood[i]) {
-                case 0: this.setHistoryView(i, R.color.colorSuperHappy, 1, 0.85);
+                case 0: this.setHistoryView(i, R.color.colorSuperHappy, 1, 0.875);//0.85);
                     break;
-                case 1: this.setHistoryView(i, R.color.colorHappy, 0.825, 0.675);
+                case 1: this.setHistoryView(i, R.color.colorHappy, 0.825, 0.7);//0.675);
                     break;
-                case 2: this.setHistoryView(i, R.color.colorNormal, 0.65, 0.50);
+                case 2: this.setHistoryView(i, R.color.colorNormal, 0.65, 0.525);//0.50);
                     break;
-                case 3: this.setHistoryView(i, R.color.colorDisappointed, 0.475, 0.325);
+                case 3: this.setHistoryView(i, R.color.colorDisappointed, 0.475, 0.35);//0.325);
                     break;
-                case 4: this.setHistoryView(i, R.color.colorSad, 0.3, 0.15);
+                case 4: this.setHistoryView(i, R.color.colorSad, 0.3, 0.175);//0.15);
                     break;
                 default: this.setHistoryView(i, R.color.colorNoMood, 1, 0);
             }
@@ -109,7 +106,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
         a.recycle();
         // Get status bar height
         int statusBarHeight = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen",
+                "android");
         if (resourceId > 0) // TODO : ???
             statusBarHeight = getResources().getDimensionPixelSize(resourceId);
         //Get full screen size with DisplayMetrics, minus actionBarHeight(with title app) and statusBarHeight
@@ -154,8 +152,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
     public void setImageShare(int i, double smsWidht) {
         // create ImageButton and set basic params
         ImageButton imageShare = new ImageButton(this);
-        imageShare.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-        //imageShare.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        //imageShare.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
+        imageShare.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         imageShare.setImageResource(R.drawable.ic_comment_black_48px);
         imageShare.setId(imageS[i]);
         // create RelativeLayout.LayoutParams object to set special params
@@ -164,7 +162,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT);
         params.setMargins((int) (screenWidth * smsWidht), 0,
                 0, 0);
-        params.width = screenWidth / 10;//6;
+        params.width = screenWidth / 8;//6;
         // object to add imageShare with corresponding Mood RelativeLayout
         RelativeLayout rlDay = historyView.findViewById(rLayout[i]);
         rlDay.addView(imageShare, params);
@@ -172,27 +170,12 @@ public class MoodHistoryActivity extends AppCompatActivity {
 
     public View.OnClickListener showCommentListener = new View.OnClickListener() {
         @Override
-        public void onClick(View v) { // TODO : inflate .xml
+        public void onClick(View v) {
             for (int i = 6; i >= 0; i--) {
                 if (v.getId() == rLayout[i]) {
-                    /*View customToast = LayoutInflater.from(MoodHistoryActivity.this).
-                            inflate(R.layout.custom_toast, null);
-                    //customToast.setMinimumWidth(screenWidth - screenWidth / 20);
-
-                    TextView showComment = customToast.findViewById(R.id.show_comment);
-                    showComment.setText(comment[i]);
-
-                    Toast toast =  new Toast(MoodHistoryActivity.this);
-                    toast.setGravity(Gravity.BOTTOM, 0, screenHeight / 50);
-                    toast.setDuration(Toast.LENGTH_LONG);
-                    //toast.setMargin(1f, 0f);
-                    toast.setView(customToast);
-                    //toast.setMargin((screenWidth / 100f), (screenHeight / 50f));
-                    toast.show();*/
-
-                    Toast toast = Toast.makeText(MoodHistoryActivity.this,
+                    Toast customToast = Toast.makeText(MoodHistoryActivity.this,
                             comment[i], Toast.LENGTH_LONG);
-                    View toastView = toast.getView();
+                    View toastView = customToast.getView();
                     TextView toastMessage = toastView.findViewById(android.R.id.message);
                     toastMessage.setTextSize(18); // it use sp
                     toastMessage.setTextColor(Color.WHITE);
@@ -200,17 +183,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
                     toastView.setBackgroundColor(getResources().getColor(
                             R.color.colorBackgroundShowComment));
                     toastView.setMinimumWidth(screenWidth - screenWidth / 20);
-                    /*RelativeLayout container = new RelativeLayout(MoodHistoryActivity.this);
-                    RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                            RelativeLayout.LayoutParams.WRAP_CONTENT,
-                            RelativeLayout.LayoutParams.MATCH_PARENT);
-                    params.setMargins(20, 0, 20, 0);
-                    toastView.setLayoutParams(params);*/
-                    /*container.setLayoutParams(params);
-                    container.addView(toastView);
-                    toast.setView(container);*/
-                    toast.setGravity(Gravity.BOTTOM,0, screenHeight / 50);
-                    toast.show();
+                    customToast.setGravity(Gravity.BOTTOM,0, screenHeight / 50);
+                    customToast.show();
                 }
             }
         }

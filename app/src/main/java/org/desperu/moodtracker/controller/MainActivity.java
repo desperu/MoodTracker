@@ -138,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
             moodUtils.manageHistory(this);
             comment = "";
             mPager.setCurrentItem(2);
+            Toast.makeText(this, R.string.toast_new_day, Toast.LENGTH_SHORT).show();
         } else if (moodUtils.checkSavedDate(this) == 0) {
             int lastMood = moodUtils.getLastMood(this);
             if (lastMood > -1) mPager.setCurrentItem(lastMood);
@@ -148,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onPause() { // TODO : It was onStop on test
+    protected void onPause() {
         if (goodDate)
             moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment);
         super.onPause();
