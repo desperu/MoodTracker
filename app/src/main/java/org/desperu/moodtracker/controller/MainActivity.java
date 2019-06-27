@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -35,22 +36,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Show comment dialog box to edit a comment
-     * @param view The view from dialog is call to set font // TODO : to verify
+     * Show comment dialog box to edit a comment.
+     * @param view The onClick view from dialog is call.
      */
-    public void commentClick(View view) { // TODO : inflate .xml
+    public void commentClick(View view) {
         AlertDialog.Builder dialogComment = new AlertDialog.Builder(
                 MainActivity.this, R.style.InputCommentDialog);
         dialogComment.setTitle(R.string.title_comment);
 
+        // Inflate comment_dialog.xml for custom AlertDialog.
         View viewComment = LayoutInflater.from(MainActivity.this).inflate(R.layout.comment_dialog,
-                null);
+                (ViewGroup) findViewById(R.id.ll_comment_root));
         final EditText inputComment = viewComment.findViewById(R.id.input_comment);
         inputComment.setText(comment);
-        inputComment.setHint(R.string.hint_comment);
         dialogComment.setView(viewComment);
 
-        // to comment
+        // Positive button to valid the comment.
         dialogComment.setPositiveButton(R.string.button_valid_comment,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        // to comment
+        // Negative button to cancel the comment.
         dialogComment.setNegativeButton(R.string.button_cancel_comment,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -71,24 +72,33 @@ public class MainActivity extends AppCompatActivity {
         dialogComment.show();
     }
 
+    /**
+     * Show history view.
+     * @param view The onClick view from dialog is call.
+     */
     public void historyClick(View view) {
         Intent i = new Intent(MainActivity.this, MoodHistoryActivity.class);
         startActivity(i);
     }
 
+    /**
+     * If the current date is lower than the last saved, show dialog not cancelable. Two possible
+     * choice, correct the date, or delete all moods saved.
+     */
     public void wrongDateDialog() {
         AlertDialog.Builder wrongDate = new AlertDialog.Builder(MainActivity.this);
         wrongDate.setTitle(R.string.title_wrong_date);
         wrongDate.setMessage(R.string.message_wrong_date);
         wrongDate.setCancelable(false);
 
+        // Positive button to valid corrected date.
         wrongDate.setPositiveButton(R.string.button_valid_date,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (moodUtils.checkSavedDate(MainActivity.this) >= 0)
                             goodDate = true;
-                        else {
+                        else { // if the date is again lower, restart this dialog
                             wrongDateDialog();
                             Toast.makeText(MainActivity.this,
                                     R.string.toast_date_always_wrong, Toast.LENGTH_LONG).show();
@@ -96,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+        // Negative button to delete all moods saved.
         wrongDate.setNegativeButton(R.string.button_delete_mood,
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -114,8 +125,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (mPager.getCurrentItem() == 0) {
+        // If the user is currently looking at the first step or in comment, allow the system
+        // to handle the Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
         } else {
+        // Otherwise, select the previous step.
             mPager.setCurrentItem(mPager.getCurrentItem() - 1);
         }
     }
@@ -123,19 +137,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         goodDate = true;
-        if (moodUtils.checkSavedDate(this) < 0) {
+        if (moodUtils.checkSavedDate(this) < 0) { // If current date is lower, show wrongDateDialog.
             goodDate = false;
             this.wrongDateDialog();
-        } else if (moodUtils.checkSavedDate(this) > 0) {
+        } else if (moodUtils.checkSavedDate(this) > 0) { // If current date is upper, save last mood.
             moodUtils.manageHistory(this);
             comment = "";
             mPager.setCurrentItem(2);
             Toast.makeText(this, R.string.toast_new_day, Toast.LENGTH_SHORT).show();
-        } else if (moodUtils.checkSavedDate(this) == 0) {
+        } else if (moodUtils.checkSavedDate(this) == 0) { // If current date is the same, show last mood.
             int lastMood = moodUtils.getLastMood(this);
             if (lastMood > -1) mPager.setCurrentItem(lastMood);
             comment = moodUtils.getLastComment(this);
         }
+        // Else, show default mood.
         else mPager.setCurrentItem(2);
         super.onResume();
     }
@@ -143,6 +158,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         if (goodDate)
+            // When leave activity, and if the date isn't wrong, save selected mood, date and comment
             moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment);
         super.onPause();
     }

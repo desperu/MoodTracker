@@ -52,7 +52,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
 
     public View onCreateHistoryView() {
 
-        historyView = LayoutInflater.from(this).inflate(R.layout.activity_mood_history, null);
+        historyView = LayoutInflater.from(this).inflate(R.layout.activity_mood_history,
+                (ViewGroup)findViewById(R.id.history_root));
 
         for (int i = 6; i >= 0; i--) {
             switch (mood[i]) {
@@ -83,7 +84,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.width = (int) (screenWidth * (moodWidth));
         params.height = screenHeight / 7;
-        LinearLayout history = historyView.findViewById(R.id.history);
+        LinearLayout history = historyView.findViewById(R.id.history_root);
         history.addView(rLayoutDay, params);
         if (comment[i] != null && comment[i].length() > 0) {
             RelativeLayout rlButton = historyView.findViewById(rLayout[i]);
@@ -96,7 +97,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     }
 
     /**
-     * Get usable screen Width and Height for the view, minus action bar, title application and status bar
+     * Get usable screen Width and Height for the view, minus action bar, title activity bar and status bar
      */
     public void getScreenWidthHeight() {
         // Get action bar height
@@ -110,12 +111,13 @@ public class MoodHistoryActivity extends AppCompatActivity {
                 "android");
         if (resourceId > 0) // TODO : ???
             statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-        //Get full screen size with DisplayMetrics, minus actionBarHeight(with title app) and statusBarHeight
+        //Get full screen size with DisplayMetrics, minus actionBarHeight(with title activity bar) and statusBarHeight
         DisplayMetrics displayMetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenWidth = displayMetrics.widthPixels;
         screenHeight = displayMetrics.heightPixels - actionBarHeight - statusBarHeight;
-
+        // TODO : correct little white
+        double correctError = 0.1;
         /*if (this.getResources().getConfiguration().orientation == 1) {
             screenWidth = displayMetrics.widthPixels;
             screenHeight = (int) (displayMetrics.heightPixels * 0.887);
