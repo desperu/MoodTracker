@@ -73,6 +73,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         return historyView;
     }
 
+    // TODO : Comment code !!!!!
     public void setHistoryView(int i, int color, double moodWidth, double smsWidht) {
         this.getScreenWidthHeight();
         RelativeLayout rLayoutDay = new RelativeLayout(this);
@@ -113,7 +114,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     public String getMoodAgeText(int i) {
         int age = moodUtils.convertDate(moodUtils.getTime()) - moodUtils.convertDate(date[i]);
         if(age == (moodUtils.convertDate(moodUtils.getTime()) - moodUtils.convertDate(0)))
-            return getString(R.string.no_mood); // TODO : never show, should be good now
+            return getString(R.string.no_mood);
         else if (age == 1) return getString(R.string.text_yesterday);
         else if (age < 7) return getResources().getString(R.string.text_day, age);
         else if (age < 100) return getResources().getString(R.string.text_week, (int) (age / 7));
@@ -133,19 +134,19 @@ public class MoodHistoryActivity extends AppCompatActivity {
         rlDay.addView(moodAgeText, params);
     }
 
-    public void setImageShare(int i, double smsWidht) {// TODO : Comment code !!!!!
-        ImageButton imageSMS = new ImageButton(this);
-        imageSMS.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-        imageSMS.setImageResource(R.drawable.ic_comment_black_48px);
-        imageSMS.setId(imageS[i]);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+    public void setImageShare(int i, double smsWidht) {
+        ImageButton imageShare = new ImageButton(this); // create ImageButton and set basic params
+        imageShare.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
+        imageShare.setImageResource(R.drawable.ic_comment_black_48px);
+        imageShare.setId(imageS[i]);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams( // create RelativeLayout.LayoutParams object to set special params
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         params.setMargins((int) (screenWidth * smsWidht), 0,
                 0, 0);
         params.width = screenWidth / 6;
-        RelativeLayout rlDay = historyView.findViewById(rLayout[i]);
-        rlDay.addView(imageSMS, params);
+        RelativeLayout rlDay = historyView.findViewById(rLayout[i]); // object to add imageShare with corresponding Mood RelativeLayout
+        rlDay.addView(imageShare, params);
     }
 
     public View.OnClickListener showCommentListener = new View.OnClickListener() {
@@ -153,25 +154,41 @@ public class MoodHistoryActivity extends AppCompatActivity {
         public void onClick(View v) { // TODO : inflate .xml
             for (int i = 6; i >= 0; i--) {
                 if (v.getId() == rLayout[i]) {
+                    /*View customToast = LayoutInflater.from(MoodHistoryActivity.this).
+                            inflate(R.layout.custom_toast, null);
+                    customToast.setMinimumWidth(screenWidth - screenWidth / 20);
+
+                    TextView showComment = customToast.findViewById(R.id.show_comment);
+                    showComment.setText(comment[i]);
+
+                    Toast toast =  new Toast(MoodHistoryActivity.this);
+                    toast.setGravity(Gravity.BOTTOM, 0, screenHeight / 50);
+                    toast.setDuration(Toast.LENGTH_LONG);
+                    //toast.setMargin(1f, 0f);
+                    toast.setView(customToast);
+                    //toast.setMargin((screenWidth / 100f), (screenHeight / 50f));
+                    toast.show();*/
+
                     Toast toast = Toast.makeText(MoodHistoryActivity.this,
                             comment[i], Toast.LENGTH_LONG);
                     View toastView = toast.getView();
                     TextView toastMessage = toastView.findViewById(android.R.id.message);
                     toastMessage.setTextSize(18); // it use sp
                     toastMessage.setTextColor(Color.WHITE);
-                    toastMessage.setPadding(20, 0, 20, 0); // TODO : use dp
+                    toastMessage.setPadding(screenWidth / 50, 0, screenWidth / 50, 0); // TODO : use dp
                     toastView.setBackgroundColor(getResources().getColor(
                             R.color.colorBackgroundShowComment));
                     toastView.setMinimumWidth(screenWidth - screenWidth / 20);
                     /*RelativeLayout container = new RelativeLayout(MoodHistoryActivity.this);
                     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                            RelativeLayout.LayoutParams.MATCH_PARENT,
-                            RelativeLayout.LayoutParams.WRAP_CONTENT);
-                    params.setMargins(50, 0, 50, 0);
-                    toastView.setLayoutParams(params);
+                            RelativeLayout.LayoutParams.WRAP_CONTENT,
+                            RelativeLayout.LayoutParams.MATCH_PARENT);
+                    params.setMargins(20, 0, 20, 0);
+                    toastView.setLayoutParams(params);*/
+                    /*container.setLayoutParams(params);
                     container.addView(toastView);
                     toast.setView(container);*/
-                    toast.setGravity(Gravity.BOTTOM,0, 50); // TODO : use dp
+                    toast.setGravity(Gravity.BOTTOM,0, screenHeight / 50);
                     toast.show();
                 }
             }

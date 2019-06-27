@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mAdapter = new MoodAdapter(getSupportFragmentManager());
-        mPager = findViewById(R.id.viewpager);
+        mPager = findViewById(R.id.view_pager);
         mPager.setAdapter(mAdapter);
     }
 
