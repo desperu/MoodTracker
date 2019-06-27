@@ -189,7 +189,7 @@ public class MoodUtils {
         int[] mood = new int[7];
         long[] date = new long[7];
         String[] comment = new String[7];
-
+        // TODO : use constant class
         for (int i = 6; i >= 0; i--) {
             mood[i] = historyFile.getInt(moodHistory + (i + 1), -1);
             date[i] = historyFile.getLong(dateHistory + (i + 1), 0);

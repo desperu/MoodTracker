@@ -1,10 +1,12 @@
 package org.desperu.moodtracker.controller;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.desperu.moodtracker.utils.MoodUtils;
 import org.desperu.moodtracker.R;
+import org.desperu.moodtracker.utils.MoodUtils;
 
 public class MoodHistoryActivity extends AppCompatActivity {
 
@@ -76,7 +78,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     // TODO : Comment code !!!!!
     public void setHistoryView(int i, int color, double moodWidth, double smsWidht) {
         this.getScreenWidthHeight();
-        RelativeLayout rLayoutDay = new RelativeLayout(this);
+        RelativeLayout rLayoutDay = new RelativeLayout(this); // TODO : use ImageButton
         rLayoutDay.setBackgroundColor(getResources().getColor(color));
         rLayoutDay.setTop(screenHeight * ((6 - i) / 7));
         rLayoutDay.setId(rLayout[i]);
@@ -90,25 +92,40 @@ public class MoodHistoryActivity extends AppCompatActivity {
             RelativeLayout rlButton = historyView.findViewById(rLayout[i]);
             rlButton.setOnClickListener(showCommentListener);
             this.setImageShare(i, smsWidht);
-            ImageButton imageButtonSMS = historyView.findViewById(imageS[i]);
-            imageButtonSMS.setOnClickListener(shareListener);
+            ImageButton imageButtonShare = historyView.findViewById(imageS[i]);
+            imageButtonShare.setOnClickListener(shareListener);
         }
         this.setMoodAgeText(i);
     }
 
-    public void getScreenWidthHeight() { // TODO : pb if not same decor!!!
+    /**
+     * Get usable screen Width and Height for the view, minus action bar, title application and status bar
+     */
+    public void getScreenWidthHeight() {
+        // Get action bar height
+        int[] textSizeAttr = new int[]{R.attr.actionBarSize};
+        TypedArray a = this.obtainStyledAttributes(new TypedValue().data, textSizeAttr);
+        int actionBarHeight = a.getDimensionPixelSize(0, 0);
+        a.recycle();
+        // Get status bar height
+        int statusBarHeight = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) // TODO : ???
+            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+        //Get full screen size with DisplayMetrics, minus actionBarHeight(with title app) and statusBarHeight
         DisplayMetrics displayMetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        // TODO : to test this.getWindowManager().getDefaultDisplay().getRealMetrics(displayMetrics);
-        if (this.getResources().getConfiguration().orientation == 1) {
+        screenWidth = displayMetrics.widthPixels;
+        screenHeight = displayMetrics.heightPixels - actionBarHeight - statusBarHeight;
+
+        /*if (this.getResources().getConfiguration().orientation == 1) {
             screenWidth = displayMetrics.widthPixels;
             screenHeight = (int) (displayMetrics.heightPixels * 0.887);
         } else if (this.getResources().getConfiguration().orientation == 2) {
             screenWidth = displayMetrics.widthPixels;
-            screenHeight = (int) (displayMetrics.heightPixels * 0.825); // TODO : little white
-        }
+            screenHeight = (int) (displayMetrics.heightPixels * 0.825);
+        }*/
         //double layoutDecorations = screenHeight * 0.1678; // so 0.832
-        // TODO : this.getWindowManager().getDefaultDisplay().getPresentationDeadlineNanos(toto);
     }
 
     public String getMoodAgeText(int i) {
@@ -135,17 +152,21 @@ public class MoodHistoryActivity extends AppCompatActivity {
     }
 
     public void setImageShare(int i, double smsWidht) {
-        ImageButton imageShare = new ImageButton(this); // create ImageButton and set basic params
+        // create ImageButton and set basic params
+        ImageButton imageShare = new ImageButton(this);
         imageShare.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
+        //imageShare.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
         imageShare.setImageResource(R.drawable.ic_comment_black_48px);
         imageShare.setId(imageS[i]);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams( // create RelativeLayout.LayoutParams object to set special params
+        // create RelativeLayout.LayoutParams object to set special params
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         params.setMargins((int) (screenWidth * smsWidht), 0,
                 0, 0);
-        params.width = screenWidth / 6;
-        RelativeLayout rlDay = historyView.findViewById(rLayout[i]); // object to add imageShare with corresponding Mood RelativeLayout
+        params.width = screenWidth / 10;//6;
+        // object to add imageShare with corresponding Mood RelativeLayout
+        RelativeLayout rlDay = historyView.findViewById(rLayout[i]);
         rlDay.addView(imageShare, params);
     }
 
@@ -156,7 +177,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                 if (v.getId() == rLayout[i]) {
                     /*View customToast = LayoutInflater.from(MoodHistoryActivity.this).
                             inflate(R.layout.custom_toast, null);
-                    customToast.setMinimumWidth(screenWidth - screenWidth / 20);
+                    //customToast.setMinimumWidth(screenWidth - screenWidth / 20);
 
                     TextView showComment = customToast.findViewById(R.id.show_comment);
                     showComment.setText(comment[i]);
@@ -175,7 +196,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                     TextView toastMessage = toastView.findViewById(android.R.id.message);
                     toastMessage.setTextSize(18); // it use sp
                     toastMessage.setTextColor(Color.WHITE);
-                    toastMessage.setPadding(screenWidth / 50, 0, screenWidth / 50, 0); // TODO : use dp
+                    toastMessage.setPadding(screenWidth / 50, 0, screenWidth / 50, 0);
                     toastView.setBackgroundColor(getResources().getColor(
                             R.color.colorBackgroundShowComment));
                     toastView.setMinimumWidth(screenWidth - screenWidth / 20);

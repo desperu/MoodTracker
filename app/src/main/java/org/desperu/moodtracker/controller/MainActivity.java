@@ -35,6 +35,10 @@ public class MainActivity extends AppCompatActivity {
         mPager.setAdapter(mAdapter);
     }
 
+    /**
+     *
+     * @param view
+     */
     public void commentClick(View view) { // TODO : inflate .xml
         AlertDialog.Builder dialogComment = new AlertDialog.Builder(
                 MainActivity.this, R.style.InputCommentDialog);
@@ -54,23 +58,21 @@ public class MainActivity extends AppCompatActivity {
         container.addView(inputComment);
         dialogComment.setView(container);
 
+        // to comment
         dialogComment.setPositiveButton(R.string.button_valid_comment,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         comment = inputComment.getText().toString();
-                        //moodUtils.saveCurrentMood(getBaseContext(), // TODO : Useless?? on test
-                          //    mPager.getCurrentItem(), comment);
                     }
                 });
 
+        // to comment
         dialogComment.setNegativeButton(R.string.button_cancel_comment,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                         inputComment.getText().clear();
                         comment = "";
-                        //moodUtils.saveCurrentMood(getBaseContext(), // TODO : Useless?? on test
-                          //      mPager.getCurrentItem(), comment);
                     }
                 });
 
