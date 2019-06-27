@@ -37,6 +37,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.getHistoryTabs();
         setContentView(this.onCreateHistoryView());
+        // TODO : for test only
+        Toast.makeText(this, "Test time 0 = " + moodUtils.convertDate(0) +
+                " , " + date[6], Toast.LENGTH_LONG).show();
     }
 
     public void getHistoryTabs() {
@@ -108,14 +111,14 @@ public class MoodHistoryActivity extends AppCompatActivity {
     }
 
     public String getMoodAgeText(int i) {
-        int age = moodUtils.convertDate(moodUtils.getTime()) -
-                moodUtils.convertDate(date[i]);
-        if(age == moodUtils.convertDate(moodUtils.getTime())) getString(R.string.no_mood); // TODO : never show
+        int age = moodUtils.convertDate(moodUtils.getTime()) - moodUtils.convertDate(date[i]);
+        if(age == (moodUtils.convertDate(moodUtils.getTime()) - moodUtils.convertDate(0)))
+            return getString(R.string.no_mood); // TODO : never show, should be good now
         else if (age == 1) return getString(R.string.text_yesterday);
         else if (age < 7) return getResources().getString(R.string.text_day, age);
         else if (age < 100) return getResources().getString(R.string.text_week, (int) (age / 7));
-        else if (age < 10000) return getResources().getString(R.string.text_month, (int) (age / 30));
-        else if (age < 1000000) return getResources().getString(R.string.text_year, (int) (age / 365));
+        else if (age < 10000) return getResources().getString(R.string.text_month, (int) (age / 100));
+        else if (age < 1000000) return getResources().getString(R.string.text_year, (int) (age / 10000));
         return getString(R.string.problem);
     }
 
@@ -156,7 +159,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                     TextView toastMessage = toastView.findViewById(android.R.id.message);
                     toastMessage.setTextSize(18); // it use sp
                     toastMessage.setTextColor(Color.WHITE);
-                    toastMessage.setPadding(20, 0, 20, 0);// TODO : use dp
+                    toastMessage.setPadding(20, 0, 20, 0); // TODO : use dp
                     toastView.setBackgroundColor(getResources().getColor(
                             R.color.colorBackgroundShowComment));
                     toastView.setMinimumWidth(screenWidth - screenWidth / 20);
@@ -168,7 +171,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                     toastView.setLayoutParams(params);
                     container.addView(toastView);
                     toast.setView(container);*/
-                    toast.setGravity(Gravity.BOTTOM,0, 50);
+                    toast.setGravity(Gravity.BOTTOM,0, 50); // TODO : use dp
                     toast.show();
                 }
             }

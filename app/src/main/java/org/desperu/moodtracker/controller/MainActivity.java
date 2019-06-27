@@ -146,9 +146,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop() {
+    protected void onPause() { // TODO : It was onStop on test
         if (goodDate)
             moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment);
-        super.onStop();
+        super.onPause();
     }
 }
