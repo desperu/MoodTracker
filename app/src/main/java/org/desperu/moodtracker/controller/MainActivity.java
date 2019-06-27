@@ -3,12 +3,11 @@ package org.desperu.moodtracker.controller;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import org.desperu.moodtracker.view.MoodAdapter;
@@ -36,27 +35,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *
-     * @param view
+     * Show comment dialog box to edit a comment
+     * @param view The view from dialog is call to set font // TODO : to verify
      */
     public void commentClick(View view) { // TODO : inflate .xml
         AlertDialog.Builder dialogComment = new AlertDialog.Builder(
                 MainActivity.this, R.style.InputCommentDialog);
         dialogComment.setTitle(R.string.title_comment);
 
-        final EditText inputComment = new EditText(MainActivity.this);
+        View viewComment = LayoutInflater.from(MainActivity.this).inflate(R.layout.comment_dialog,
+                null);
+        final EditText inputComment = viewComment.findViewById(R.id.input_comment);
         inputComment.setText(comment);
         inputComment.setHint(R.string.hint_comment);
-        inputComment.getBackground().mutate().setColorFilter(getResources().getColor(
-                R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
-        FrameLayout container = new FrameLayout(this);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT);
-        params.setMargins(50, 0, 50, 0); // TODO : don't use pixels
-        inputComment.setLayoutParams(params);
-        container.addView(inputComment);
-        dialogComment.setView(container);
+        dialogComment.setView(viewComment);
 
         // to comment
         dialogComment.setPositiveButton(R.string.button_valid_comment,

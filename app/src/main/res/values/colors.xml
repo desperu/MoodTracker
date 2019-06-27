@@ -3,6 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <!-- MoodTracker colors -->
     <color name="colorSuperHappy">#FFF9EC4f</color>
     <color name="colorHappy">#FFB8E986</color>
     <color name="colorNormal">#A5468AD9</color>

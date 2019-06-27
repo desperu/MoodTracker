@@ -22,16 +22,4 @@
         <item name="android:windowSoftInputMode">stateVisible</item>
     </style>
 
-
-    <style name="ShowCommentDialog" parent="@android:style/Theme.Translucent">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="android:layout_gravity">bottom</item>
-        <item name="android:gravity">bottom</item>
-        <item name="android:windowAnimationStyle">@android:style/Animation.Translucent</item>
-
-        <item name="android:windowCloseOnTouchOutside">true</item>
-        <!--last<item name="android:windowIsFloating">true</item>-->
-    </style>
-
 </resources>

@@ -32,7 +32,6 @@
 
     <!-- MoodHistoryActivity -->
     <string name="activity_mood_history">MoodTracker History</string>
-    <string name="toast_show_comment_base">No comment</string>
 
     <string name="no_mood">"No Mood saved!!"</string>
     <string name="problem">"There's a problem!!"</string>
