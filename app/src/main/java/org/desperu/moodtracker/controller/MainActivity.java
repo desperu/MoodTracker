@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Show comment dialog box to edit a comment.
-     * @param view The onClick view from dialog is call.
+     * @param view The clicked view from dialog is call.
      */
     public void commentClick(View view) {
         AlertDialog.Builder dialogComment = new AlertDialog.Builder(
@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Show history view.
-     * @param view The onClick view from dialog is call.
+     * @param view The clicked view from dialog is call.
      */
     public void historyClick(View view) {
         Intent i = new Intent(MainActivity.this, MoodHistoryActivity.class);

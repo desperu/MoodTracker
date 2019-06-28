@@ -71,15 +71,15 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // Switch between color and size for each history mood.
         for (int i = (numberOfDays - 1); i >= 0; i--) {
             switch (mood[i]) {
-                case 0: this.setHistoryView(i, R.color.colorSuperHappy, 1, 0.875);//0.85);
+                case 0: this.setHistoryView(i, R.color.colorSuperHappy, 1, 0.875);
                     break;
-                case 1: this.setHistoryView(i, R.color.colorHappy, 0.825, 0.7);//0.675);
+                case 1: this.setHistoryView(i, R.color.colorHappy, 0.825, 0.7);
                     break;
-                case 2: this.setHistoryView(i, R.color.colorNormal, 0.65, 0.525);//0.50);
+                case 2: this.setHistoryView(i, R.color.colorNormal, 0.65, 0.525);
                     break;
-                case 3: this.setHistoryView(i, R.color.colorDisappointed, 0.475, 0.35);//0.325);
+                case 3: this.setHistoryView(i, R.color.colorDisappointed, 0.475, 0.35);
                     break;
-                case 4: this.setHistoryView(i, R.color.colorSad, 0.3, 0.175);//0.15);
+                case 4: this.setHistoryView(i, R.color.colorSad, 0.3, 0.175);
                     break;
                 default: this.setHistoryView(i, R.color.colorNoMood, 1, 0);
             }
@@ -88,30 +88,41 @@ public class MoodHistoryActivity extends AppCompatActivity {
     }
 
     // TODO : Comment code !!!!!
-    public void setHistoryView(int i, int color, double moodWidth, double smsWidht) {
+
+    /**
+     * Create RelativeLayout for each history mood, with given params.
+     * @param i Number of the history mood, so its position.
+     * @param color Background color depending of the mood.
+     * @param moodWidth Size of the RelativeLayout, depending of the mood.
+     * @param shareWidth To position share comment image button.
+     */
+    public void setHistoryView(int i, int color, double moodWidth, double shareWidth) {
         this.getScreenWidthHeight();
-        RelativeLayout rLayoutDay = new RelativeLayout(this); // TODO : use ImageButton
+        // Create RelativeLayout and set basic params.
+        RelativeLayout rLayoutDay = new RelativeLayout(this); // TODO : use ImageButton not possible
         rLayoutDay.setBackgroundColor(getResources().getColor(color));
         rLayoutDay.setTop(screenHeight * ((numberOfDays - 1 - i) / numberOfDays));
         rLayoutDay.setId(rLayout[i]);
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.width = (int) (screenWidth * (moodWidth));
-        params.height = screenHeight / numberOfDays;
+        // Create LayoutParams object to set more params.
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                (int) (screenWidth * (moodWidth)), screenHeight / numberOfDays);
+        // Add the RelativeLayout created to the root view and apply params.
         LinearLayout history = historyView.findViewById(R.id.history_root);
         history.addView(rLayoutDay, params);
+        // If there's a comment for this mood, make the RelativeLayout clickable to show the comment
+        // and create button share.
         if (comment[i] != null && comment[i].length() > 0) {
             RelativeLayout rlButton = historyView.findViewById(rLayout[i]);
             rlButton.setOnClickListener(showCommentListener);
-            this.setImageShare(i, smsWidht);
+            this.setImageShare(i, shareWidth);
             ImageButton imageButtonShare = historyView.findViewById(imageS[i]);
             imageButtonShare.setOnClickListener(shareListener);
         }
-        this.setMoodAgeText(i);
+        this.setMoodAgeText(i); // Create TextView with the mood age.
     }
 
     /**
-     * Get real usable screen size, Width and Height, for the view.
+     * Get real usable screen size for the view, Width and Height.
      */
     public void getScreenWidthHeight() {
         // Get status bar height (on top of screen).
@@ -134,6 +145,11 @@ public class MoodHistoryActivity extends AppCompatActivity {
                 correctError);
     }
 
+    /**
+     * Set the text of mood age, for given mood.
+     * @param i Number of the history mood.
+     * @return Mood age text.
+     */
     public String getMoodAgeText(int i) {
         int age = moodUtils.compareDate(date[i]);
         if (age == moodUtils.compareDate(0)) return getString(R.string.no_mood);
@@ -145,6 +161,10 @@ public class MoodHistoryActivity extends AppCompatActivity {
         return getString(R.string.problem);
     }
 
+    /**
+     * Create TextView for each mood to show its age.
+     * @param i Number of the history mood.
+     */
     public void setMoodAgeText(int i) {
         TextView moodAgeText = new TextView(this);
         moodAgeText.setText(getMoodAgeText(i));
@@ -156,7 +176,12 @@ public class MoodHistoryActivity extends AppCompatActivity {
         rlDay.addView(moodAgeText, params);
     }
 
-    public void setImageShare(int i, double smsWidht) {
+    /**
+     * Create Image Share button.
+     * @param i Number of the history mood.
+     * @param shareWidth To position share comment image button.
+     */
+    public void setImageShare(int i, double shareWidth) {
         // Create ImageButton and set basic params.
         ImageButton imageShare = new ImageButton(this);
         imageShare.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
@@ -164,16 +189,17 @@ public class MoodHistoryActivity extends AppCompatActivity {
         imageShare.setId(imageS[i]);
         // Create RelativeLayout.LayoutParams object to set specific params.
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.MATCH_PARENT);
-        params.setMargins((int) (screenWidth * smsWidht), 0,
+                screenWidth / 8, ViewGroup.LayoutParams.MATCH_PARENT);
+        params.setMargins((int) (screenWidth * shareWidth), 0,
                 0, 0);
-        params.width = screenWidth / 8;//6; // TODO : put in relativeLayout layoutParams
         // Object to add imageShare with corresponding Mood RelativeLayout.
         RelativeLayout rlDay = historyView.findViewById(rLayout[i]);
         rlDay.addView(imageShare, params);
     }
 
+    /**
+     * Listener to show corresponding mood comment with a toast message.
+     */
     public View.OnClickListener showCommentListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -196,6 +222,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
         }
     };
 
+    /**
+     * Listener to share mood age, mood and the corresponding comment, with wanted user send method.
+     */
     public View.OnClickListener shareListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
