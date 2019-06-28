@@ -1,37 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">MoodTracker</string>
 
     <!-- MainActivity -->
 
     <!-- comment_dialog -->
-    <string name="title_comment">Comment</string>
-    <string name="hint_comment">Your comment here!</string>
-    <string name="button_valid_comment" translatable="false">OK</string>
-    <string name="button_cancel_comment">Cancel</string>
+    <string name="title_comment">Commentaire</string>
+    <string name="hint_comment">Votre commentaire ici!</string>
+    <string name="button_cancel_comment">Annuler</string>
 
     <!-- wrong_date_dialog -->
-    <string name="title_wrong_date">Wrong Date</string>
+    <string name="title_wrong_date">Erreur de Date</string>
     <string name="message_wrong_date">"The Date is lower than the last saved, correct it on your device and then press OK. Or, if you want, you can delete all moods and comments saved, so press Delete."</string>
-    <string name="button_valid_date" translatable="false">OK</string>
-    <string name="button_delete_mood">Delete</string>
+    <string name="button_delete_mood">Supprimer</string>
     <string name="toast_date_always_wrong">The date is always wrong, correct it!!</string>
     <string name="toast_all_mood_delete">All moods are delete!</string>
 
 
     <!-- activity_main.xml -->
-    <string name="content_description_comment">button comment</string>
-    <string name="content_description_history">button history</string>
+    <string name="content_description_comment">boutton commentaire</string>
+    <string name="content_description_history">boutton historique</string>
 
 
     <!-- mood_fragments.xml imagesView-->
-    <string name="content_description_fragment" translatable="false">smiley fragment</string>
 
 
     <!-- MoodUtils -->
     <string name="toast_new_day">"Hi! What's your mood today??"</string>
 
     <!-- MoodHistoryActivity -->
-    <string name="activity_mood_history">MoodTracker History</string>
+    <string name="activity_mood_history">MoodTracker Historique</string>
 
     <string name="no_mood">"No Mood saved!!"</string>
     <string name="problem">"There's a problem!!"</string>
@@ -48,5 +46,4 @@
     <string name="mood_day_disappointed">", i was :/ because : "</string>
     <string name="mood_day_sad">", i was :( because : "</string>
     <string name="share_title">Share Your Mood</string>
-
 </resources>

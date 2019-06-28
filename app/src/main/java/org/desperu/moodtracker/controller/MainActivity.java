@@ -11,10 +11,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import org.desperu.moodtracker.view.MoodAdapter;
-import org.desperu.moodtracker.utils.MoodUtils;
 import org.desperu.moodtracker.R;
+import org.desperu.moodtracker.utils.MoodUtils;
+import org.desperu.moodtracker.view.MoodAdapter;
 import org.desperu.moodtracker.view.VerticalViewPager;
+
+import static org.desperu.moodtracker.utils.MoodUtils.*;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -82,8 +84,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * If the current date is lower than the last saved, show dialog not cancelable. Two possible
-     * choice, correct the date, or delete all moods saved.
+     * If the current date is lower than the last saved, show dialog not cancelable. Two choice,
+     * correct the date, or delete all moods saved.
      */
     public void wrongDateDialog() {
         AlertDialog.Builder wrongDate = new AlertDialog.Builder(MainActivity.this);
@@ -96,9 +98,10 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (moodUtils.checkSavedDate(MainActivity.this) >= 0)
+                        if (moodUtils.compareDate(moodUtils.getLongPrefs(MainActivity.this,
+                                moodDayFile, currentDate)) >= 0)
                             goodDate = true;
-                        else { // if the date is again lower, restart this dialog
+                        else { // if the date is again lower, restart this dialog.
                             wrongDateDialog();
                             Toast.makeText(MainActivity.this,
                                     R.string.toast_date_always_wrong, Toast.LENGTH_LONG).show();
@@ -137,28 +140,31 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         goodDate = true;
-        if (moodUtils.checkSavedDate(this) < 0) { // If current date is lower, show wrongDateDialog.
+        // Get current date and last saved date difference.
+        int checkDate = moodUtils.compareDate(moodUtils.getLongPrefs(this, moodDayFile, currentDate));
+        if (checkDate < 0) {
+            // If current date is lower, show wrongDateDialog.
             goodDate = false;
             this.wrongDateDialog();
-        } else if (moodUtils.checkSavedDate(this) > 0) { // If current date is upper, save last mood.
+        } else if (checkDate > 0) {
+            // If current date is upper, save last mood. Or on first run.
             moodUtils.manageHistory(this);
             comment = "";
             mPager.setCurrentItem(2);
             Toast.makeText(this, R.string.toast_new_day, Toast.LENGTH_SHORT).show();
-        } else if (moodUtils.checkSavedDate(this) == 0) { // If current date is the same, show last mood.
-            int lastMood = moodUtils.getLastMood(this);
+        } else { // So checkDate = 0.
+            // If current date is the same, show current mood and get current comment.
+            int lastMood = moodUtils.getIntPrefs(this, moodDayFile, currentMood);
             if (lastMood > -1) mPager.setCurrentItem(lastMood);
-            comment = moodUtils.getLastComment(this);
+            comment = moodUtils.getStringPrefs(this, moodDayFile, currentComment);
         }
-        // Else, show default mood.
-        else mPager.setCurrentItem(2);
         super.onResume();
     }
 
     @Override
     protected void onPause() {
         if (goodDate)
-            // When leave activity, and if the date isn't wrong, save selected mood, date and comment
+            // When leave activity, and if the date isn't wrong, save selected mood, date and comment.
             moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment);
         super.onPause();
     }

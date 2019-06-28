@@ -20,6 +20,8 @@ import android.widget.Toast;
 import org.desperu.moodtracker.R;
 import org.desperu.moodtracker.utils.MoodUtils;
 
+import static org.desperu.moodtracker.utils.MoodUtils.*;
+
 public class MoodHistoryActivity extends AppCompatActivity {
 
     View historyView = null;
@@ -27,8 +29,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
     private int[] mood = new int[7];
     private long[] date = new long[7];
     private String[] comment = new String[7];
-    private int[] rLayout = {R.id.day1, R.id.day2, R.id.day3,
-            R.id.day4, R.id.day5, R.id.day6, R.id.day7};
+    // TODO : final for tabs???
+    private int[] rLayout = {R.id.day1, R.id.day2, R.id.day3, R.id.day4,
+            R.id.day5, R.id.day6, R.id.day7};
     private int[] imageS = {R.id.imageS1, R.id.imageS2, R.id.imageS3,
             R.id.imageS4, R.id.imageS5, R.id.imageS6, R.id.imageS7};
     private int screenWidth;
@@ -39,19 +42,24 @@ public class MoodHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         this.getHistoryTabs();
         setContentView(this.onCreateHistoryView());
+        // TODO : for test only
+        Toast.makeText(this, "Test time 0 = " + moodUtils.compareDate(0) +
+                " , " + date[6], Toast.LENGTH_LONG).show();
     }
 
+    /**
+     * Get history values, and put in tabs
+     */
     public void getHistoryTabs() {
         for (int i = 0; i <= 6; i++) {
-            mood[i] = moodUtils.getIntHistoryPrefs(this, MoodUtils.moodHistory + (i + 1));
-            date[i] = moodUtils.getLongHistoryPrefs(this, MoodUtils.dateHistory + (i + 1));
-            comment[i] = moodUtils.getStringHistoryPrefs(this,
-                    MoodUtils.commentHistory + (i + 1));
+            mood[i] = moodUtils.getIntPrefs(this, moodHistoryFile, moodHistory + (i + 1));
+            date[i] = moodUtils.getLongPrefs(this, moodHistoryFile, dateHistory + (i + 1));
+            comment[i] = moodUtils.getStringPrefs(this,
+                    moodHistoryFile, commentHistory + (i + 1));
         }
     }
 
     public View onCreateHistoryView() {
-
         historyView = LayoutInflater.from(this).inflate(R.layout.activity_mood_history,
                 (ViewGroup)findViewById(R.id.history_root));
 
@@ -114,10 +122,11 @@ public class MoodHistoryActivity extends AppCompatActivity {
         //Get full screen size with DisplayMetrics, minus actionBarHeight(with title activity bar) and statusBarHeight
         DisplayMetrics displayMetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        // TODO : correct little white difference
+        double correctError = 1.01; // To correct little screen size difference
         screenWidth = displayMetrics.widthPixels;
-        screenHeight = displayMetrics.heightPixels - actionBarHeight - statusBarHeight;
-        // TODO : correct little white
-        double correctError = 0.1;
+        screenHeight = (int) ((displayMetrics.heightPixels - actionBarHeight - statusBarHeight) *
+                correctError);
         /*if (this.getResources().getConfiguration().orientation == 1) {
             screenWidth = displayMetrics.widthPixels;
             screenHeight = (int) (displayMetrics.heightPixels * 0.887);
@@ -129,9 +138,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
     }
 
     public String getMoodAgeText(int i) {
-        int age = moodUtils.convertDate(moodUtils.getTime()) - moodUtils.convertDate(date[i]);
-        if(age == (moodUtils.convertDate(moodUtils.getTime()) - moodUtils.convertDate(0)))
-            return getString(R.string.no_mood);
+        int age = moodUtils.compareDate(date[i]);
+        if (age == moodUtils.compareDate(0)) return getString(R.string.no_mood);
         else if (age == 1) return getString(R.string.text_yesterday);
         else if (age < 7) return getResources().getString(R.string.text_day, age);
         else if (age < 100) return getResources().getString(R.string.text_week, (int) (age / 7));
@@ -154,8 +162,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     public void setImageShare(int i, double smsWidht) {
         // create ImageButton and set basic params
         ImageButton imageShare = new ImageButton(this);
-        //imageShare.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-        imageShare.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        imageShare.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         imageShare.setImageResource(R.drawable.ic_comment_black_48px);
         imageShare.setId(imageS[i]);
         // create RelativeLayout.LayoutParams object to set special params
@@ -164,7 +171,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT);
         params.setMargins((int) (screenWidth * smsWidht), 0,
                 0, 0);
-        params.width = screenWidth / 8;//6;
+        params.width = screenWidth / 8;//6; // TODO : put in relativeLayout layoutParams
         // object to add imageShare with corresponding Mood RelativeLayout
         RelativeLayout rlDay = historyView.findViewById(rLayout[i]);
         rlDay.addView(imageShare, params);
