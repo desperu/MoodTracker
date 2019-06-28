@@ -60,6 +60,10 @@ public class MoodHistoryActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Create history mood view, set params for each history mood.
+     * @return The view create.
+     */
     public View onCreateHistoryView() {
         historyView = LayoutInflater.from(this).inflate(R.layout.activity_mood_history,
                 (ViewGroup)findViewById(R.id.history_root));
@@ -107,36 +111,27 @@ public class MoodHistoryActivity extends AppCompatActivity {
     }
 
     /**
-     * Get usable screen Width and Height for the view, minus action bar, title activity bar and status bar
+     * Get real usable screen size, Width and Height, for the view.
      */
     public void getScreenWidthHeight() {
-        // Get action bar height // TODO : whit title activity bar
-        int[] textSizeAttr = new int[]{R.attr.actionBarSize};
-        TypedArray a = this.obtainStyledAttributes(new TypedValue().data, textSizeAttr);
-        int actionBarHeight = a.getDimensionPixelSize(0, 0);
-        a.recycle();
-        // Get status bar height
+        // Get status bar height (on top of screen).
         int statusBarHeight = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen",
                 "android");
         if (resourceId > 0)
             statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-        //Get full screen size with DisplayMetrics, minus actionBarHeight(with title activity bar) and statusBarHeight
+        // Get action bar height (below status bar).
+        int[] textSizeAttr = new int[]{R.attr.actionBarSize};
+        TypedArray a = this.obtainStyledAttributes(new TypedValue().data, textSizeAttr);
+        int actionBarHeight = a.getDimensionPixelSize(0, 0);
+        a.recycle();
+        //Get full screen size with DisplayMetrics, minus statusBarHeight and actionBarHeight.
         DisplayMetrics displayMetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        // TODO : correct little white difference
-        double correctError = 1.006; // To correct little screen size difference
+        double correctError = 1.006; // To correct little screen size difference.
         screenWidth = displayMetrics.widthPixels;
-        screenHeight = (int) ((displayMetrics.heightPixels - actionBarHeight - statusBarHeight) *
+        screenHeight = (int) ((displayMetrics.heightPixels - statusBarHeight- actionBarHeight ) *
                 correctError);
-        /*if (this.getResources().getConfiguration().orientation == 1) {
-            screenWidth = displayMetrics.widthPixels;
-            screenHeight = (int) (displayMetrics.heightPixels * 0.887);
-        } else if (this.getResources().getConfiguration().orientation == 2) {
-            screenWidth = displayMetrics.widthPixels;
-            screenHeight = (int) (displayMetrics.heightPixels * 0.825);
-        }*/
-        //double layoutDecorations = screenHeight * 0.1678; // so 0.832
     }
 
     public String getMoodAgeText(int i) {
@@ -162,19 +157,19 @@ public class MoodHistoryActivity extends AppCompatActivity {
     }
 
     public void setImageShare(int i, double smsWidht) {
-        // create ImageButton and set basic params
+        // Create ImageButton and set basic params.
         ImageButton imageShare = new ImageButton(this);
         imageShare.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         imageShare.setImageResource(R.drawable.ic_comment_black_48px);
         imageShare.setId(imageS[i]);
-        // create RelativeLayout.LayoutParams object to set specific params
+        // Create RelativeLayout.LayoutParams object to set specific params.
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         params.setMargins((int) (screenWidth * smsWidht), 0,
                 0, 0);
         params.width = screenWidth / 8;//6; // TODO : put in relativeLayout layoutParams
-        // object to add imageShare with corresponding Mood RelativeLayout
+        // Object to add imageShare with corresponding Mood RelativeLayout.
         RelativeLayout rlDay = historyView.findViewById(rLayout[i]);
         rlDay.addView(imageShare, params);
     }

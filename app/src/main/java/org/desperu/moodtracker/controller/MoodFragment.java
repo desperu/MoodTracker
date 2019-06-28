@@ -52,7 +52,7 @@ public class MoodFragment extends Fragment {
                              Bundle savedInstanceState) {
         moodFragment = inflater.inflate(R.layout.mood_fragment, container, false);
 
-        // Switch between color and smiley depending position given.
+        // Switch between color and smiley depending of position given.
         switch (layoutId) { // TODO : use color.xml, and model MVC, comment the code to explain
             case 0: this.setMoodFragment(R.color.colorSuperHappy, R.drawable.smiley_super_happy); break;
             case 1: this.setMoodFragment(R.color.colorHappy, R.drawable.smiley_happy); break;
