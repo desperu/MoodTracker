@@ -20,15 +20,16 @@ import android.widget.Toast;
 import org.desperu.moodtracker.R;
 import org.desperu.moodtracker.utils.MoodUtils;
 
+import static org.desperu.moodtracker.Constant.*;
 import static org.desperu.moodtracker.utils.MoodUtils.*;
 
 public class MoodHistoryActivity extends AppCompatActivity {
 
     View historyView = null;
     MoodUtils moodUtils = new MoodUtils();
-    private int[] mood = new int[7];
-    private long[] date = new long[7];
-    private String[] comment = new String[7];
+    private int[] mood = new int[numberOfDays];
+    private long[] date = new long[numberOfDays];
+    private String[] comment = new String[numberOfDays];
     // TODO : final for tabs???
     private int[] rLayout = {R.id.day1, R.id.day2, R.id.day3, R.id.day4,
             R.id.day5, R.id.day6, R.id.day7};
@@ -51,7 +52,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
      * Get history values, and put in tabs
      */
     public void getHistoryTabs() {
-        for (int i = 0; i <= 6; i++) {
+        for (int i = 0; i <= (numberOfDays - 1); i++) {
             mood[i] = moodUtils.getIntPrefs(this, moodHistoryFile, moodHistory + (i + 1));
             date[i] = moodUtils.getLongPrefs(this, moodHistoryFile, dateHistory + (i + 1));
             comment[i] = moodUtils.getStringPrefs(this,
@@ -63,7 +64,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
         historyView = LayoutInflater.from(this).inflate(R.layout.activity_mood_history,
                 (ViewGroup)findViewById(R.id.history_root));
 
-        for (int i = 6; i >= 0; i--) {
+        // Switch between color and size for each history mood.
+        for (int i = (numberOfDays - 1); i >= 0; i--) {
             switch (mood[i]) {
                 case 0: this.setHistoryView(i, R.color.colorSuperHappy, 1, 0.875);//0.85);
                     break;
@@ -86,12 +88,12 @@ public class MoodHistoryActivity extends AppCompatActivity {
         this.getScreenWidthHeight();
         RelativeLayout rLayoutDay = new RelativeLayout(this); // TODO : use ImageButton
         rLayoutDay.setBackgroundColor(getResources().getColor(color));
-        rLayoutDay.setTop(screenHeight * ((6 - i) / 7));
+        rLayoutDay.setTop(screenHeight * ((numberOfDays - 1 - i) / numberOfDays));
         rLayoutDay.setId(rLayout[i]);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.width = (int) (screenWidth * (moodWidth));
-        params.height = screenHeight / 7;
+        params.height = screenHeight / numberOfDays;
         LinearLayout history = historyView.findViewById(R.id.history_root);
         history.addView(rLayoutDay, params);
         if (comment[i] != null && comment[i].length() > 0) {
@@ -108,7 +110,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
      * Get usable screen Width and Height for the view, minus action bar, title activity bar and status bar
      */
     public void getScreenWidthHeight() {
-        // Get action bar height
+        // Get action bar height // TODO : whit title activity bar
         int[] textSizeAttr = new int[]{R.attr.actionBarSize};
         TypedArray a = this.obtainStyledAttributes(new TypedValue().data, textSizeAttr);
         int actionBarHeight = a.getDimensionPixelSize(0, 0);
@@ -117,13 +119,13 @@ public class MoodHistoryActivity extends AppCompatActivity {
         int statusBarHeight = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen",
                 "android");
-        if (resourceId > 0) // TODO : ???
+        if (resourceId > 0)
             statusBarHeight = getResources().getDimensionPixelSize(resourceId);
         //Get full screen size with DisplayMetrics, minus actionBarHeight(with title activity bar) and statusBarHeight
         DisplayMetrics displayMetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         // TODO : correct little white difference
-        double correctError = 1.01; // To correct little screen size difference
+        double correctError = 1.006; // To correct little screen size difference
         screenWidth = displayMetrics.widthPixels;
         screenHeight = (int) ((displayMetrics.heightPixels - actionBarHeight - statusBarHeight) *
                 correctError);
@@ -151,7 +153,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     public void setMoodAgeText(int i) {
         TextView moodAgeText = new TextView(this);
         moodAgeText.setText(getMoodAgeText(i));
-        moodAgeText.setTextSize(16); // TODO : use dp TypedValue_COMPLEX_UNIT_SP, 16
+        moodAgeText.setTextSize(16); // It use sp // TODO : use dp TypedValue_COMPLEX_UNIT_SP, 16
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.setMargins(screenWidth / 100, screenHeight / 100, 0, 0);
@@ -165,7 +167,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         imageShare.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         imageShare.setImageResource(R.drawable.ic_comment_black_48px);
         imageShare.setId(imageS[i]);
-        // create RelativeLayout.LayoutParams object to set special params
+        // create RelativeLayout.LayoutParams object to set specific params
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
@@ -180,13 +182,13 @@ public class MoodHistoryActivity extends AppCompatActivity {
     public View.OnClickListener showCommentListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            for (int i = 6; i >= 0; i--) {
+            for (int i = (numberOfDays - 1); i >= 0; i--) {
                 if (v.getId() == rLayout[i]) {
                     Toast customToast = Toast.makeText(MoodHistoryActivity.this,
                             comment[i], Toast.LENGTH_LONG);
                     View toastView = customToast.getView();
                     TextView toastMessage = toastView.findViewById(android.R.id.message);
-                    toastMessage.setTextSize(18); // it use sp
+                    toastMessage.setTextSize(18); // It use sp
                     toastMessage.setTextColor(Color.WHITE);
                     toastMessage.setPadding(screenWidth / 50, 0, screenWidth / 50, 0);
                     toastView.setBackgroundColor(getResources().getColor(
@@ -202,7 +204,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     public View.OnClickListener shareListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            for (int i = 6; i >= 0; i--) {
+            for (int i = (numberOfDays - 1); i >= 0; i--) {
                 if (v.getId() == imageS[i]) {
                     String moodDay;
                     switch (mood[i]) {

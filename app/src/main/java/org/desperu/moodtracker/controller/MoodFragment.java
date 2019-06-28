@@ -36,6 +36,11 @@ public class MoodFragment extends Fragment {
         }
     }
 
+    /**
+     * Create mood fragment view with color and smiley given.
+     * @param color Background color to show.
+     * @param drawable Smiley to show.
+     */
     public void setMoodFragment(int color, int drawable) {
         moodFragment.findViewById(R.id.fragment).setBackgroundColor(getResources().getColor(color));
         ImageView superHappy = moodFragment.findViewById(R.id.mood_image);
@@ -47,6 +52,7 @@ public class MoodFragment extends Fragment {
                              Bundle savedInstanceState) {
         moodFragment = inflater.inflate(R.layout.mood_fragment, container, false);
 
+        // Switch between color and smiley depending position given.
         switch (layoutId) { // TODO : use color.xml, and model MVC, comment the code to explain
             case 0: this.setMoodFragment(R.color.colorSuperHappy, R.drawable.smiley_super_happy); break;
             case 1: this.setMoodFragment(R.color.colorHappy, R.drawable.smiley_happy); break;
