@@ -38,6 +38,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     private int screenWidth;
     private int screenHeight;
 
+    //TODO : made code most readable, some space
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -131,7 +132,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                 "android");
         if (resourceId > 0)
             statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-        // Get action bar height (below status bar).
+        // Get action bar height (below status bar, where's activity name).
         int[] textSizeAttr = new int[]{R.attr.actionBarSize};
         TypedArray a = this.obtainStyledAttributes(new TypedValue().data, textSizeAttr);
         int actionBarHeight = a.getDimensionPixelSize(0, 0);
@@ -158,7 +159,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         else if (age < 100) return getResources().getString(R.string.text_week, (int) (age / 7));
         else if (age < 10000) return getResources().getString(R.string.text_month, (int) (age / 100));
         else if (age < 1000000) return getResources().getString(R.string.text_year, (int) (age / 10000));
-        return getString(R.string.problem);
+        return getString(R.string.text_problem);
     }
 
     /**

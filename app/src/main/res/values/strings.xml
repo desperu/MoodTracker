@@ -34,14 +34,14 @@
     <string name="activity_mood_history">MoodTracker History</string>
 
     <string name="no_mood">"No Mood saved!!"</string>
-    <string name="problem">"There's a problem!!"</string>
+    <!--<string name="problem">"There's a problem!!"</string>-->
     <string name="content_description_share">Share</string>
     <string name="text_yesterday">Yesterday</string>
-    <string name="text_day">"There's %1$d Days"</string>
-    <string name="text_week">"There's %1$d Week"</string>
-    <string name="text_month">"There's %1$d Month</string>
-    <string name="text_year">"There's %1$d Year</string>
-    <string name="text_problem">"There's a problem with the date!</string>
+    <string name="text_day">%1$d Days ago</string>
+    <string name="text_week">%1$d Week(s) ago</string>
+    <string name="text_month">%1$d Month(s) ago</string>
+    <string name="text_year">%1$d Year(s) ago</string>
+    <string name="text_problem">"There's a problem with the date!"</string>
     <string name="mood_day_super_happy">", i was :D because : "</string>
     <string name="mood_day_happy">", i was :) because : "</string>
     <string name="mood_day_normal">", i was :| because : "</string>
