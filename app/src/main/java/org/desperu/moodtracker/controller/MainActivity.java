@@ -16,7 +16,10 @@ import org.desperu.moodtracker.utils.MoodUtils;
 import org.desperu.moodtracker.view.MoodAdapter;
 import org.desperu.moodtracker.view.VerticalViewPager;
 
-import static org.desperu.moodtracker.utils.MoodUtils.*;
+import static org.desperu.moodtracker.utils.MoodUtils.currentComment;
+import static org.desperu.moodtracker.utils.MoodUtils.currentDate;
+import static org.desperu.moodtracker.utils.MoodUtils.currentMood;
+import static org.desperu.moodtracker.utils.MoodUtils.moodDayFile;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,11 +33,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        /*setContentView(R.layout.activity_main);
 
         mAdapter = new MoodAdapter(getSupportFragmentManager());
         mPager = findViewById(R.id.view_pager);
-        mPager.setAdapter(mAdapter);
+        mPager.setAdapter(mAdapter);*/
+
+        setContentView(R.layout.mood_view);
+        Intent i = new Intent(MainActivity.this, MoodActivity.class);
+        startActivity(i);
     }
 
     /**
@@ -150,12 +157,12 @@ public class MainActivity extends AppCompatActivity {
             // If current date is upper, save last mood. Or on first run.
             moodUtils.manageHistory(this);
             comment = "";
-            mPager.setCurrentItem(2);
+//            mPager.setCurrentItem(2);
             Toast.makeText(this, R.string.toast_new_day, Toast.LENGTH_SHORT).show();
         } else { // So checkDate = 0.
             // If current date is the same, show current mood and get current comment.
             int lastMood = moodUtils.getIntPrefs(this, moodDayFile, currentMood);
-            if (lastMood > -1) mPager.setCurrentItem(lastMood);
+//            if (lastMood > -1) mPager.setCurrentItem(lastMood);
             comment = moodUtils.getStringPrefs(this, moodDayFile, currentComment);
         }
         super.onResume();
@@ -165,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         if (goodDate)
             // When leave activity, and if the date isn't wrong, save selected mood, date and comment.
-            moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment);
+  //          moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment);
         super.onPause();
     }
 }

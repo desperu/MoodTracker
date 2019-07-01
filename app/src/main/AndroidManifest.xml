@@ -29,6 +29,7 @@
                 <action android:name="android.intent.action.ACTION_SEND" />
             </intent-filter>
         </activity>
+        <activity android:name=".controller.MoodActivity" />
     </application>
 
 </manifest>
