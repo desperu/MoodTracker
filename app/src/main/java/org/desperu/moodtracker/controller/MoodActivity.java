@@ -41,7 +41,7 @@ public class MoodActivity extends AppCompatActivity implements View.OnTouchListe
                     position -= 1;
                     setContentView(onCreateView(position));
                     Toast.makeText(this, "onTouch minus" + position, Toast.LENGTH_SHORT).show();
-                } else if (y > minSlide && position < 4) {
+                } else if (y > minSlide && position < 4) { // TODO : use constant for add mood (hungry)
                     position += 1;
                     setContentView(onCreateView(position));
                     Toast.makeText(this, "onTouch plus" + position, Toast.LENGTH_SHORT).show();

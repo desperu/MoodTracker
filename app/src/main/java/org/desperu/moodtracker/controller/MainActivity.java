@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Show comment dialog box to edit a comment.
-     * @param view The clicked view from dialog is call.
+     * @param view The clicked view from dialog is called.
      */
     public void commentClick(View view) {
         AlertDialog.Builder dialogComment = new AlertDialog.Builder(
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         inputComment.setText(comment);
         dialogComment.setView(viewComment);
 
-        // Positive button to valid the comment.
+        // Positive button to valid comment.
         dialogComment.setPositiveButton(R.string.button_valid_comment,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        // Negative button to cancel the comment.
+        // Negative button to cancel comment.
         dialogComment.setNegativeButton(R.string.button_cancel_comment,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Show history view.
-     * @param view The clicked view from dialog is call.
+     * @param view The clicked view from dialog is called.
      */
     public void historyClick(View view) {
         Intent i = new Intent(MainActivity.this, MoodHistoryActivity.class);
@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * If the current date is lower than the last saved, show dialog not cancelable. Two choice,
-     * correct the date, or delete all moods saved.
+     * If current date is lower than last saved, show dialog not cancelable. Two choice,
+     * correct date, or delete all moods saved.
      */
     public void wrongDateDialog() {
         AlertDialog.Builder wrongDate = new AlertDialog.Builder(MainActivity.this);
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
             // If current date is upper, save last mood. Or on first run.
             moodUtils.manageHistory(this);
             comment = "";
-//            mPager.setCurrentItem(2);
+//            mPager.setCurrentItem(1);
             Toast.makeText(this, R.string.toast_new_day, Toast.LENGTH_SHORT).show();
         } else { // So checkDate = 0.
             // If current date is the same, show current mood and get current comment.
@@ -171,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         if (goodDate)
-            // When leave activity, and if the date isn't wrong, save selected mood, date and comment.
+            // When leave activity, and if date isn't wrong, save selected mood, date and comment.
   //          moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment);
         super.onPause();
     }

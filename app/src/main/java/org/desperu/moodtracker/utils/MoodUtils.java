@@ -23,9 +23,9 @@ public class MoodUtils {
     private SharedPreferences sharedPreferences;
 
     /**
-     * Save current mood selected, current date and comment
-     * @param moodNum the number of selected mood view
-     * @param context get context from super activity
+     * Save current mood selected, current date and comment.
+     * @param moodNum Number of selected mood view.
+     * @param context Get context from super activity.
      */
     public void saveCurrentMood(Context context, int moodNum, String comment) {
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
@@ -37,11 +37,11 @@ public class MoodUtils {
     }
 
     /**
-     * Methods to gets values (int, long and string), in preferences files
-     * @param context The base context from the method is called
-     * @param file The name of the file
-     * @param key The key name of the value
-     * @return The value
+     * Methods to gets values (int, long and string), in preferences files.
+     * @param context The base context from this method is called.
+     * @param file The name of the file.
+     * @param key The key name of the value.
+     * @return The value.
      */
     public int getIntPrefs(Context context, String file, String key) {
         sharedPreferences = context.getSharedPreferences(file, MODE_PRIVATE);
@@ -57,8 +57,8 @@ public class MoodUtils {
     }
 
     /**
-     * Delete all moods saved
-     * @param context The base context from the method is called
+     * Delete all moods saved.
+     * @param context The base context from this method is called.
      */
     public void deleteAllMoods(Context context) {
         sharedPreferences = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
@@ -68,15 +68,15 @@ public class MoodUtils {
     }
 
     /**
-     * Get the current time in milliseconds since 01/01/1970
-     * @return time in millis
+     * Get the current time in milliseconds since 01/01/1970.
+     * @return Time in millis.
      */
     private long getTime() { return System.currentTimeMillis(); }
 
     /**
-     * Compare given time with current time
-     * @param givenTime Given time to compare, in milliseconds
-     * @return The difference between current time and given time, format YYYYMMDD
+     * Compare given time with current time.
+     * @param givenTime Given time to compare, in milliseconds.
+     * @return Difference between current time and given time, format YYYYMMDD.
      */
     public int compareDate(long givenTime) {
         Calendar givenCalendar = Calendar.getInstance();
@@ -111,8 +111,8 @@ public class MoodUtils {
     }*/
 
     /**
-     * Manage history when it's a new date
-     * @param context The base context from the method is called
+     * Manage history when it's a new date.
+     * @param context The base context from this method is called.
      */
     public void manageHistory(Context context) {
         SharedPreferences dayFile = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
