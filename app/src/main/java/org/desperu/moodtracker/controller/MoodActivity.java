@@ -30,7 +30,7 @@ public class MoodActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        int minSlide = 150;
+        int minSlide = 150; // TODO :use constant
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 dy = event.getRawY();
@@ -68,7 +68,6 @@ public class MoodActivity extends AppCompatActivity implements View.OnTouchListe
     }
 
     public View onCreateView(int position) {
-        //moodView = LayoutInflater.from(this).inflate(R.layout.mood_view, (ViewGroup) findViewById(R.id.fragment_new));
 
         // Switch between color and smiley depending of given position.
         switch (position) {

@@ -27,18 +27,16 @@ public class MoodHistoryActivity extends AppCompatActivity {
 
     View historyView = null;
     MoodUtils moodUtils = new MoodUtils();
+    private int screenWidth;
+    private int screenHeight;
     private int[] mood = new int[numberOfDays];
     private long[] date = new long[numberOfDays];
     private String[] comment = new String[numberOfDays];
-    // TODO : final for tabs???
-    private int[] rLayout = {R.id.day1, R.id.day2, R.id.day3, R.id.day4,
+    private final int[] rLayout = {R.id.day1, R.id.day2, R.id.day3, R.id.day4,
             R.id.day5, R.id.day6, R.id.day7};
-    private int[] imageS = {R.id.imageS1, R.id.imageS2, R.id.imageS3,
+    private final int[] imageS = {R.id.imageS1, R.id.imageS2, R.id.imageS3,
             R.id.imageS4, R.id.imageS5, R.id.imageS6, R.id.imageS7};
-    private int screenWidth;
-    private int screenHeight;
 
-    //TODO : made code most readable, some space
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +119,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
             ImageButton imageButtonShare = historyView.findViewById(imageS[i]);
             imageButtonShare.setOnClickListener(shareListener);
         }
-        this.setMoodAgeText(i); // Create TextView with the mood age.
+        this.setMoodAgeText(i); // Create TextView mood age.
     }
 
     /**

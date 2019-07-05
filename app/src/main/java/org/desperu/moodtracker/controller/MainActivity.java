@@ -33,15 +33,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
         mAdapter = new MoodAdapter(getSupportFragmentManager());
         mPager = findViewById(R.id.view_pager);
-        mPager.setAdapter(mAdapter);*/
+        mPager.setAdapter(mAdapter);
 
-        setContentView(R.layout.mood_view);
+        /*setContentView(R.layout.mood_view);
         Intent i = new Intent(MainActivity.this, MoodActivity.class);
-        startActivity(i);
+        startActivity(i);*/
     }
 
     /**
@@ -134,13 +134,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) {
+        if (mPager.getCurrentItem() == 0) { // TODO : change for ME
         // If the user is currently looking at the first step or in comment, allow the system
         // to handle the Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
         } else {
-        // Otherwise, select the previous step.
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1);
+        // Otherwise, select the previous step. // TODO : change for +1???
+            mPager.setCurrentItem(mPager.getCurrentItem() - 1); // TODO : change for ME
         }
     }
 
@@ -157,12 +157,12 @@ public class MainActivity extends AppCompatActivity {
             // If current date is upper, save last mood. Or on first run.
             moodUtils.manageHistory(this);
             comment = "";
-//            mPager.setCurrentItem(1);
+            mPager.setCurrentItem(1); // TODO : change for ME
             Toast.makeText(this, R.string.toast_new_day, Toast.LENGTH_SHORT).show();
         } else { // So checkDate = 0.
             // If current date is the same, show current mood and get current comment.
             int lastMood = moodUtils.getIntPrefs(this, moodDayFile, currentMood);
-//            if (lastMood > -1) mPager.setCurrentItem(lastMood);
+            if (lastMood > -1) mPager.setCurrentItem(lastMood); // TODO : change for ME
             comment = moodUtils.getStringPrefs(this, moodDayFile, currentComment);
         }
         super.onResume();
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         if (goodDate)
             // When leave activity, and if date isn't wrong, save selected mood, date and comment.
-  //          moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment);
+            moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment); // TODO : change for ME
         super.onPause();
     }
 }

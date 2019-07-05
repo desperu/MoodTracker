@@ -71,14 +71,14 @@ public class MoodUtils {
      * Get the current time in milliseconds since 01/01/1970.
      * @return Time in millis.
      */
-    private long getTime() { return System.currentTimeMillis(); }
+    private long getTime() { return System.currentTimeMillis(); } // TODO : useless?
 
     /**
      * Compare given time with current time.
      * @param givenTime Given time to compare, in milliseconds.
      * @return Difference between current time and given time, format YYYYMMDD.
      */
-    public int compareDate(long givenTime) {
+    /*public int compareDate(long givenTime) {
         Calendar givenCalendar = Calendar.getInstance();
         givenCalendar.setTimeInMillis(givenTime);
         int givenDate = givenCalendar.get(Calendar.YEAR) * 10000;
@@ -92,9 +92,9 @@ public class MoodUtils {
         currentDate += currentCalendar.get(Calendar.DAY_OF_MONTH);
 
         return currentDate - givenDate;
-    }
+    }*/
     // TODO : for test only
-    /*public int compareDate(long givenTime) {
+    public int compareDate(long givenTime) {
         Calendar givenCalendar = Calendar.getInstance();
         givenCalendar.setTimeInMillis(givenTime);
         int givenDate = givenCalendar.get(Calendar.DAY_OF_MONTH) * 10000;
@@ -108,7 +108,7 @@ public class MoodUtils {
         currentDate += currentCalendar.get(Calendar.MINUTE);
 
         return currentDate - givenDate;
-    }*/
+    }
 
     /**
      * Manage history when it's a new date.
@@ -119,36 +119,33 @@ public class MoodUtils {
         SharedPreferences.Editor editorDay = dayFile.edit();
         SharedPreferences historyFile = context.getSharedPreferences(moodHistoryFile, MODE_PRIVATE);
         SharedPreferences.Editor editorHistory = historyFile.edit();
-        int[] mood = new int[numberOfDays]; // TODO : stop use tabs??? and perfect?
-        long[] date = new long[numberOfDays];
-        String[] comment = new String[numberOfDays];
-        for (int i = (numberOfDays - 1); i >= 0; i--) {
-            // Get saved history and put in tabs.
-            mood[i] = historyFile.getInt(moodHistory + (i + 1), -1);
-            date[i] = historyFile.getLong(dateHistory + (i + 1), 0);
-            comment[i] = historyFile.getString(commentHistory + (i + 1), null);
 
-            if (i != (numberOfDays - 1)) {
-                // Put given mood in history key + 1.
-                mood[i + 1] = mood[i]; editorHistory.putInt(moodHistory + (i + 2), mood[i]).apply();
-                date[i + 1] = date[i]; editorHistory.putLong(dateHistory + (i + 2), date[i]).apply();
-                comment[i + 1] = comment[i]; editorHistory.putString(commentHistory + (i + 2),
-                        comment[i]).apply();
-            }
+        for (int i = (numberOfDays - 1); i > 0; i--) {
+            // Get saved history mood values.
+            int mood = historyFile.getInt(moodHistory + i, -1);
+            long date = historyFile.getLong(dateHistory + i, 0);
+            String comment = historyFile.getString(commentHistory + i, null);
 
-            if (i == 0) {
-                // Get current mood and put in tabs.
-                mood[i] = dayFile.getInt(currentMood, -1);
-                date[i] = dayFile.getLong(currentDate, 0);
-                comment[i] = dayFile.getString(currentComment, null);
-                // Delete from current mood file.
+            // Put given mood values in history key + 1.
+            editorHistory.putInt(moodHistory + (i + 1), mood).apply();
+            editorHistory.putLong(dateHistory + (i + 1), date).apply();
+            editorHistory.putString(commentHistory + (i + 1), comment).apply();
+
+            if (i == 1) {
+                // Get current mood values.
+                mood = dayFile.getInt(currentMood, -1);
+                date = dayFile.getLong(currentDate, 0);
+                comment = dayFile.getString(currentComment, null);
+
+                // Delete values in current mood file.
                 editorDay.remove(currentMood).apply();
                 editorDay.remove(currentDate).apply();
                 editorDay.remove(currentComment).apply();
+
                 // And put in first history mood.
-                editorHistory.putInt(moodHistory + (i + 1), mood[i]).apply();
-                editorHistory.putLong(dateHistory + (i + 1), date[i]).apply();
-                editorHistory.putString(commentHistory + (i + 1), comment[i]).apply();
+                editorHistory.putInt(moodHistory + i, mood).apply();
+                editorHistory.putLong(dateHistory + i, date).apply();
+                editorHistory.putString(commentHistory + i, comment).apply();
             }
         }
     }
