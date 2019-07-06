@@ -7,11 +7,13 @@
     <!-- comment_dialog -->
     <string name="title_comment">Commentaire</string>
     <string name="hint_comment">Votre commentaire ici!</string>
+    <string name="button_valid_comment">OK</string>
     <string name="button_cancel_comment">Annuler</string>
 
     <!-- wrong_date_dialog -->
     <string name="title_wrong_date">Erreur de Date</string>
     <string name="message_wrong_date">"The Date is lower than the last saved, correct it on your device and then press OK. Or, if you want, you can delete all moods and comments saved, so press Delete."</string>
+    <string name="button_valid_date">OK</string>
     <string name="button_delete_mood">Supprimer</string>
     <string name="toast_date_always_wrong">The date is always wrong, correct it!!</string>
     <string name="toast_all_mood_delete">All moods are delete!</string>
@@ -23,6 +25,7 @@
 
 
     <!-- mood_fragments.xml imagesView-->
+    <string name="content_description_fragment">smiley fragment</string>
 
 
     <!-- MoodUtils -->

@@ -22,7 +22,7 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/content_description_comment"
         android:src="@drawable/ic_note_add_black"
-        android:onClick="commentClick"/>
+        android:onClick="commentClick" />
 
     <ImageButton
         android:id="@+id/history_button"
@@ -37,6 +37,6 @@
         android:background="@android:color/transparent"
         android:contentDescription="@string/content_description_history"
         android:src="@drawable/ic_history_black"
-        android:onClick="historyClick"/>
+        android:onClick="historyClick" />
 
 </RelativeLayout>

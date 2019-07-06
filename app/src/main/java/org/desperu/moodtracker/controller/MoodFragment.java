@@ -20,6 +20,7 @@ public class MoodFragment extends Fragment {
         // Required empty public constructor
     }
 
+    // TODO : to comment??
     public static MoodFragment newInstance(int position) {
         MoodFragment fragment = new MoodFragment();
         Bundle args = new Bundle();
@@ -59,7 +60,7 @@ public class MoodFragment extends Fragment {
             case 2: this.setMoodFragment(R.color.colorNormal, R.drawable.smiley_normal); break;
             case 3: this.setMoodFragment(R.color.colorDisappointed, R.drawable.smiley_disappointed); break;
             case 4: this.setMoodFragment(R.color.colorSad, R.drawable.smiley_sad); break;
-            default: this.setMoodFragment(R.color.colorNormal, R.drawable.smiley_normal);
+            default: this.setMoodFragment(R.color.colorHappy, R.drawable.smiley_happy);
         }
         return moodFragment;
     }
