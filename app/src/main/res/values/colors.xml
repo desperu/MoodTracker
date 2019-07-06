@@ -11,6 +11,8 @@
     <color name="colorDisappointed">#FF9B9B9B</color>
     <color name="colorSad">#FFDE3C50</color>
     <color name="colorNoMood">#FFFFFFFF</color>
+
     <color name="colorBackgroundShowComment">#575757</color>
     <color name="colorTransparent">#00000000</color>
+    <color name="colorDark">#ff000000</color>
 </resources>

@@ -34,8 +34,10 @@ public class MoodHistoryActivity extends AppCompatActivity {
     private String[] comment = new String[numberOfDays];
     private final int[] rLayout = {R.id.day1, R.id.day2, R.id.day3, R.id.day4,
             R.id.day5, R.id.day6, R.id.day7};
-    private final int[] imageS = {R.id.imageS1, R.id.imageS2, R.id.imageS3,
-            R.id.imageS4, R.id.imageS5, R.id.imageS6, R.id.imageS7};
+    private final int[] imageShow = {R.id.imageShow1, R.id.imageShow2, R.id.imageShow3,
+            R.id.imageShow4, R.id.imageShow5, R.id.imageShow6, R.id.imageShow7};
+    private final int[] imageShare = {R.id.imageShare1, R.id.imageShare2, R.id.imageShare3,
+            R.id.imageShare4, R.id.imageShare5, R.id.imageShare6, R.id.imageShare7};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,17 +72,17 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // Switch between color and size for each history mood.
         for (int i = (numberOfDays - 1); i >= 0; i--) {
             switch (mood[i]) {
-                case 0: this.setHistoryView(i, R.color.colorSuperHappy, 1, 0.875);
+                case 0: this.setHistoryView(i, R.color.colorSuperHappy, 1);
                     break;
-                case 1: this.setHistoryView(i, R.color.colorHappy, 0.825, 0.7);
+                case 1: this.setHistoryView(i, R.color.colorHappy, 0.825);
                     break;
-                case 2: this.setHistoryView(i, R.color.colorNormal, 0.65, 0.525);
+                case 2: this.setHistoryView(i, R.color.colorNormal, 0.65);
                     break;
-                case 3: this.setHistoryView(i, R.color.colorDisappointed, 0.475, 0.35);
+                case 3: this.setHistoryView(i, R.color.colorDisappointed, 0.475);
                     break;
-                case 4: this.setHistoryView(i, R.color.colorSad, 0.3, 0.175);
+                case 4: this.setHistoryView(i, R.color.colorSad, 0.3);
                     break;
-                default: this.setHistoryView(i, R.color.colorNoMood, 1, 0);
+                default: this.setHistoryView(i, R.color.colorNoMood, 1);
             }
         }
         return historyView;
@@ -91,9 +93,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
      * @param i Number of the history mood, so its position.
      * @param color Background color depending of the mood.
      * @param moodWidth Size of the RelativeLayout, depending of the mood.
-     * @param shareWidth To position share comment image button.
      */
-    public void setHistoryView(int i, int color, double moodWidth, double shareWidth) {
+    public void setHistoryView(int i, int color, double moodWidth) {
         this.getScreenWidthHeight(); // Get screen size
 
         // Create RelativeLayout and set basic params.
@@ -110,13 +111,13 @@ public class MoodHistoryActivity extends AppCompatActivity {
         LinearLayout history = historyView.findViewById(R.id.history_root);
         history.addView(rLayoutDay, params);
 
-        // If there's a comment for this mood, make the RelativeLayout clickable to show the comment
-        // and create button share.
+        // If there's a comment for this mood, create image button to show comment
+        // and another to share mood. // TODO : correct comment
         if (comment[i] != null && comment[i].length() > 0) {
-            RelativeLayout rlButton = historyView.findViewById(rLayout[i]);
-            rlButton.setOnClickListener(showCommentListener);
-            this.setImageShare(i, shareWidth);
-            ImageButton imageButtonShare = historyView.findViewById(imageS[i]);
+            this.setCommentAndShareImages(i, moodWidth);
+            ImageButton imageButtonComment = historyView.findViewById(imageShow[i]);
+            imageButtonComment.setOnClickListener(showCommentListener);
+            ImageButton imageButtonShare = historyView.findViewById(imageShare[i]);
             imageButtonShare.setOnClickListener(shareListener);
         }
         this.setMoodAgeText(i); // Create TextView mood age.
@@ -149,7 +150,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     }
 
     /**
-     * Set text mood age, for given mood.
+     * Set mood age text, for given mood.
      * @param i Number of the history mood.
      * @return Mood age text.
      */
@@ -159,7 +160,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         else if (age == 1) return getString(R.string.text_yesterday);
         else if (age < 7) return getResources().getString(R.string.text_day, age);
         else if (age < 100) return getResources().getString(R.string.text_week, (int) (age / 7));
-        else if (age < 10000) return getResources().getString(R.string.text_month, (int) (age / 100));
+        else if (age < 10000) return getResources().getString(R.string.text_month, (int) (age / 100));// TODO : to test it's perfect
         else if (age < 1000000) return getResources().getString(R.string.text_year, (int) (age / 10000));
         return getString(R.string.text_problem);
     }
@@ -172,7 +173,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // Create TextView and set params.
         TextView moodAgeText = new TextView(this);
         moodAgeText.setText(getMoodAgeText(i));
-        moodAgeText.setTextSize(16); // It use sp // TODO : use dp TypedValue_COMPLEX_UNIT_SP, 16
+        moodAgeText.setTextSize(16); // It use sp // TODO : use dp TypedValue.COMPLEX_UNIT_SP, 16
 
         // Create LayoutParams object to set more params.
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
@@ -185,26 +186,47 @@ public class MoodHistoryActivity extends AppCompatActivity {
     }
 
     /**
-     * Create Image Share button.
+     * Create Comment Image Button and Share Image Button.
      * @param i Number of the history mood.
-     * @param shareWidth To position share comment image button.
+     * @param moodWidth To position share and comment image button.
      */
-    public void setImageShare(int i, double shareWidth) {
-        // Create ImageButton and set basic params.
-        ImageButton imageShare = new ImageButton(this);
-        imageShare.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-        imageShare.setImageResource(R.drawable.ic_comment_black_48px);
-        imageShare.setId(imageS[i]);
+    public void setCommentAndShareImages(int i, double moodWidth) {
+        // Create ImageButtonComment and set basic params.
+        ImageButton imageShowComment = new ImageButton(this);
+        //imageShowComment.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
+        // TODO : for test
+        imageShowComment.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+        imageShowComment.setImageResource(R.drawable.ic_comment_black_48px);
+        imageShowComment.setId(imageShow[i]);
+        imageShowComment.setBaselineAlignBottom(true);
 
         // Create RelativeLayout.LayoutParams object to set specific params.
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+        RelativeLayout.LayoutParams paramsShow = new RelativeLayout.LayoutParams(
                 screenWidth / 8, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.setMargins((int) (screenWidth * shareWidth), 0,
-                0, 0);
+                //screenWidth / 8, screenHeight / 14);
+        //paramsShow.setMargins((int) (screenWidth * (moodWidth - 0.125)), 0, // TODO : use Constant??
+          //      0, 0);
+        paramsShow.setMarginStart((int) (screenWidth * (moodWidth - 0.125)));
 
-        // Add imageShare with corresponding Mood RelativeLayout and apply params.
+        // Create ImageButtonShare and set basic params.
+        ImageButton imageShareMood = new ImageButton(this);
+        imageShareMood.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
+        //imageShareMood.setBackgroundColor(getResources().getColor(R.color.colorBackgroundShowComment));
+        imageShareMood.setImageResource(android.R.drawable.ic_menu_share);
+        imageShareMood.setColorFilter(R.color.colorDark);
+        imageShareMood.setId(imageShare[i]);
+
+        // Create RelativeLayout.LayoutParams object to set specific params.
+        RelativeLayout.LayoutParams paramsShare = new RelativeLayout.LayoutParams(
+                screenWidth / 8, ViewGroup.LayoutParams.MATCH_PARENT);
+        //paramsShow.setMargins((int) (screenWidth * (moodWidth - 0.125)), 0, // TODO : use Constant??
+        //      0, 0);
+        paramsShare.setMarginStart((int) (screenWidth * (moodWidth - 0.25)));
+        // TODO : add share image here
+        // Add imageShowComment and imageShareMood with corresponding Mood RelativeLayout and apply params.
         RelativeLayout rlDay = historyView.findViewById(rLayout[i]);
-        rlDay.addView(imageShare, params);
+        rlDay.addView(imageShowComment, paramsShow);
+        rlDay.addView(imageShareMood, paramsShare);
     }
 
     /**
@@ -214,12 +236,12 @@ public class MoodHistoryActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             for (int i = (numberOfDays - 1); i >= 0; i--) {
-                if (v.getId() == rLayout[i]) { // Get history mood number from this listener is called.
+                if (v.getId() == imageShow[i]) { // Get history mood number from this listener is called.
                     Toast customToast = Toast.makeText(MoodHistoryActivity.this,
                             comment[i], Toast.LENGTH_LONG);
 
                     // Get toast view and toast message to set custom params.
-                    View toastView = customToast.getView();
+                    View toastView = customToast.getView(); // TODO : inflate this??
                     TextView toastMessage = toastView.findViewById(android.R.id.message);
 
                     // Set params and show toast.
@@ -243,7 +265,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             for (int i = (numberOfDays - 1); i >= 0; i--) {
-                if (v.getId() == imageS[i]) { // Get history mood number from this listener is called.
+                if (v.getId() == imageShare[i]) { // Get history mood number from this listener is called.
                     String moodDay;
 
                     // Find the mood for this day.
