@@ -2,8 +2,14 @@ package org.desperu.moodtracker.controller;
 
 import android.content.Intent;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -12,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,7 +27,12 @@ import android.widget.Toast;
 import org.desperu.moodtracker.R;
 import org.desperu.moodtracker.utils.MoodUtils;
 
-import static org.desperu.moodtracker.Constant.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import static org.desperu.moodtracker.MoodTools.Constant.*;
 import static org.desperu.moodtracker.utils.MoodUtils.*;
 
 public class MoodHistoryActivity extends AppCompatActivity {
@@ -109,6 +121,9 @@ public class MoodHistoryActivity extends AppCompatActivity {
 
         // Add the RelativeLayout created to the root view and apply params.
         LinearLayout history = historyView.findViewById(R.id.history_root);
+        // TODO : on test
+        history.setVerticalScrollBarEnabled(true);
+        history.canScrollVertically(50);
         history.addView(rLayoutDay, params);
 
         // If there's a comment for this mood, create image button to show comment
@@ -159,7 +174,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         if (age == moodUtils.compareDate(0)) return getString(R.string.no_mood);
         else if (age == 1) return getString(R.string.text_yesterday);
         else if (age < 7) return getResources().getString(R.string.text_day, age);
-        else if (age < 100) return getResources().getString(R.string.text_week, (int) (age / 7));
+        else if (age < 100) return getResources().getString(R.string.text_week, (int) (age / 7)); // TODO : one week??
         else if (age < 10000) return getResources().getString(R.string.text_month, (int) (age / 100));// TODO : to test it's perfect
         else if (age < 1000000) return getResources().getString(R.string.text_year, (int) (age / 10000));
         return getString(R.string.text_problem);
@@ -203,17 +218,15 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // Create RelativeLayout.LayoutParams object to set specific params.
         RelativeLayout.LayoutParams paramsShow = new RelativeLayout.LayoutParams(
                 screenWidth / 8, ViewGroup.LayoutParams.MATCH_PARENT);
-                //screenWidth / 8, screenHeight / 14);
         //paramsShow.setMargins((int) (screenWidth * (moodWidth - 0.125)), 0, // TODO : use Constant??
           //      0, 0);
         paramsShow.setMarginStart((int) (screenWidth * (moodWidth - 0.125)));
 
         // Create ImageButtonShare and set basic params.
         ImageButton imageShareMood = new ImageButton(this);
-        imageShareMood.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
-        //imageShareMood.setBackgroundColor(getResources().getColor(R.color.colorBackgroundShowComment));
-        imageShareMood.setImageResource(android.R.drawable.ic_menu_share);
-        imageShareMood.setColorFilter(R.color.colorDark);
+        //imageShareMood.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
+        imageShareMood.setBackgroundColor(getResources().getColor(R.color.colorBackgroundShowComment));
+        imageShareMood.setImageResource(R.drawable.baseline_share_black_36);
         imageShareMood.setId(imageShare[i]);
 
         // Create RelativeLayout.LayoutParams object to set specific params.
@@ -279,10 +292,48 @@ public class MoodHistoryActivity extends AppCompatActivity {
                     }
 
                     // Send complete mood with intent.
-                    Intent share = new Intent(Intent.ACTION_SEND);
+                    /*Intent share = new Intent(Intent.ACTION_SEND);
                     share.setType("text/plain");
                     share.putExtra(Intent.EXTRA_TEXT, getMoodAgeText(i) + moodDay +
                             comment[i]);
+                    startActivity(Intent.createChooser(share, getString(R.string.share_title)));*/
+
+
+                    //ImageView imageView = (ImageView) MoodHistoryActivity.this.findViewById(R.id.imageShare1);
+                    //View view = LayoutInflater.from(MoodHistoryActivity.this).inflate(R.layout.mood_fragment,
+                      //      (ViewGroup) findViewById(R.id.fragment));
+                    //ImageView imageView = getViewModelStore(View);
+                    ImageView imageView = new ImageView(MoodHistoryActivity.this);
+                    //imageView.setImageResource(R.drawable.smiley_happy);
+                    //imageView.setBackgroundColor(getResources().getColor(R.color.colorHappy));
+                    //Drawable drawable = imageView.getDrawable();
+
+                    Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
+                    File file =  new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
+
+                    FileOutputStream out = null;
+                    Uri bmpUri = null;
+                    try {
+                        out = new FileOutputStream(file);
+                        bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+                        //bmp.setHeight(100);
+                        //bmp.setWidth(100);
+                        out.close();
+
+                        // **Warning:** This will fail for API >= 24, use a FileProvider as shown below instead.
+
+                        //bmpUri = Uri.fromFile(file);
+                    } catch (FileNotFoundException e) { e.printStackTrace();
+                    } catch (IOException e) { e.printStackTrace(); }
+
+                    Intent share = new Intent();
+                    share.setAction(Intent.ACTION_SEND);
+                    share.putExtra(Intent.EXTRA_TEXT, getMoodAgeText(i) + moodDay + comment[i]);
+                    share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+                    //share.setType("image/*");
+                    share.setType("text/*");
+                    share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     startActivity(Intent.createChooser(share, getString(R.string.share_title)));
                 }
             }

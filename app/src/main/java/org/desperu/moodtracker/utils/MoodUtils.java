@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import java.util.Calendar;
 
 import static android.content.Context.MODE_PRIVATE;
-import static org.desperu.moodtracker.Constant.numberOfDays;
+import static org.desperu.moodtracker.MoodTools.Constant.*;
 
 public class MoodUtils {
 

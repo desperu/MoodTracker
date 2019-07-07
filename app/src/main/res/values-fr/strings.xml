@@ -37,8 +37,8 @@
     <string name="no_mood">"No Mood saved!!"</string>
     <string name="content_description_share">Share</string>
     <string name="text_yesterday">Yesterday</string>
-    <string name="text_day">"Il y a %1$d Jour(s)"</string>
-    <string name="text_week">"Il y a %1$d Semaine(s)"</string>
+    <string name="text_day">"Il y a %1$d Jour"</string>
+    <string name="text_week">"Il y a %1$d Semaine"</string>
     <string name="text_month">"Il y a %1$d Mois"</string>
     <string name="text_year">"Il y a %1$d Année(s)"</string>
     <string name="text_problem">"There's a problem with the date!"</string>
