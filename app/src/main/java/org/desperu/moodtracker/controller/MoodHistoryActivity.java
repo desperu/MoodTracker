@@ -5,11 +5,9 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -32,8 +30,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import static org.desperu.moodtracker.MoodTools.Constant.*;
-import static org.desperu.moodtracker.utils.MoodUtils.*;
+import static org.desperu.moodtracker.MoodTools.Constant.imageShare;
+import static org.desperu.moodtracker.MoodTools.Constant.imageShow;
+import static org.desperu.moodtracker.MoodTools.Constant.numberInScreen;
+import static org.desperu.moodtracker.MoodTools.Constant.numberOfDays;
+import static org.desperu.moodtracker.MoodTools.Constant.rLayout;
+import static org.desperu.moodtracker.utils.MoodUtils.commentHistory;
+import static org.desperu.moodtracker.utils.MoodUtils.dateHistory;
+import static org.desperu.moodtracker.utils.MoodUtils.moodHistory;
+import static org.desperu.moodtracker.utils.MoodUtils.moodHistoryFile;
 
 public class MoodHistoryActivity extends AppCompatActivity {
 
@@ -44,12 +49,6 @@ public class MoodHistoryActivity extends AppCompatActivity {
     private int[] mood = new int[numberOfDays];
     private long[] date = new long[numberOfDays];
     private String[] comment = new String[numberOfDays];
-    private final int[] rLayout = {R.id.day1, R.id.day2, R.id.day3, R.id.day4,
-            R.id.day5, R.id.day6, R.id.day7};
-    private final int[] imageShow = {R.id.imageShow1, R.id.imageShow2, R.id.imageShow3,
-            R.id.imageShow4, R.id.imageShow5, R.id.imageShow6, R.id.imageShow7};
-    private final int[] imageShare = {R.id.imageShare1, R.id.imageShare2, R.id.imageShare3,
-            R.id.imageShare4, R.id.imageShare5, R.id.imageShare6, R.id.imageShare7};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,18 +111,15 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // Create RelativeLayout and set basic params.
         RelativeLayout rLayoutDay = new RelativeLayout(this);
         rLayoutDay.setBackgroundColor(getResources().getColor(color));
-        rLayoutDay.setTop(screenHeight * ((numberOfDays - 1 - i) / numberOfDays));
+        rLayoutDay.setTop(screenHeight * ((numberOfDays - 1 - i) / numberInScreen));
         rLayoutDay.setId(rLayout[i]);
 
         // Create LayoutParams object to set more params.
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                (int) (screenWidth * (moodWidth)), screenHeight / numberOfDays);
+                (int) (screenWidth * (moodWidth)), screenHeight / numberInScreen);
 
         // Add the RelativeLayout created to the root view and apply params.
         LinearLayout history = historyView.findViewById(R.id.history_root);
-        // TODO : on test
-        history.setVerticalScrollBarEnabled(true);
-        history.canScrollVertically(50);
         history.addView(rLayoutDay, params);
 
         // If there's a comment for this mood, create image button to show comment
@@ -226,7 +222,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         ImageButton imageShareMood = new ImageButton(this);
         //imageShareMood.setBackgroundColor(getResources().getColor(R.color.colorTransparent));
         imageShareMood.setBackgroundColor(getResources().getColor(R.color.colorBackgroundShowComment));
-        imageShareMood.setImageResource(R.drawable.baseline_share_black_36);
+        imageShareMood.setImageResource(R.drawable.baseline_share_black_24);
         imageShareMood.setId(imageShare[i]);
 
         // Create RelativeLayout.LayoutParams object to set specific params.
@@ -304,8 +300,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
                       //      (ViewGroup) findViewById(R.id.fragment));
                     //ImageView imageView = getViewModelStore(View);
                     ImageView imageView = new ImageView(MoodHistoryActivity.this);
-                    //imageView.setImageResource(R.drawable.smiley_happy);
-                    //imageView.setBackgroundColor(getResources().getColor(R.color.colorHappy));
+                    imageView.setImageResource(R.drawable.smiley_happy);
+                    imageView.setBackgroundColor(getResources().getColor(R.color.colorHappy));
                     //Drawable drawable = imageView.getDrawable();
 
                     Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
@@ -313,10 +309,10 @@ public class MoodHistoryActivity extends AppCompatActivity {
                     File file =  new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
 
                     FileOutputStream out = null;
-                    Uri bmpUri = null;
+                    //Uri bmpUri = null;
                     try {
                         out = new FileOutputStream(file);
-                        bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+                        bmp.compress(Bitmap.CompressFormat.PNG, 10, out);//90
                         //bmp.setHeight(100);
                         //bmp.setWidth(100);
                         out.close();
