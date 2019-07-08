@@ -44,8 +44,8 @@ public class MoodFragment extends Fragment {
      */
     public void setMoodFragment(int color, int drawable) {
         moodFragment.findViewById(R.id.fragment).setBackgroundColor(getResources().getColor(color));
-        ImageView superHappy = moodFragment.findViewById(R.id.mood_image);
-        superHappy.setImageResource(drawable);
+        ImageView moodImage = moodFragment.findViewById(R.id.mood_image);
+        moodImage.setImageResource(drawable);
     }
 
     @Override
