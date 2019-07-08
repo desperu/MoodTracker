@@ -1,9 +1,13 @@
 package org.desperu.moodtracker;
 
 public final class MoodTools {
-    // TODO : to comment
+
+    /**
+     * Constant for simplify
+     */
     public static final class Constant {
 
+        // Number of moods
         public static final int numberOfPage = 4;
 
         // History
@@ -15,6 +19,17 @@ public final class MoodTools {
 
     }
 
-    // TODO : use this for key of sharedPreferences ??
-    public static final class Keys {}
+    /**
+     * Keys for SharedPreferences
+     */
+    public static final class Keys {
+        public static final String moodDayFile = "MoodDay";
+        public static final String currentMood = "CurrentMood";
+        public static final String currentDate = "CurrentDate";
+        public static final String currentComment = "CurrentComment";
+        public static final String moodHistoryFile = "MoodHistory";
+        public static final String moodHistory = "Mood";
+        public static final String dateHistory = "Date";
+        public static final String commentHistory = "Comment";
+    }
 }

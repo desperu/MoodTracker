@@ -53,9 +53,6 @@ public class MoodActivity extends AppCompatActivity implements View.OnTouchListe
         return true;
     }
 
-    public int getPosition() {
-        return position;
-    }
     /**
      * Create mood view with color and smiley given.
      * @param color Background color to show.
@@ -67,6 +64,7 @@ public class MoodActivity extends AppCompatActivity implements View.OnTouchListe
         superHappy.setImageResource(drawable);
     }
 
+    // TODO comment ??
     public View onCreateView(int position) {
 
         // Switch between color and smiley depending of given position.

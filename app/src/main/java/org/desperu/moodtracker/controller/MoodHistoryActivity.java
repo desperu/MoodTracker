@@ -32,7 +32,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static org.desperu.moodtracker.MoodTools.Constant.*;
-import static org.desperu.moodtracker.utils.MoodUtils.*;
+import static org.desperu.moodtracker.MoodTools.Keys.*;
 
 public class MoodHistoryActivity extends AppCompatActivity {
 

@@ -16,10 +16,7 @@ import org.desperu.moodtracker.utils.MoodUtils;
 import org.desperu.moodtracker.view.MoodAdapter;
 import org.desperu.moodtracker.view.VerticalViewPager;
 
-import static org.desperu.moodtracker.utils.MoodUtils.currentComment;
-import static org.desperu.moodtracker.utils.MoodUtils.currentDate;
-import static org.desperu.moodtracker.utils.MoodUtils.currentMood;
-import static org.desperu.moodtracker.utils.MoodUtils.moodDayFile;
+import static org.desperu.moodtracker.MoodTools.Keys.*;
 
 public class MainActivity extends AppCompatActivity {
 

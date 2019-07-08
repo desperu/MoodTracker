@@ -7,19 +7,10 @@ import java.util.Calendar;
 
 import static android.content.Context.MODE_PRIVATE;
 import static org.desperu.moodtracker.MoodTools.Constant.*;
+import static org.desperu.moodtracker.MoodTools.Keys.*;
 
 public class MoodUtils {
 
-    // TODO : put in constant or key??
-    // Prefs files and keys
-    public static final String moodDayFile = "MoodDay";
-    public static final String currentMood = "CurrentMood";
-    public static final String currentDate = "CurrentDate";
-    public static final String currentComment = "CurrentComment";
-    public static final String moodHistoryFile = "MoodHistory";
-    public static final String moodHistory = "Mood";
-    public static final String dateHistory = "Date";
-    public static final String commentHistory = "Comment";
     private SharedPreferences sharedPreferences;
 
     /**
