@@ -1,5 +1,6 @@
 package org.desperu.moodtracker.controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -7,8 +8,10 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -131,7 +134,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // Create TextView for mood age, and set params.
         TextView moodAgeText = new TextView(this);
         moodAgeText.setText(getMoodAgeText(i));
-        moodAgeText.setTextSize(16); // It use sp // TODO : use dp TypedValue.COMPLEX_UNIT_SP, 16
+        moodAgeText.setTextSize(16); // It use sp
         this.setChildView(moodAgeText, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.
                 WRAP_CONTENT, screenWidth / 100, screenWidth / 100, 0, 0, i);
     }
@@ -262,70 +265,82 @@ public class MoodHistoryActivity extends AppCompatActivity {
         public void onClick(View v) {
             for (int i = (numberOfDays - 1); i >= 0; i--) {
                 if (v.getId() == idShare[i]) { // Get history mood number from this listener is called.
-                    String moodDay;
-
-                    // Find the mood for this day.
-                    switch (mood[i]) {
-                        case 0: moodDay = getString(R.string.mood_day_super_happy); break;
-                        case 1: moodDay = getString(R.string.mood_day_happy); break;
-                        case 2: moodDay = getString(R.string.mood_day_normal); break;
-                        case 3: moodDay = getString(R.string.mood_day_disappointed); break;
-                        case 4: moodDay = getString(R.string.mood_day_sad); break;
-                        default: moodDay = " : ";
-                    }
+                    String moodDay = MoodHistoryActivity.this.moodText(MoodHistoryActivity.this, mood[i]);
 
                     // Send complete mood with intent.
-                    /*Intent share = new Intent(Intent.ACTION_SEND);
-                    share.setType("text/plain");
-                    share.putExtra(Intent.EXTRA_TEXT, getMoodAgeText(i) + moodDay +
-                            comment[i]);
-                    startActivity(Intent.createChooser(share, getString(R.string.share_title)));*/
-
-
-                    //ImageView imageView = (ImageView) MoodHistoryActivity.this.findViewById(R.id.imageShare1);
-                    View view = LayoutInflater.from(MoodHistoryActivity.this).inflate(R.layout.mood_fragment,
-                            (ViewGroup) findViewById(R.id.fragment));
-                    //Canvas canvas = new Canvas();
-                    //view.draw(canvas);
-                    //canvas.drawBitmap();
-                    //view.setId(View.generateViewId());
-                    //int viewId = view.getId();
-                    //ImageView imageView = getViewModelStore(View);
-                    ImageView imageView = new ImageView(MoodHistoryActivity.this);
-                    imageView.setImageResource(R.drawable.smiley_happy);
-                    imageView.setBackgroundColor(getResources().getColor(R.color.colorHappy));
-
-                    //imageView.setImageURI(Uri uri);
-                    imageView.setMaxWidth(200);
-                    imageView.setMaxHeight(250);// TODO on test
-                    Drawable drawable = imageView.getDrawable();
-
-                    Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-
-                    File file =  new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".png");
-
-                    FileOutputStream out = null;
-                    //Uri bmpUri = null;
-                    try {
-                        out = new FileOutputStream(file);
-                        bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-                        out.close();
-                        // TODO below
-                        // **Warning:** This will fail for API >= 24, use a FileProvider as shown below instead.
-
-                        //bmpUri = Uri.fromFile(file);
-                    } catch (FileNotFoundException e) { e.printStackTrace();
-                    } catch (IOException e) { e.printStackTrace(); }
-
-                    Intent share = new Intent();
-                    share.setAction(Intent.ACTION_SEND);
-                    share.putExtra(Intent.EXTRA_TEXT, getMoodAgeText(i) + moodDay + comment[i]);
-                    share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-                    share.setType("image/*");
-                    share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    //Intent share = new Intent(Intent.ACTION_SEND);
+                    //share.setType("text/plain");
+                    //share.putExtra(Intent.EXTRA_TEXT, getMoodAgeText(i) + moodDay + comment[i]);
+                    Intent share = MoodHistoryActivity.this.prepareShareIntent(MoodHistoryActivity.this,
+                            getMoodAgeText(i) + moodDay + comment[i]);
                     startActivity(Intent.createChooser(share, getString(R.string.share_title)));
+
+
                 }
             }
         }
     };
+
+    public String moodText(Context context, int position) { // TODO for color and smiley
+        String moodDay;
+        // Find the mood for this day.
+        switch (position) {
+            case 0: moodDay = context.getString(R.string.mood_day_super_happy); break;
+            case 1: moodDay = context.getString(R.string.mood_day_happy); break;
+            case 2: moodDay = context.getString(R.string.mood_day_normal); break;
+            case 3: moodDay = context.getString(R.string.mood_day_disappointed); break;
+            case 4: moodDay = context.getString(R.string.mood_day_sad); break;
+            default: moodDay = " : ";
+        }
+        return  moodDay;
+    }
+
+    public Intent prepareShareIntent (Context context, String shareText) {
+        /*View view = LayoutInflater.from(context).inflate(R.layout.mood_fragment, null);
+                //(ViewGroup) findViewById(R.id.fragment));
+        view.setDrawingCacheEnabled(true);
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+
+        view.buildDrawingCache(true);
+        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
+        view.setDrawingCacheEnabled(false);
+
+        ImageView imageView = new ImageView(context);
+        imageView.setImageResource(R.drawable.smiley_happy);
+
+        //imageView.setImageURI(Uri uri);
+        imageView.setMaxWidth(200);
+        imageView.setMaxHeight(250);// TODO on test
+        Drawable drawable = imageView.getDrawable();
+
+        Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+
+        File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".jpeg");
+
+        FileOutputStream out = null;
+        Uri bmpUri = null;
+        try {
+            out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.close();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+                bmpUri = FileProvider.getUriForFile(context, "com.codepath.fileprovider", file);
+            else bmpUri = Uri.fromFile(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+
+        Intent share = new Intent();
+        share.setAction(Intent.ACTION_SEND);
+        share.putExtra(Intent.EXTRA_TEXT, shareText);
+        share.setType("text/plain");
+        /*share.putExtra(Intent.EXTRA_STREAM, bmpUri);
+        share.setType("image/*");
+        share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);*/
+        return share;
+    }
 }

@@ -17,6 +17,9 @@
     <string name="toast_date_always_wrong">The date is always wrong, correct it!!</string>
     <string name="toast_all_mood_delete">All moods are delete!</string>
 
+    <!-- share current mood -->
+    <string name="share_today">Today</string>
+
 
     <!-- activity_main.xml -->
     <string name="content_description_comment">button comment</string>

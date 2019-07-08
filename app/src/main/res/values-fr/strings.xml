@@ -18,6 +18,8 @@
     <string name="toast_date_always_wrong">The date is always wrong, correct it!!</string>
     <string name="toast_all_mood_delete">All moods are delete!</string>
 
+    <!-- share current mood -->
+    <string name="share_today">"Aujourd'hui"</string>
 
     <!-- activity_main.xml -->
     <string name="content_description_comment">boutton commentaire</string>
@@ -34,19 +36,19 @@
     <!-- MoodHistoryActivity -->
     <string name="activity_mood_history">MoodTracker Historique</string>
 
-    <string name="no_mood">"No Mood saved!!"</string>
-    <string name="content_description_show_comment">Show Comment</string>
-    <string name="content_description_share">Share</string>
-    <string name="text_yesterday">Yesterday</string>
+    <string name="no_mood">"Pas d'humeur enregistrée!!"</string>
+    <string name="content_description_show_comment">Voir le commentaire</string>
+    <string name="content_description_share">Partager</string>
+    <string name="text_yesterday">Hier</string>
     <string name="text_day">"Il y a %1$d Jour"</string>
     <string name="text_week">"Il y a %1$d Semaine(s)"</string>
     <string name="text_month">"Il y a %1$d Mois(s)"</string>
     <string name="text_year">"Il y a %1$d Année(s)"</string>
-    <string name="text_problem">"There's a problem with the date!"</string>
-    <string name="mood_day_super_happy">", i was :D because : "</string>
-    <string name="mood_day_happy">", i was :) because : "</string>
-    <string name="mood_day_normal">", i was :| because : "</string>
-    <string name="mood_day_disappointed">", i was :/ because : "</string>
-    <string name="mood_day_sad">", i was :( because : "</string>
-    <string name="share_title">Share Your Mood</string>
+    <string name="text_problem">"Il y a un problème avec la date!"</string>
+    <string name="mood_day_super_happy">", j'étais super heureux :D parce que : "</string>
+    <string name="mood_day_happy">", j'étais heureux :) parce que : "</string>
+    <string name="mood_day_normal">", j'étais normal :| parce que : "</string>
+    <string name="mood_day_disappointed">", j'étais désappointé :/ parce que : "</string>
+    <string name="mood_day_sad">", j'étais triste :( parce que : "</string>
+    <string name="share_title">Partagez votre humeur</string>
 </resources>

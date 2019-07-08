@@ -4,8 +4,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -171,5 +175,32 @@ public class MainActivity extends AppCompatActivity {
             // When leave activity, and if date isn't wrong, save selected mood, date and comment.
             moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment); // TODO : change for ME
         super.onPause();
+    }
+
+    private ShareActionProvider miShareAction;
+
+    // Attaches the share intent to the share menu item provider
+    public void attachShareIntentAction() {
+        MoodHistoryActivity share = new MoodHistoryActivity();
+        String text = getString(R.string.share_today) + share.moodText(this, mPager.getCurrentItem()) + comment;
+        Intent shareIntent = share.prepareShareIntent(this, text);
+        if (miShareAction != null && shareIntent != null)
+            miShareAction.setShareIntent(shareIntent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate menu resource file.
+        getMenuInflater().inflate(R.menu.share, menu);
+
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+
+        // Fetch reference to the share action provider
+        miShareAction = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        attachShareIntentAction(); // call here in case this method fires second
+
+        // Return true to display menu
+        return true;
     }
 }
