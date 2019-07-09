@@ -44,6 +44,8 @@ public final class MoodTools {
      */
     public static final class ScreenConstant {
 
+        // All constant here is used to made percent of get screen size, with * or / .
+
         // To correct little difference with get screen size.
         public static final double correctPortrait = 1.004;
         public static final double correctLandscape = 1.006;
@@ -61,7 +63,8 @@ public final class MoodTools {
 
         // For image button.
         public static final int imageWidth = 10;//8;
-        public static final double imageLeftMargin = 0.125;
+        public static final double imageLeftMarginPortrait = 0.125;
+        public static final double imageLeftMarginLandscape = imageLeftMarginPortrait / 2;
 
         // For toast to show comment.
         public static final int toastMargin = 50;

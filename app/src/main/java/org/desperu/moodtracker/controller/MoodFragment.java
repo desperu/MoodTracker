@@ -14,7 +14,7 @@ public class MoodFragment extends Fragment {
 
     View moodFragment = null;
     private static final String ARG_PARAM1 = "param1";
-    private int layoutId;
+    private int moodNum;
 
     public MoodFragment() {
         // Required empty public constructor
@@ -33,7 +33,7 @@ public class MoodFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            layoutId = getArguments().getInt(ARG_PARAM1);
+            moodNum = getArguments().getInt(ARG_PARAM1);
         }
     }
 
@@ -54,7 +54,7 @@ public class MoodFragment extends Fragment {
         moodFragment = inflater.inflate(R.layout.mood_fragment, container, false);
 
         // Switch between color and smiley depending of given position.
-        switch (layoutId) { // TODO : use color.xml, and model MVC, comment the code to explain
+        switch (moodNum) {
             case 0: this.setMoodFragment(R.color.colorSuperHappy, R.drawable.smiley_super_happy); break;
             case 1: this.setMoodFragment(R.color.colorHappy, R.drawable.smiley_happy); break;
             case 2: this.setMoodFragment(R.color.colorNormal, R.drawable.smiley_normal); break;

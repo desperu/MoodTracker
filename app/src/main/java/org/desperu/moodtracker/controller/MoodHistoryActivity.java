@@ -31,6 +31,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     MoodUtils moodUtils = new MoodUtils();
     private int screenWidth;
     private int screenHeight;
+    private boolean landscape = false;
     private int[] mood = new int[numberOfDays];
     private long[] date = new long[numberOfDays];
     private String[] comment = new String[numberOfDays];
@@ -111,6 +112,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // If there's a comment for this mood, create image button to show comment
         // and another to share mood.
         if (comment[i] != null && comment[i].length() > 0) {
+            double imageLeftMargin = imageLeftMarginPortrait;
+            if (landscape) imageLeftMargin = imageLeftMarginLandscape;
             this.setCommentAndShareImages(i, (int) (screenWidth * (moodWidth - imageLeftMargin)),
                     R.drawable.ic_comment_black_48px, showCommentListener, idShow);
             this.setCommentAndShareImages(i, (int) (screenWidth * (moodWidth - imageLeftMargin * 2)),
@@ -145,10 +148,11 @@ public class MoodHistoryActivity extends AppCompatActivity {
         //Get full screen size with DisplayMetrics, minus statusBarHeight and actionBarHeight.
         DisplayMetrics displayMetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        // Get screen orientation.
+        if (this.getResources().getConfiguration().orientation == 2) landscape = true; // Landscape screen
         // To correct little screen size difference.
         double correct = correctPortrait;
-        if (this.getResources().getConfiguration().orientation == 2) // Landscape screen
-            correct = correctLandscape;
+        if (landscape) correct = correctLandscape;
         screenWidth = displayMetrics.widthPixels;
         screenHeight = (int) ((displayMetrics.heightPixels - statusBarHeight- actionBarHeight ) *
                 correct);
@@ -271,6 +275,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         }
     };
 
+    // TODO : create intent class!!!!!!!!
     public String moodText(Context context, int position, int time) { // TODO for color and smiley
         String moodDay;
         String presentOrPast = "";
