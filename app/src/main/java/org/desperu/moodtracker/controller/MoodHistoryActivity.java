@@ -87,7 +87,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                     break;
                 case 1: this.setHistoryView(i, R.color.colorHappy, 0.825);
                     break;
-                case 2: this.setHistoryView(i, R.color.colorNormal, 0.65);
+                case 2: this.setHistoryView(i, R.color.colorNormal, 0.65); // TODO all in constant
                     break;
                 case 3: this.setHistoryView(i, R.color.colorDisappointed, 0.475);
                     break;
@@ -127,7 +127,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // and another to share mood.
         if (comment[i] != null && comment[i].length() > 0) {
             this.setCommentAndShareImages(i, (int) (screenWidth * (moodWidth - 0.125)),
-                    R.drawable.ic_comment_black_48px, showCommentListener, idShow);
+                    R.drawable.ic_comment_black_48px, showCommentListener, idShow);// TODO constant
             this.setCommentAndShareImages(i, (int) (screenWidth * (moodWidth - 0.25)),
                     R.drawable.baseline_share_black_24, shareListener, idShare);
         }
@@ -137,7 +137,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         moodAgeText.setTextSize(16); // It use sp
         this.setChildView(moodAgeText, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.
                 WRAP_CONTENT, screenWidth / 100, screenWidth / 100, 0, 0, i);
-    }
+    } // TODO constant
 
     /**
      * Get real usable screen size for the view, Width and Height.
@@ -201,8 +201,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
         imageButton.setId(View.generateViewId());
         idTab[i] = imageButton.getId();
         if (mood[i] == 4) top = screenHeight / (numberInScreen * 4); // TODO for sad + margin bottom
-        this.setChildView(imageButton, screenWidth / 8,
-                ViewGroup.LayoutParams.MATCH_PARENT, left, top, 0, 0, i);
+        this.setChildView(imageButton, screenWidth / 8, ViewGroup.LayoutParams.MATCH_PARENT,
+                left, top, 0, 0, i);
     }
 
     /**
@@ -265,7 +265,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
         public void onClick(View v) {
             for (int i = (numberOfDays - 1); i >= 0; i--) {
                 if (v.getId() == idShare[i]) { // Get history mood number from this listener is called.
-                    String moodDay = MoodHistoryActivity.this.moodText(MoodHistoryActivity.this, mood[i]);
+                    String moodDay = MoodHistoryActivity.this.moodText(MoodHistoryActivity.this,
+                            mood[i], -1);
 
                     // Send complete mood with intent.
                     //Intent share = new Intent(Intent.ACTION_SEND);
@@ -281,15 +282,18 @@ public class MoodHistoryActivity extends AppCompatActivity {
         }
     };
 
-    public String moodText(Context context, int position) { // TODO for color and smiley
+    public String moodText(Context context, int position, int time) { // TODO for color and smiley
         String moodDay;
+        String presentOrPast = "";
+        if (time == -1) presentOrPast = context.getString(R.string.past);
+        else if (time == 0) presentOrPast = context.getString(R.string.present);
         // Find the mood for this day.
         switch (position) {
-            case 0: moodDay = context.getString(R.string.mood_day_super_happy); break;
-            case 1: moodDay = context.getString(R.string.mood_day_happy); break;
-            case 2: moodDay = context.getString(R.string.mood_day_normal); break;
-            case 3: moodDay = context.getString(R.string.mood_day_disappointed); break;
-            case 4: moodDay = context.getString(R.string.mood_day_sad); break;
+            case 0: moodDay = context.getResources().getString(R.string.mood_day_super_happy, presentOrPast); break;
+            case 1: moodDay = context.getResources().getString(R.string.mood_day_happy, presentOrPast); break;
+            case 2: moodDay = context.getResources().getString(R.string.mood_day_normal, presentOrPast); break;
+            case 3: moodDay = context.getResources().getString(R.string.mood_day_disappointed, presentOrPast); break;
+            case 4: moodDay = context.getResources().getString(R.string.mood_day_sad, presentOrPast); break;
             default: moodDay = " : ";
         }
         return  moodDay;

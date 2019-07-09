@@ -22,7 +22,7 @@ public class MoodUtils {
         sharedPreferences = context.getSharedPreferences(moodDayFile, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(currentMood, moodNum);
-        editor.putLong(currentDate, getTime());
+        editor.putLong(currentDate, System.currentTimeMillis());
         editor.putString(currentComment, comment);
         editor.apply();
     }
@@ -59,12 +59,6 @@ public class MoodUtils {
     }
 
     /**
-     * Get the current time in milliseconds since 01/01/1970.
-     * @return Time in millis.
-     */
-    private long getTime() { return System.currentTimeMillis(); } // TODO : useless?
-
-    /**
      * Compare given time with current time.
      * @param givenTime Given time to compare, in milliseconds.
      * @return Difference between current time and given time, format YYYYMMDD.
@@ -93,7 +87,7 @@ public class MoodUtils {
         givenDate += givenCalendar.get(Calendar.MINUTE);
 
         Calendar currentCalendar = Calendar.getInstance();
-        currentCalendar.setTimeInMillis(getTime());
+        currentCalendar.setTimeInMillis(System.currentTimeMillis());
         int currentDate = currentCalendar.get(Calendar.DAY_OF_MONTH) * 10000;
         currentDate += currentCalendar.get(Calendar.HOUR_OF_DAY) * 100;
         currentDate += currentCalendar.get(Calendar.MINUTE);

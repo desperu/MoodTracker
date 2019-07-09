@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import org.desperu.moodtracker.R;
 
+import static org.desperu.moodtracker.MoodTools.Constant.*;
+
 public class MoodActivity extends AppCompatActivity implements View.OnTouchListener{
 
     View moodView = null;
@@ -30,18 +32,19 @@ public class MoodActivity extends AppCompatActivity implements View.OnTouchListe
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        int minSlide = 150; // TODO :use constant
+        // Get XY values at start and end touch screen, to detect slide.
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 dy = event.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
+                // Get size and direction of touch screen.
                 float y = event.getRawY() - dy;
-                if (y < -minSlide && position > 0) {
+                if (y < -minSlide && position > 0) { // Slide to bottom.
                     position -= 1;
                     setContentView(onCreateView(position));
                     Toast.makeText(this, "onTouch minus" + position, Toast.LENGTH_SHORT).show();
-                } else if (y > minSlide && position < 4) { // TODO : use constant for add mood (hungry)
+                } else if (y > minSlide && position < numberOfPage) { // Slide to top.
                     position += 1;
                     setContentView(onCreateView(position));
                     Toast.makeText(this, "onTouch plus" + position, Toast.LENGTH_SHORT).show();
@@ -50,11 +53,12 @@ public class MoodActivity extends AppCompatActivity implements View.OnTouchListe
             default:
                 return false;
         }
+        // True if the listener has consumed the event.
         return true;
     }
 
     /**
-     * Create mood view with color and smiley given.
+     * Set mood view with color and smiley given.
      * @param color Background color to show.
      * @param drawable Smiley to show.
      */
@@ -64,10 +68,12 @@ public class MoodActivity extends AppCompatActivity implements View.OnTouchListe
         superHappy.setImageResource(drawable);
     }
 
-    // TODO comment ??
+    /**
+     * Switch between color and smiley depending of given position.
+     * @param position Mood number to select corresponding elements.
+     * @return The view created.
+     */
     public View onCreateView(int position) {
-
-        // Switch between color and smiley depending of given position.
         switch (position) {
             case 0: this.setMoodFragment(R.color.colorSuperHappy, R.drawable.smiley_super_happy); break;
             case 1: this.setMoodFragment(R.color.colorHappy, R.drawable.smiley_happy); break;

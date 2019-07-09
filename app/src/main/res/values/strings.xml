@@ -11,7 +11,7 @@
 
     <!-- wrong_date_dialog -->
     <string name="title_wrong_date">Wrong Date</string>
-    <string name="message_wrong_date">"The Date is lower than the last saved, correct it on your device and then press OK. Or, if you want, you can delete all moods and comments saved, so press Delete."</string>
+    <string name="message_wrong_date">"The Date is lower than the last saved, correct it on your device and then press "OK". Or, if you want, you can delete all moods and comments saved, so press "Delete"."</string>
     <string name="button_valid_date">OK</string>
     <string name="button_delete_mood">Delete</string>
     <string name="toast_date_always_wrong">The date is always wrong, correct it!!</string>
@@ -45,11 +45,13 @@
     <string name="text_month">%1$d Month(s) ago</string>
     <string name="text_year">%1$d Year(s) ago</string>
     <string name="text_problem">"There's a problem with the date!"</string>
-    <string name="mood_day_super_happy">", i was super happy :D because : "</string>
-    <string name="mood_day_happy">", i was happy :) because : "</string>
-    <string name="mood_day_normal">", i was normal :| because : "</string>
-    <string name="mood_day_disappointed">", i was disappointed :/ because : "</string>
-    <string name="mood_day_sad">", i was sad :( because : "</string>
+    <string name="present">"i'm"</string>
+    <string name="past">i was</string>
+    <string name="mood_day_super_happy">", %1$s super happy :D because : "</string>
+    <string name="mood_day_happy">", %1$s happy :) because : "</string>
+    <string name="mood_day_normal">", %1$s normal :| because : "</string>
+    <string name="mood_day_disappointed">", %1$s disappointed :/ because : "</string>
+    <string name="mood_day_sad">", %1$s sad :( because : "</string>
     <string name="share_title">Share Your Mood</string>
 
 </resources>

@@ -12,11 +12,11 @@
 
     <!-- wrong_date_dialog -->
     <string name="title_wrong_date">Erreur de Date</string>
-    <string name="message_wrong_date">"The Date is lower than the last saved, correct it on your device and then press OK. Or, if you want, you can delete all moods and comments saved, so press Delete."</string>
+    <string name="message_wrong_date">"La date est antérieur à la dernière enregistrée, corrigez la sur votre périphérique puis appuyez sur "OK". Sinon, si vous le souhaitez, vous pouvez supprimer toutes les humeurs et commentaires sauvergardés, en appuyant sur "Supprimer"."</string>
     <string name="button_valid_date">OK</string>
     <string name="button_delete_mood">Supprimer</string>
-    <string name="toast_date_always_wrong">The date is always wrong, correct it!!</string>
-    <string name="toast_all_mood_delete">All moods are delete!</string>
+    <string name="toast_date_always_wrong">La date est toujours mauvaise, corrigez la!!</string>
+    <string name="toast_all_mood_delete">Toutes les humeurs sont supprimées!</string>
 
     <!-- share current mood -->
     <string name="share_today">"Aujourd'hui"</string>
@@ -31,7 +31,7 @@
 
 
     <!-- MoodUtils -->
-    <string name="toast_new_day">"Hi! What's your mood today??"</string>
+    <string name="toast_new_day">"Bonjour! Quel est votre humeur aujourd'hui??"</string>
 
     <!-- MoodHistoryActivity -->
     <string name="activity_mood_history">MoodTracker Historique</string>
@@ -45,10 +45,12 @@
     <string name="text_month">"Il y a %1$d Mois(s)"</string>
     <string name="text_year">"Il y a %1$d Année(s)"</string>
     <string name="text_problem">"Il y a un problème avec la date!"</string>
-    <string name="mood_day_super_happy">", j'étais super heureux :D parce que : "</string>
-    <string name="mood_day_happy">", j'étais heureux :) parce que : "</string>
-    <string name="mood_day_normal">", j'étais normal :| parce que : "</string>
-    <string name="mood_day_disappointed">", j'étais désappointé :/ parce que : "</string>
-    <string name="mood_day_sad">", j'étais triste :( parce que : "</string>
+    <string name="present">je suis</string>
+    <string name="past">"j'étais"</string>
+    <string name="mood_day_super_happy">", %1$s super heureux :D parce que : "</string>
+    <string name="mood_day_happy">", %1$s heureux :) parce que : "</string>
+    <string name="mood_day_normal">", %1$s normal :| parce que : "</string>
+    <string name="mood_day_disappointed">", %1$s désappointé :/ parce que : "</string>
+    <string name="mood_day_sad">", %1$s triste :( parce que : "</string>
     <string name="share_title">Partagez votre humeur</string>
 </resources>

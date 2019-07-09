@@ -1,12 +1,15 @@
 package org.desperu.moodtracker.controller;
 
 import android.app.AlertDialog;
+import android.app.SharedElementCallback;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -177,12 +180,12 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private ShareActionProvider miShareAction;
+    private ShareActionProvider miShareAction; // TODO to up of page.
 
-    // Attaches the share intent to the share menu item provider
+    // Attaches the share intent to the share menu item provider.
     public void attachShareIntentAction() {
         MoodHistoryActivity share = new MoodHistoryActivity();
-        String text = getString(R.string.share_today) + share.moodText(this, mPager.getCurrentItem()) + comment;
+        String text = getString(R.string.share_today) + share.moodText(this, mPager.getCurrentItem(), 0) + comment;
         Intent shareIntent = share.prepareShareIntent(this, text);
         if (miShareAction != null && shareIntent != null)
             miShareAction.setShareIntent(shareIntent);
@@ -193,14 +196,39 @@ public class MainActivity extends AppCompatActivity {
         // Inflate menu resource file.
         getMenuInflater().inflate(R.menu.share, menu);
 
-        // Locate MenuItem with ShareActionProvider
+        // Locate MenuItem with ShareActionProvider.
         MenuItem item = menu.findItem(R.id.menu_item_share);
 
-        // Fetch reference to the share action provider
+        // Fetch reference to the share action provider.
         miShareAction = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        attachShareIntentAction(); // call here in case this method fires second
+        attachShareIntentAction(); // call here in case this method fires second.
 
-        // Return true to display menu
+        // Return true to display menu.
         return true;
     }
+
+    /*@Nullable
+    @Override
+    public ActionMode onWindowStartingActionMode(ActionMode.Callback callback, int type) {
+        attachShareIntentAction(); // call here to refresh intent data.
+        return super.onWindowStartingActionMode(callback, type);
+    }*/
+
+    @Override
+    public void onUserInteraction() {
+        attachShareIntentAction(); // call here to refresh intent data.
+        super.onUserInteraction();
+    }
+
+    /*@Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        attachShareIntentAction(); // call here to refresh intent data.
+        return super.onMenuOpened(featureId, menu);
+    }
+
+    @Override
+    public void openOptionsMenu() {
+        attachShareIntentAction(); // call here to refresh intent data.
+        super.openOptionsMenu();
+    }*/
 }
