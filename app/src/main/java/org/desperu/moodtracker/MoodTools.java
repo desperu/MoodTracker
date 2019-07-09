@@ -38,4 +38,34 @@ public final class MoodTools {
         public static final String dateHistory = "Date";
         public static final String commentHistory = "Comment";
     }
+
+    /**
+     * Constant to construct history view.
+     */
+    public static final class ScreenConstant {
+
+        // To correct little difference with get screen size.
+        public static final double correctPortrait = 1.004;
+        public static final double correctLandscape = 1.006;
+
+        // Vertical size for each mood.
+        public static final double sHappyWidth = 1;
+        public static final double happyWidth = 0.825;
+        public static final double normalWidth = 0.65;
+        public static final double disappointedWidth = 0.475;
+        public static final double sadWidth = 0.3;
+        public static final double noMoodWidth = 1;
+
+        // For text mood age.
+        public static final int textMargin = 100;
+
+        // For image button.
+        public static final int imageWidth = 10;//8;
+        public static final double imageLeftMargin = 0.125;
+
+        // For toast to show comment.
+        public static final int toastMargin = 50;
+        public static final int toastPadding = 50;
+        public static final int toastMinWidth = 20;
+    }
 }
