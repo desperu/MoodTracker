@@ -50,7 +50,7 @@
     <string name="present">" i'm "</string>
     <string name="past">" i was "</string>
     <string name="with_comment">" because : "</string>
-    <string name="without_comment">.</string>
+    <string name="without_comment">" ."</string>
     <string name="mood_day_super_happy">", %1$s super happy :D"</string>
     <string name="mood_day_happy">", %1$s happy :)"</string>
     <string name="mood_day_normal">", %1$s normal :|"</string>

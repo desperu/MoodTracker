@@ -20,7 +20,6 @@ public class MoodFragment extends Fragment {
         // Required empty public constructor
     }
 
-    // TODO : to comment??
     public static MoodFragment newInstance(int position) {
         MoodFragment fragment = new MoodFragment();
         Bundle args = new Bundle();
@@ -38,7 +37,7 @@ public class MoodFragment extends Fragment {
     }
 
     /**
-     * Create mood fragment view with color and smiley given.
+     * Set mood fragment view with color and smiley given.
      * @param color Background color to show.
      * @param drawable Smiley to show.
      */

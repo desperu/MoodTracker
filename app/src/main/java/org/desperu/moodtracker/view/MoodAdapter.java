@@ -16,7 +16,5 @@ public class MoodAdapter extends FragmentPagerAdapter {
     public int getCount() { return numberOfPage; }
 
     @Override
-    public Fragment getItem(int position) {
-        return MoodFragment.newInstance(position);
-    }
+    public Fragment getItem(int position) { return MoodFragment.newInstance(position); }
 }

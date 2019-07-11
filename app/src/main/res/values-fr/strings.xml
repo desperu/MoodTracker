@@ -50,7 +50,7 @@
     <string name="present">" je suis "</string>
     <string name="past">" j'étais "</string>
     <string name="with_comment">" car : "</string>
-    <string name="without_comment">.</string>
+    <string name="without_comment">" ."</string>
     <string name="mood_day_super_happy">", %1$s super heureux :D"</string>
     <string name="mood_day_happy">", %1$s heureux :)"</string>
     <string name="mood_day_normal">", %1$s normal :|"</string>

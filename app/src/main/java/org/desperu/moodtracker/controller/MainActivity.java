@@ -175,10 +175,10 @@ public class MainActivity extends AppCompatActivity {
         if (comment != null && comment.length() > 0)
             shareComment = getString(R.string.with_comment) + comment;
         // Set share text for the intent.
-        String text = getString(R.string.share_today) + moodUtils.moodShareText(this,
+        String shareText = getString(R.string.share_today) + moodUtils.moodShareText(this,
                 mPager.getCurrentItem(), 0) + shareComment; // TODO : change for ME
         // Create intent with share text, and set in ShareActionProvider.
-        Intent shareIntent = moodUtils.prepareShareIntent(text);
+        Intent shareIntent = moodUtils.prepareShareIntent(shareText);
         if (miShareAction != null && shareIntent != null)
             miShareAction.setShareIntent(shareIntent);
     }
