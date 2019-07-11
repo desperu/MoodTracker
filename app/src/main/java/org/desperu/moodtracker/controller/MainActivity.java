@@ -4,46 +4,98 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.desperu.moodtracker.R;
 import org.desperu.moodtracker.utils.MoodUtils;
-import org.desperu.moodtracker.view.MoodAdapter;
-import org.desperu.moodtracker.view.VerticalViewPager;
 
+import static org.desperu.moodtracker.MoodTools.Constant.*;
 import static org.desperu.moodtracker.MoodTools.Keys.*;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
-    MoodAdapter mAdapter;
-    VerticalViewPager mPager;
+    View moodView = null;
     MoodUtils moodUtils = new MoodUtils();
     private ShareActionProvider miShareAction;
 
+    private int position = 1;
+    private float dy;
     private String comment;
     private boolean goodDate = true;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        moodView = LayoutInflater.from(this).inflate(R.layout.activity_main,
+                (ViewGroup) findViewById(R.id.root_view));
+        setContentView(moodView);
+        moodView.setOnTouchListener(this);
+    }
 
-        mAdapter = new MoodAdapter(getSupportFragmentManager());
-        mPager = findViewById(R.id.view_pager);
-        mPager.setAdapter(mAdapter);
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        // Get XY values at start and end touch screen, to detect slide.
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                dy = event.getRawY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                // Get size and direction of touch screen.
+                float y = event.getRawY() - dy;
+                if (y < -minSlide && position > 0) { // Slide to bottom.
+                    position -= 1;
+                    setContentView(onCreateView(position));
+                } else if (y > minSlide && position < (numberOfPage - 1)) { // Slide to top.
+                    position += 1;
+                    setContentView(onCreateView(position));
+                }
+                break;
+            default:
+                return false;
+        }
+        // True if the listener has consumed the event.
+        return true;
+    }
 
-        /*setContentView(R.layout.mood_view);
-        Intent i = new Intent(MainActivity.this, MoodActivity.class);
-        startActivity(i);*/
+    // TODO : in a MoodAdapter or View?
+    /**
+     * Set mood view with color and smiley given.
+     * @param color Background color to show.
+     * @param drawable Smiley to show.
+     */
+    public void setMoodView(int color, int drawable) {
+        moodView.findViewById(R.id.root_view).setBackgroundColor(getResources().getColor(color));
+        ImageView superHappy = moodView.findViewById(R.id.mood_image);
+        superHappy.setImageResource(drawable);
+    }
+
+    /**
+     * Switch between color and smiley depending of given position.
+     * @param position Mood number to select corresponding elements.
+     * @return The view created.
+     */
+    public View onCreateView(int position) {
+        switch (position) {
+            case 0: this.setMoodView(R.color.colorSuperHappy, R.drawable.smiley_super_happy); break;
+            case 1: this.setMoodView(R.color.colorHappy, R.drawable.smiley_happy); break;
+            case 2: this.setMoodView(R.color.colorNormal, R.drawable.smiley_normal); break;
+            case 3: this.setMoodView(R.color.colorDisappointed, R.drawable.smiley_disappointed); break;
+            case 4: this.setMoodView(R.color.colorSad, R.drawable.smiley_sad); break;
+            default: this.setMoodView(R.color.colorHappy, R.drawable.smiley_happy);
+        }
+        return moodView;
     }
 
     /**
@@ -147,12 +199,12 @@ public class MainActivity extends AppCompatActivity {
             // If current date is upper, save last mood. Or on first run.
             moodUtils.manageHistory(this);
             comment = "";
-            mPager.setCurrentItem(1); // TODO : change for ME
+            position = 1; // TODO : change for ME
             Toast.makeText(this, R.string.toast_new_day, Toast.LENGTH_SHORT).show();
         } else { // So checkDate = 0.
             // If current date is the same, show current mood and get current comment.
             int lastMood = moodUtils.getIntPrefs(this, moodDayFile, currentMood);
-            if (lastMood > -1) mPager.setCurrentItem(lastMood); // TODO : change for ME
+            if (lastMood > -1) position = lastMood; // TODO : change for ME
             comment = moodUtils.getStringPrefs(this, moodDayFile, currentComment);
         }
         super.onResume();
@@ -162,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         if (goodDate)
             // When leave activity, and if date isn't wrong, save selected mood, date and comment.
-            moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment); // TODO : change for ME
+            moodUtils.saveCurrentMood(this, position, comment); // TODO : change for ME
         super.onPause();
     }
 
@@ -176,7 +228,7 @@ public class MainActivity extends AppCompatActivity {
             shareComment = getString(R.string.with_comment) + comment;
         // Set share text for the intent.
         String shareText = getString(R.string.share_today) + moodUtils.moodShareText(this,
-                mPager.getCurrentItem(), 0) + shareComment; // TODO : change for ME
+                position, 0) + shareComment; // TODO : change for ME
         // Create intent with share text, and set in ShareActionProvider.
         Intent shareIntent = moodUtils.prepareShareIntent(shareText);
         if (miShareAction != null && shareIntent != null)

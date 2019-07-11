@@ -16,7 +16,7 @@ public final class MoodTools {
         public static final int numberOfPage = 5;
 
         // Minimum size for a slide.
-        public static final int minSlide = 150;
+        public static final int minSlide = 200;
 
         // MoodHistoryActivity
         // To set history day number in screen, so the size of each.
