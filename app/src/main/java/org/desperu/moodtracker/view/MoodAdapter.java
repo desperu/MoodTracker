@@ -6,14 +6,14 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import org.desperu.moodtracker.controller.MoodFragment;
 
-public class MoodAdapter extends FragmentPagerAdapter {
+import static org.desperu.moodtracker.MoodTools.Constant.numberOfPage;
 
-    private static final int NUMBER_OF_PAGES = 5;
+public class MoodAdapter extends FragmentPagerAdapter {
 
     public MoodAdapter(FragmentManager fm) { super(fm); }
 
     @Override
-    public int getCount() { return NUMBER_OF_PAGES; }
+    public int getCount() { return numberOfPage; }
 
     @Override
     public Fragment getItem(int position) {

@@ -1,7 +1,10 @@
 package org.desperu.moodtracker.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+
+import org.desperu.moodtracker.R;
 
 import java.util.Calendar;
 
@@ -159,5 +162,40 @@ public class MoodUtils {
                 editorHistory.putString(commentHistory + i, comment).apply();
             }
         }
+    }
+
+    /**
+     * Set text for intent with given mood number, to construct share text.
+     * @param context  The base context from this method is called.
+     * @param position Mood number.
+     * @param time If it's to share current mood (present), or history mood (past).
+     * @return Text for given mood number.
+     */
+    public String moodShareText(Context context, int position, int time) {
+        String presentOrPast = "";
+        if (time == -1) presentOrPast = context.getString(R.string.past);
+        else if (time == 0) presentOrPast = context.getString(R.string.present);
+        // Find the mood for this day, and return correspond text.
+        switch (position) {
+            case 0: return context.getResources().getString(R.string.mood_day_super_happy, presentOrPast);
+            case 1: return context.getResources().getString(R.string.mood_day_happy, presentOrPast);
+            case 2: return context.getResources().getString(R.string.mood_day_normal, presentOrPast);
+            case 3: return context.getResources().getString(R.string.mood_day_disappointed, presentOrPast);
+            case 4: return context.getResources().getString(R.string.mood_day_sad, presentOrPast);
+            default: return " : ";
+        }
+    }
+
+    /**
+     * Prepare intent to share mood.
+     * @param shareText The given text for the intent, to share mood.
+     * @return Intent object for share it.
+     */
+    public Intent prepareShareIntent (String shareText) {
+        Intent share = new Intent();
+        share.setAction(Intent.ACTION_SEND);
+        share.putExtra(Intent.EXTRA_TEXT, shareText);
+        share.setType("text/plain");
+        return share;
     }
 }

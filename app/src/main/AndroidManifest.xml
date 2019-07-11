@@ -17,8 +17,8 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".controller.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.ACTION_SEND" />
+                <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -31,16 +31,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".controller.MoodActivity" />
-        <!-- TODO : on test -->
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.codepath.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/fileprovider" />
-        </provider>
     </application>
 
 </manifest>

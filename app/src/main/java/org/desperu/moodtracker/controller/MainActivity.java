@@ -170,12 +170,15 @@ public class MainActivity extends AppCompatActivity {
      * Attaches the share intent to the share menu item provider.
      */
     public void attachShareIntentAction() {
-        MoodHistoryActivity share = new MoodHistoryActivity();
+        // Get comment if there's one.
         String shareComment = getString(R.string.without_comment);
         if (comment != null && comment.length() > 0)
             shareComment = getString(R.string.with_comment) + comment;
-        String text = getString(R.string.share_today) + share.moodShareText(this, mPager.getCurrentItem(), 0) + shareComment;
-        Intent shareIntent = share.prepareShareIntent(this, text);
+        // Set share text for the intent.
+        String text = getString(R.string.share_today) + moodUtils.moodShareText(this,
+                mPager.getCurrentItem(), 0) + shareComment; // TODO : change for ME
+        // Create intent with share text, and set in ShareActionProvider.
+        Intent shareIntent = moodUtils.prepareShareIntent(text);
         if (miShareAction != null && shareIntent != null)
             miShareAction.setShareIntent(shareIntent);
     }

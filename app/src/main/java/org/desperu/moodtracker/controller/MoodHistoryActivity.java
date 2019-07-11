@@ -1,6 +1,5 @@
 package org.desperu.moodtracker.controller;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
@@ -125,7 +124,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
             this.onCreateImageButton(i, (int) (screenWidth * (moodWidth - imageLeftMargin * 2)),
                     R.drawable.baseline_share_black_24, shareListener, idShare);
         }
-        this.onCreateMoodAgeText(i);// Create TextView for mood age, and set params.
+        this.onCreateMoodAgeTextView(i);// Create TextView for mood age, and set params.
     }
 
     /**
@@ -161,42 +160,6 @@ public class MoodHistoryActivity extends AppCompatActivity {
     }
 
     /**
-     * Set mood age text, for given mood.
-     * @param i Number of the history mood.
-     * @return Mood age text.
-     */
-    public String getMoodAgeText(int i) {
-        int age = moodUtils.compareDate(date[i]);
-        if (age == moodUtils.compareDate(0)) return getString(R.string.no_mood);
-        else if (age == 1) return getString(R.string.text_yesterday);
-        else if (age < 7) return getResources().getString(R.string.text_day, age);
-        else if (age < 31) return getResources().getString(R.string.text_week, (int) (age / 7));
-        else if (age < 1200) return getResources().getString(R.string.text_month, (int) (age / 100));
-        else if (age < 1000000) return getResources().getString(R.string.text_year, (int) (age / 10000));
-        return getString(R.string.text_problem);
-    }
-
-    /**
-     * Create mood age text, for given mood.
-     * @param i Number of the history mood.
-     */
-    public void onCreateMoodAgeText(int i) {
-        // Create mood age text and set basic params.
-        TextView moodAgeText = new TextView(this);
-        moodAgeText.setText(getMoodAgeText(i));
-        moodAgeText.setTextSize(16); // It use sp
-
-        // Create LayoutParams object to set more params.
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.setMargins(screenWidth / textMargin, screenWidth / textMargin, 0, 0);
-
-        // Add childView with corresponding Mood RelativeLayout and apply params.
-        RelativeLayout rlDay = historyView.findViewById(idRl[i]);
-        rlDay.addView(moodAgeText, params);
-    }
-
-    /**
      * Create Comment Image Button and Share Image Button, for given mood.
      * @param i Number of the history mood.
      * @param left Margin left, to position share and comment image button.
@@ -226,6 +189,42 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // Add childView with corresponding Mood RelativeLayout and apply params.
         RelativeLayout rlDay = historyView.findViewById(idRl[i]);
         rlDay.addView(imageButton, params);
+    }
+
+    /**
+     * Set mood age text, for given mood.
+     * @param i Number of the history mood.
+     * @return Mood age text.
+     */
+    public String getMoodAgeText(int i) {
+        int age = moodUtils.compareDate(date[i]);
+        if (age == moodUtils.compareDate(0)) return getString(R.string.no_mood);
+        else if (age == 1) return getString(R.string.text_yesterday);
+        else if (age < 7) return getResources().getString(R.string.text_day, age);
+        else if (age < 31) return getResources().getString(R.string.text_week, (int) (age / 7));
+        else if (age < 1200) return getResources().getString(R.string.text_month, (int) (age / 100));
+        else if (age < 1000000) return getResources().getString(R.string.text_year, (int) (age / 10000));
+        return getString(R.string.text_problem);
+    }
+
+    /**
+     * Create mood age text, for given mood.
+     * @param i Number of the history mood.
+     */
+    public void onCreateMoodAgeTextView(int i) {
+        // Create mood age text and set basic params.
+        TextView moodAgeText = new TextView(this);
+        moodAgeText.setText(getMoodAgeText(i));
+        moodAgeText.setTextSize(16); // It use sp
+
+        // Create LayoutParams object to set more params.
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(screenWidth / textMargin, screenWidth / textMargin, 0, 0);
+
+        // Add childView with corresponding Mood RelativeLayout and apply params.
+        RelativeLayout rlDay = historyView.findViewById(idRl[i]);
+        rlDay.addView(moodAgeText, params);
     }
 
     /**
@@ -266,83 +265,18 @@ public class MoodHistoryActivity extends AppCompatActivity {
         public void onClick(View v) {
             for (int i = (numberOfDays - 1); i >= 0; i--) {
                 if (v.getId() == idShare[i]) { // Get history mood number from this listener is called.
-                    String moodDay = MoodHistoryActivity.this.moodShareText(
+                    // Get text for corresponding mood.
+                    String moodDay = moodUtils.moodShareText(
                             MoodHistoryActivity.this, mood[i], -1);
 
-                    Intent share = MoodHistoryActivity.this.prepareShareIntent(
-                            MoodHistoryActivity.this, getMoodAgeText(i) + moodDay +
-                                    getString(R.string.with_comment) + comment[i]);
+                    // Create intent with share text.
+                    Intent share = moodUtils.prepareShareIntent(getMoodAgeText(i) + moodDay
+                            + getString(R.string.with_comment) + comment[i]);
 
+                    // Create application chooser menu to send intent.
                     startActivity(Intent.createChooser(share, getString(R.string.share_title)));
                 }
             }
         }
     };
-
-    // TODO : create intent class!!!!!!!!
-    public String moodShareText(Context context, int position, int time) { // TODO for color and smiley
-        String moodDay;
-        String presentOrPast = "";
-        if (time == -1) presentOrPast = context.getString(R.string.past);
-        else if (time == 0) presentOrPast = context.getString(R.string.present);
-        // Find the mood for this day, and return correspond text.
-        switch (position) {
-            case 0: moodDay = context.getResources().getString(R.string.mood_day_super_happy, presentOrPast); break;
-            case 1: moodDay = context.getResources().getString(R.string.mood_day_happy, presentOrPast); break;
-            case 2: moodDay = context.getResources().getString(R.string.mood_day_normal, presentOrPast); break;
-            case 3: moodDay = context.getResources().getString(R.string.mood_day_disappointed, presentOrPast); break;
-            case 4: moodDay = context.getResources().getString(R.string.mood_day_sad, presentOrPast); break;
-            default: moodDay = " : ";
-        }
-        return  moodDay;
-    }
-
-    public Intent prepareShareIntent (Context context, String shareText) {
-        /*View view = LayoutInflater.from(context).inflate(R.layout.mood_fragment, null);
-                //(ViewGroup) findViewById(R.id.fragment));
-        view.setDrawingCacheEnabled(true);
-        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
-
-        view.buildDrawingCache(true);
-        Bitmap bitmap = Bitmap.createBitmap(view.getDrawingCache());
-        view.setDrawingCacheEnabled(false);
-
-        ImageView imageView = new ImageView(context);
-        imageView.setImageResource(R.drawable.smiley_happy);
-
-        //imageView.setImageURI(Uri uri);
-        imageView.setMaxWidth(200);
-        imageView.setMaxHeight(250);// TODO on test
-        Drawable drawable = imageView.getDrawable();
-
-        Bitmap bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-
-        File file = new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".jpeg");
-
-        FileOutputStream out = null;
-        Uri bmpUri = null;
-        try {
-            out = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
-            out.close();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-                bmpUri = FileProvider.getUriForFile(context, "com.codepath.fileprovider", file);
-            else bmpUri = Uri.fromFile(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-
-        Intent share = new Intent();
-        share.setAction(Intent.ACTION_SEND);
-        share.putExtra(Intent.EXTRA_TEXT, shareText);
-        share.setType("text/plain");
-        /*share.putExtra(Intent.EXTRA_STREAM, bmpUri);
-        share.setType("image/*");
-        share.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);*/
-        return share;
-    }
 }

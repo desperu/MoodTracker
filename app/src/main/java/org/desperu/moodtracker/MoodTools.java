@@ -13,7 +13,7 @@ public final class MoodTools {
 
         // MainActivity
         // Number of moods.
-        public static final int numberOfPage = 4;
+        public static final int numberOfPage = 5;
 
         // Minimum size for a slide.
         public static final int minSlide = 150;

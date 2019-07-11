@@ -44,7 +44,7 @@ public class MoodActivity extends AppCompatActivity implements View.OnTouchListe
                     position -= 1;
                     setContentView(onCreateView(position));
                     Toast.makeText(this, "onTouch minus" + position, Toast.LENGTH_SHORT).show();
-                } else if (y > minSlide && position < numberOfPage) { // Slide to top.
+                } else if (y > minSlide && position < (numberOfPage - 1)) { // Slide to top.
                     position += 1;
                     setContentView(onCreateView(position));
                     Toast.makeText(this, "onTouch plus" + position, Toast.LENGTH_SHORT).show();
