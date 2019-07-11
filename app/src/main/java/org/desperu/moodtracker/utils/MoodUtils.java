@@ -105,8 +105,10 @@ public class MoodUtils {
         int differenceIn = 0;
         if (currentCalendar.get(Calendar.MINUTE) != givenCalendar.get(Calendar.MINUTE))
             differenceIn += 1;
-        if (currentCalendar.get(Calendar.HOUR_OF_DAY) != givenCalendar.get(Calendar.HOUR_OF_DAY)) differenceIn += 2;
-        if (currentCalendar.get(Calendar.DAY_OF_MONTH) != givenCalendar.get(Calendar.DAY_OF_MONTH)) differenceIn += 4;
+        if (currentCalendar.get(Calendar.HOUR_OF_DAY) != givenCalendar.get(Calendar.HOUR_OF_DAY))
+            differenceIn += 2;
+        if (currentCalendar.get(Calendar.DAY_OF_MONTH) != givenCalendar.get(Calendar.DAY_OF_MONTH))
+            differenceIn += 4;
 
         // Return the difference in special format to differentiate them.
         if (differenceIn >= 4)

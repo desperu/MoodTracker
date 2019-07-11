@@ -211,8 +211,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     public void setChildView(View childView, int width, int height, int left, int top,
                              int right, int bottom, int i) {
         // Create LayoutParams object to set more params.
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                width, height);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
         params.setMargins(left, top, right, bottom);
 
         // Add childView with corresponding Mood RelativeLayout and apply params.
@@ -266,7 +265,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                     //share.setType("text/plain");
                     //share.putExtra(Intent.EXTRA_TEXT, getMoodAgeText(i) + moodDay + comment[i]);
                     Intent share = MoodHistoryActivity.this.prepareShareIntent(MoodHistoryActivity.this,
-                            getMoodAgeText(i) + moodDay + comment[i]);
+                            getMoodAgeText(i) + moodDay + comment[i]); // TODO : if comment == null
                     startActivity(Intent.createChooser(share, getString(R.string.share_title)));
 
 
@@ -281,7 +280,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         String presentOrPast = "";
         if (time == -1) presentOrPast = context.getString(R.string.past);
         else if (time == 0) presentOrPast = context.getString(R.string.present);
-        // Find the mood for this day.
+        // Find the mood for this day, and return correspond text.
         switch (position) {
             case 0: moodDay = context.getResources().getString(R.string.mood_day_super_happy, presentOrPast); break;
             case 1: moodDay = context.getResources().getString(R.string.mood_day_happy, presentOrPast); break;

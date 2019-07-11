@@ -1,15 +1,12 @@
 package org.desperu.moodtracker.controller;
 
 import android.app.AlertDialog;
-import android.app.SharedElementCallback;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     MoodAdapter mAdapter;
     VerticalViewPager mPager;
     MoodUtils moodUtils = new MoodUtils();
+    private ShareActionProvider miShareAction;
 
     private String comment;
     private boolean goodDate = true;
@@ -137,18 +135,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        if (mPager.getCurrentItem() == 0) { // TODO : change for ME
-        // If the user is currently looking at the first step or in comment, allow the system
-        // to handle the Back button. This calls finish() on this activity and pops the back stack.
-            super.onBackPressed();
-        } else {
-        // Otherwise, select the previous step. // TODO : change for +1???
-            mPager.setCurrentItem(mPager.getCurrentItem() - 1); // TODO : change for ME
-        }
-    }
-
-    @Override
     protected void onResume() {
         goodDate = true;
         // Get current date and last saved date difference.
@@ -180,9 +166,9 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private ShareActionProvider miShareAction; // TODO to up of page.
-
-    // Attaches the share intent to the share menu item provider.
+    /**
+     * Attaches the share intent to the share menu item provider.
+     */
     public void attachShareIntentAction() {
         MoodHistoryActivity share = new MoodHistoryActivity();
         String text = getString(R.string.share_today) + share.moodText(this, mPager.getCurrentItem(), 0) + comment;
@@ -201,34 +187,14 @@ public class MainActivity extends AppCompatActivity {
 
         // Fetch reference to the share action provider.
         miShareAction = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-        attachShareIntentAction(); // call here in case this method fires second.
 
         // Return true to display menu.
         return true;
     }
-
-    /*@Nullable
-    @Override
-    public ActionMode onWindowStartingActionMode(ActionMode.Callback callback, int type) {
-        attachShareIntentAction(); // call here to refresh intent data.
-        return super.onWindowStartingActionMode(callback, type);
-    }*/
 
     @Override
     public void onUserInteraction() {
         attachShareIntentAction(); // call here to refresh intent data.
         super.onUserInteraction();
     }
-
-    /*@Override
-    public boolean onMenuOpened(int featureId, Menu menu) {
-        attachShareIntentAction(); // call here to refresh intent data.
-        return super.onMenuOpened(featureId, menu);
-    }
-
-    @Override
-    public void openOptionsMenu() {
-        attachShareIntentAction(); // call here to refresh intent data.
-        super.openOptionsMenu();
-    }*/
 }

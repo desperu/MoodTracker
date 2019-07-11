@@ -7,25 +7,27 @@ public final class MoodTools {
      */
     public static final class Constant {
 
+        // History
+        // To set history size (number of days).
+        public static final int numberOfDays = 7;
+
+        // MainActivity
         // Number of moods.
         public static final int numberOfPage = 4;
 
         // Minimum size for a slide.
         public static final int minSlide = 150;
 
-        // History
-        // To set history size.
-        public static final int numberOfDays = 7;
-
+        // MoodHistoryActivity
         // To set history day number in screen, so the size of each.
         public static final int numberInScreen = 7;
-
     }
 
     /**
      * Keys for SharedPreferences.
      */
     public static final class Keys {
+
         // Current mood.
         public static final String moodDayFile = "MoodDay";
         public static final String currentMood = "CurrentMood";
@@ -58,13 +60,13 @@ public final class MoodTools {
         public static final double sadWidth = 0.3;
         public static final double noMoodWidth = 1;
 
-        // For text mood age.
+        // For mood age text.
         public static final int textMargin = 100;
 
         // For image button.
-        public static final int imageWidth = 10;//8;
+        public static final int imageWidth = 10;
         public static final double imageLeftMarginPortrait = 0.125;
-        public static final double imageLeftMarginLandscape = imageLeftMarginPortrait / 2;
+        public static final double imageLeftMarginLandscape = imageLeftMarginPortrait / 1.8;
 
         // For toast to show comment.
         public static final int toastMargin = 50;
