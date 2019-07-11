@@ -112,20 +112,20 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // If there's a comment for this mood, create image button to show comment
         // and another to share mood.
         if (comment[i] != null && comment[i].length() > 0) {
+
+            // Change left margin depending of screen orientation.
             double imageLeftMargin = imageLeftMarginPortrait;
             if (landscape) imageLeftMargin = imageLeftMarginLandscape;
-            this.setCommentAndShareImages(i, (int) (screenWidth * (moodWidth - imageLeftMargin)),
+
+            // Create show comment button.
+            this.onCreateImageButton(i, (int) (screenWidth * (moodWidth - imageLeftMargin)),
                     R.drawable.ic_comment_black_48px, showCommentListener, idShow);
-            this.setCommentAndShareImages(i, (int) (screenWidth * (moodWidth - imageLeftMargin * 2)),
+
+            // Create share button.
+            this.onCreateImageButton(i, (int) (screenWidth * (moodWidth - imageLeftMargin * 2)),
                     R.drawable.baseline_share_black_24, shareListener, idShare);
         }
-        // Create TextView for mood age, and set params.
-        TextView moodAgeText = new TextView(this);
-        moodAgeText.setText(getMoodAgeText(i));
-        moodAgeText.setTextSize(16); // It use sp
-        this.setChildView(moodAgeText, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.
-                WRAP_CONTENT, screenWidth / textMargin, screenWidth / textMargin,
-                0, 0, i);
+        this.onCreateMoodAgeText(i);// Create TextView for mood age, and set params.
     }
 
     /**
@@ -145,14 +145,16 @@ public class MoodHistoryActivity extends AppCompatActivity {
         int actionBarHeight = a.getDimensionPixelSize(0, 0);
         a.recycle();
 
-        //Get full screen size with DisplayMetrics, minus statusBarHeight and actionBarHeight.
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         // Get screen orientation.
-        if (this.getResources().getConfiguration().orientation == 2) landscape = true; // Landscape screen
+        if (this.getResources().getConfiguration().orientation == 2) landscape = true; // Landscape screen.
+
         // To correct little screen size difference.
         double correct = correctPortrait;
         if (landscape) correct = correctLandscape;
+
+        //Get full screen size with DisplayMetrics, minus statusBarHeight and actionBarHeight.
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenWidth = displayMetrics.widthPixels;
         screenHeight = (int) ((displayMetrics.heightPixels - statusBarHeight- actionBarHeight ) *
                 correct);
@@ -168,22 +170,42 @@ public class MoodHistoryActivity extends AppCompatActivity {
         if (age == moodUtils.compareDate(0)) return getString(R.string.no_mood);
         else if (age == 1) return getString(R.string.text_yesterday);
         else if (age < 7) return getResources().getString(R.string.text_day, age);
-        else if (age < 31) return getResources().getString(R.string.text_week, (int) (age / 7)); // TODO : one week??
-        else if (age < 1200) return getResources().getString(R.string.text_month, (int) (age / 100));// TODO : to test it's perfect
+        else if (age < 31) return getResources().getString(R.string.text_week, (int) (age / 7));
+        else if (age < 1200) return getResources().getString(R.string.text_month, (int) (age / 100));
         else if (age < 1000000) return getResources().getString(R.string.text_year, (int) (age / 10000));
         return getString(R.string.text_problem);
     }
 
     /**
-     * Create Comment Image Button and Share Image Button.
+     * Create mood age text, for given mood.
+     * @param i Number of the history mood.
+     */
+    public void onCreateMoodAgeText(int i) {
+        // Create mood age text and set basic params.
+        TextView moodAgeText = new TextView(this);
+        moodAgeText.setText(getMoodAgeText(i));
+        moodAgeText.setTextSize(16); // It use sp
+
+        // Create LayoutParams object to set more params.
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        params.setMargins(screenWidth / textMargin, screenWidth / textMargin, 0, 0);
+
+        // Add childView with corresponding Mood RelativeLayout and apply params.
+        RelativeLayout rlDay = historyView.findViewById(idRl[i]);
+        rlDay.addView(moodAgeText, params);
+    }
+
+    /**
+     * Create Comment Image Button and Share Image Button, for given mood.
      * @param i Number of the history mood.
      * @param left Margin left, to position share and comment image button.
      * @param drawable To set corresponding image.
      * @param listener To set corresponding listener.
      * @param idTab To save create resource id.
      */
-    public void setCommentAndShareImages(int i, int left, int drawable,
-                                         View.OnClickListener listener, int[] idTab) {
+    public void onCreateImageButton(int i, int left, int drawable, View.OnClickListener listener,
+                                    int[] idTab) {
         int top = 0;
         // Create ImageButton and set basic params.
         ImageButton imageButton = new ImageButton(this);
@@ -192,31 +214,18 @@ public class MoodHistoryActivity extends AppCompatActivity {
         imageButton.setOnClickListener(listener);
         imageButton.setId(View.generateViewId());
         idTab[i] = imageButton.getId();
-        if (mood[i] == 4) top = screenHeight / (numberInScreen * 4); // TODO for sad + margin bottom
-        this.setChildView(imageButton, screenWidth / imageWidth, ViewGroup.LayoutParams.MATCH_PARENT,
-                left, top, 0, 0, i);
-    }
+        // For sad mood, push a little to bottom the imagesButtons
+        // for they don't superpose with mood age text.
+        if (mood[i] == 4) top = screenHeight / (numberInScreen * 4);
 
-    /**
-     * Set layout params for childes views, and add with corresponding Mood RelativeLayout.
-     * @param childView The view object.
-     * @param width Horizontal size for the view.
-     * @param height Vertical size for the view.
-     * @param left Margin left of the view.
-     * @param top Margin top of the view.
-     * @param right Margin right of the view.
-     * @param bottom Margin bottom of the view.
-     * @param i Number of the history mood.
-     */
-    public void setChildView(View childView, int width, int height, int left, int top,
-                             int right, int bottom, int i) {
         // Create LayoutParams object to set more params.
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height);
-        params.setMargins(left, top, right, bottom);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                screenWidth / imageWidth, ViewGroup.LayoutParams.MATCH_PARENT);
+        params.setMargins(left, top, 0, 0);
 
         // Add childView with corresponding Mood RelativeLayout and apply params.
         RelativeLayout rlDay = historyView.findViewById(idRl[i]);
-        rlDay.addView(childView, params);
+        rlDay.addView(imageButton, params);
     }
 
     /**
@@ -231,7 +240,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                             comment[i], Toast.LENGTH_LONG);
 
                     // Get toast view and toast message to set custom params.
-                    View toastView = customToast.getView(); // TODO : inflate this??
+                    View toastView = customToast.getView();
                     TextView toastMessage = toastView.findViewById(android.R.id.message);
 
                     // Set params and show toast.
@@ -257,25 +266,21 @@ public class MoodHistoryActivity extends AppCompatActivity {
         public void onClick(View v) {
             for (int i = (numberOfDays - 1); i >= 0; i--) {
                 if (v.getId() == idShare[i]) { // Get history mood number from this listener is called.
-                    String moodDay = MoodHistoryActivity.this.moodText(MoodHistoryActivity.this,
-                            mood[i], -1);
+                    String moodDay = MoodHistoryActivity.this.moodShareText(
+                            MoodHistoryActivity.this, mood[i], -1);
 
-                    // Send complete mood with intent.
-                    //Intent share = new Intent(Intent.ACTION_SEND);
-                    //share.setType("text/plain");
-                    //share.putExtra(Intent.EXTRA_TEXT, getMoodAgeText(i) + moodDay + comment[i]);
-                    Intent share = MoodHistoryActivity.this.prepareShareIntent(MoodHistoryActivity.this,
-                            getMoodAgeText(i) + moodDay + comment[i]); // TODO : if comment == null
+                    Intent share = MoodHistoryActivity.this.prepareShareIntent(
+                            MoodHistoryActivity.this, getMoodAgeText(i) + moodDay +
+                                    getString(R.string.with_comment) + comment[i]);
+
                     startActivity(Intent.createChooser(share, getString(R.string.share_title)));
-
-
                 }
             }
         }
     };
 
     // TODO : create intent class!!!!!!!!
-    public String moodText(Context context, int position, int time) { // TODO for color and smiley
+    public String moodShareText(Context context, int position, int time) { // TODO for color and smiley
         String moodDay;
         String presentOrPast = "";
         if (time == -1) presentOrPast = context.getString(R.string.past);

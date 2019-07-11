@@ -45,13 +45,17 @@
     <string name="text_month">%1$d Month(s) ago</string>
     <string name="text_year">%1$d Year(s) ago</string>
     <string name="text_problem">"There's a problem with the date!"</string>
-    <string name="present">"i'm"</string>
-    <string name="past">i was</string>
-    <string name="mood_day_super_happy">", %1$s super happy :D because : "</string>
-    <string name="mood_day_happy">", %1$s happy :) because : "</string>
-    <string name="mood_day_normal">", %1$s normal :| because : "</string>
-    <string name="mood_day_disappointed">", %1$s disappointed :/ because : "</string>
-    <string name="mood_day_sad">", %1$s sad :( because : "</string>
+
+    <!-- share mood -->
+    <string name="present">" i'm "</string>
+    <string name="past">" i was "</string>
+    <string name="with_comment">" because : "</string>
+    <string name="without_comment">.</string>
+    <string name="mood_day_super_happy">", %1$s super happy :D"</string>
+    <string name="mood_day_happy">", %1$s happy :)"</string>
+    <string name="mood_day_normal">", %1$s normal :|"</string>
+    <string name="mood_day_disappointed">", %1$s disappointed :/"</string>
+    <string name="mood_day_sad">", %1$s sad :("</string>
     <string name="share_title">Share Your Mood</string>
 
 </resources>

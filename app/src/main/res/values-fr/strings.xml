@@ -45,12 +45,16 @@
     <string name="text_month">"Il y a %1$d Mois(s)"</string>
     <string name="text_year">"Il y a %1$d Année(s)"</string>
     <string name="text_problem">"Il y a un problème avec la date!"</string>
-    <string name="present">je suis</string>
-    <string name="past">"j'étais"</string>
-    <string name="mood_day_super_happy">", %1$s super heureux :D car : "</string>
-    <string name="mood_day_happy">", %1$s heureux :) car : "</string>
-    <string name="mood_day_normal">", %1$s normal :| car : "</string>
-    <string name="mood_day_disappointed">", %1$s désappointé :/ car : "</string>
-    <string name="mood_day_sad">", %1$s triste :( car : "</string>
+
+    <!-- share mood -->
+    <string name="present">" je suis "</string>
+    <string name="past">" j'étais "</string>
+    <string name="with_comment">" car : "</string>
+    <string name="without_comment">.</string>
+    <string name="mood_day_super_happy">", %1$s super heureux :D"</string>
+    <string name="mood_day_happy">", %1$s heureux :)"</string>
+    <string name="mood_day_normal">", %1$s normal :|"</string>
+    <string name="mood_day_disappointed">", %1$s désappointé :/"</string>
+    <string name="mood_day_sad">", %1$s triste :("</string>
     <string name="share_title">Partagez votre humeur</string>
 </resources>

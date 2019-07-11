@@ -171,7 +171,10 @@ public class MainActivity extends AppCompatActivity {
      */
     public void attachShareIntentAction() {
         MoodHistoryActivity share = new MoodHistoryActivity();
-        String text = getString(R.string.share_today) + share.moodText(this, mPager.getCurrentItem(), 0) + comment;
+        String shareComment = getString(R.string.without_comment);
+        if (comment != null && comment.length() > 0)
+            shareComment = getString(R.string.with_comment) + comment;
+        String text = getString(R.string.share_today) + share.moodShareText(this, mPager.getCurrentItem(), 0) + shareComment;
         Intent shareIntent = share.prepareShareIntent(this, text);
         if (miShareAction != null && shareIntent != null)
             miShareAction.setShareIntent(shareIntent);
@@ -181,13 +184,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate menu resource file.
         getMenuInflater().inflate(R.menu.share, menu);
-
         // Locate MenuItem with ShareActionProvider.
         MenuItem item = menu.findItem(R.id.menu_item_share);
-
         // Fetch reference to the share action provider.
         miShareAction = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
-
         // Return true to display menu.
         return true;
     }
