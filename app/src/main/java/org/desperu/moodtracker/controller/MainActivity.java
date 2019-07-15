@@ -26,11 +26,11 @@ import static org.desperu.moodtracker.MoodTools.Keys.*;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
-    View moodView = null;
+    View moodView = null; // TODO : private?
     MoodUtils moodUtils = new MoodUtils();
     private ShareActionProvider miShareAction;
 
-    private int position = 1;
+    private int position;
     private float dy;
     private String comment;
     private boolean goodDate = true;
@@ -40,13 +40,13 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         super.onCreate(savedInstanceState);
         moodView = LayoutInflater.from(this).inflate(R.layout.activity_main,
                 (ViewGroup) findViewById(R.id.root_view));
-        setContentView(moodView);
+        setContentView(onCreateView(position));
         moodView.setOnTouchListener(this);
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        // Get XY values at start and end touch screen, to detect slide.
+        // Get XY values at start and end, on screen touch, to detect slide.
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 dy = event.getRawY();
@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         goodDate = true;
         // Get current date and last saved date difference.
         int checkDate = moodUtils.compareDate(moodUtils.getLongPrefs(this, moodDayFile, currentDate));
-        if (checkDate < 0) {
+        if (checkDate < 0) { // TODO : put in constant to disable
             // If current date is lower, show wrongDateDialog.
             goodDate = false;
             this.wrongDateDialog();
@@ -199,12 +199,14 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             // If current date is upper, save last mood. Or on first run.
             moodUtils.manageHistory(this);
             comment = "";
-            position = 1; // TODO : change for ME
+            position = 1;
+            onCreateView(position);
             Toast.makeText(this, R.string.toast_new_day, Toast.LENGTH_SHORT).show();
         } else { // So checkDate = 0.
             // If current date is the same, show current mood and get current comment.
             int lastMood = moodUtils.getIntPrefs(this, moodDayFile, currentMood);
-            if (lastMood > -1) position = lastMood; // TODO : change for ME
+            if (lastMood > -1) position = lastMood;
+            onCreateView(position);
             comment = moodUtils.getStringPrefs(this, moodDayFile, currentComment);
         }
         super.onResume();
@@ -214,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     protected void onPause() {
         if (goodDate)
             // When leave activity, and if date isn't wrong, save selected mood, date and comment.
-            moodUtils.saveCurrentMood(this, position, comment); // TODO : change for ME
+            moodUtils.saveCurrentMood(this, position, comment);
         super.onPause();
     }
 
@@ -228,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
             shareComment = getString(R.string.with_comment) + comment;
         // Set share text for the intent.
         String shareText = getString(R.string.share_today) + moodUtils.moodShareText(this,
-                position, 0) + shareComment; // TODO : change for ME
+                position, 0) + shareComment;
         // Create intent with share text, and set in ShareActionProvider.
         Intent shareIntent = moodUtils.prepareShareIntent(shareText);
         if (miShareAction != null && shareIntent != null)

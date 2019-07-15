@@ -26,7 +26,7 @@ import static org.desperu.moodtracker.MoodTools.Keys.*;
 
 public class MoodHistoryActivity extends AppCompatActivity {
 
-    View historyView = null;
+    View historyView = null; // TODO : private?
     MoodUtils moodUtils = new MoodUtils();
     private int screenWidth;
     private int screenHeight;
@@ -68,17 +68,17 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // Switch between color and size for each history mood.
         for (int i = (numberOfDays - 1); i >= 0; i--) {
             switch (mood[i]) {
-                case 0: this.setHistoryView(i, R.color.colorSuperHappy, sHappyWidth);
+                case 0: this.onCreateHistoryMood(i, R.color.colorSuperHappy, sHappyWidth);
                     break;
-                case 1: this.setHistoryView(i, R.color.colorHappy, happyWidth);
+                case 1: this.onCreateHistoryMood(i, R.color.colorHappy, happyWidth);
                     break;
-                case 2: this.setHistoryView(i, R.color.colorNormal, normalWidth);
+                case 2: this.onCreateHistoryMood(i, R.color.colorNormal, normalWidth);
                     break;
-                case 3: this.setHistoryView(i, R.color.colorDisappointed, disappointedWidth);
+                case 3: this.onCreateHistoryMood(i, R.color.colorDisappointed, disappointedWidth);
                     break;
-                case 4: this.setHistoryView(i, R.color.colorSad, sadWidth);
+                case 4: this.onCreateHistoryMood(i, R.color.colorSad, sadWidth);
                     break;
-                default: this.setHistoryView(i, R.color.colorNoMood, noMoodWidth);
+                default: this.onCreateHistoryMood(i, R.color.colorNoMood, noMoodWidth);
             }
         }
         return historyView;
@@ -90,7 +90,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
      * @param color Background color depending of the mood.
      * @param moodWidth Size of the RelativeLayout, depending of the mood.
      */
-    public void setHistoryView(int i, int color, double moodWidth) {
+    public void onCreateHistoryMood(int i, int color, double moodWidth) {
         this.getScreenWidthHeight(); // Get screen size
 
         // Create RelativeLayout and set basic params.

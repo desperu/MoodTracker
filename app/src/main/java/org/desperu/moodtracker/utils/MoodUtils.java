@@ -62,7 +62,7 @@ public class MoodUtils {
     }
 
     /**
-     * Compare given time with current time, to know if the difference is in day, month or year.
+     * Compare given time with current time, return the difference.
      * @param givenTime Given time to compare, in milliseconds.
      * @return Difference between current time and given time, format YYYY0000, or MM00, or DD, to
      * differentiate them.
