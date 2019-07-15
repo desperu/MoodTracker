@@ -69,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return true;
     }
 
-    // TODO : in a MoodAdapter or MoodSetView?
     /**
      * Set mood view with color and smiley given.
      * @param color Background color to show.
