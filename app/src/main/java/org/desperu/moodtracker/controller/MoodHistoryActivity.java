@@ -1,6 +1,7 @@
 package org.desperu.moodtracker.controller;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,8 +27,8 @@ import static org.desperu.moodtracker.MoodTools.Keys.*;
 
 public class MoodHistoryActivity extends AppCompatActivity {
 
-    View historyView = null; // TODO : private?
-    MoodUtils moodUtils = new MoodUtils();
+    private View historyView = null;
+    private MoodUtils moodUtils = new MoodUtils();
     private int screenWidth;
     private int screenHeight;
     private boolean landscape = false;
@@ -121,7 +122,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
                     R.drawable.ic_comment_black_48px, showCommentListener, idShow);
 
             // Create share button.
-            this.onCreateImageButton(i, (int) (screenWidth * (moodWidth - imageLeftMargin * 2)),
+            this.onCreateImageButton(i, (int) (screenWidth * (moodWidth - imageLeftMargin * shareLeftMargin)),
                     R.drawable.baseline_share_black_24, shareListener, idShare);
         }
         this.onCreateMoodAgeTextView(i);// Create TextView for mood age, and set params.
@@ -145,7 +146,8 @@ public class MoodHistoryActivity extends AppCompatActivity {
         a.recycle();
 
         // Get screen orientation.
-        if (this.getResources().getConfiguration().orientation == 2) landscape = true; // Landscape screen.
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+            landscape = true;
 
         // To correct little screen size difference.
         double correct = correctPortrait;
@@ -179,7 +181,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
         idTab[i] = imageButton.getId();
         // For sad mood, push a little to bottom the imagesButtons
         // for they don't superpose with mood age text.
-        if (mood[i] == 4) top = screenHeight / (numberInScreen * 4);
+        if (mood[i] == 4) top = screenHeight / (numberInScreen * imageSadTop);
 
         // Create LayoutParams object to set more params.
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(

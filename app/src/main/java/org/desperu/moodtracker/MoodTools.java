@@ -12,6 +12,9 @@ public final class MoodTools {
         public static final int numberOfDays = 7;
 
         // MainActivity
+        // Enable or disable wrongDate function.
+        public static final boolean wrongDateEnabled = true;
+
         // Number of moods.
         public static final int numberOfPage = 5;
 
@@ -67,6 +70,8 @@ public final class MoodTools {
         public static final int imageWidth = 10;
         public static final double imageLeftMarginPortrait = 0.125;
         public static final double imageLeftMarginLandscape = imageLeftMarginPortrait / 1.8;
+        public static final int shareLeftMargin = 2;
+        public static final int imageSadTop = 4;
 
         // For toast to show comment.
         public static final int toastMargin = 50;

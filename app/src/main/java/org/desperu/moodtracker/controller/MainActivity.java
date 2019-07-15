@@ -26,8 +26,8 @@ import static org.desperu.moodtracker.MoodTools.Keys.*;
 
 public class MainActivity extends AppCompatActivity implements View.OnTouchListener {
 
-    View moodView = null; // TODO : private?
-    MoodUtils moodUtils = new MoodUtils();
+    private View moodView = null;
+    private MoodUtils moodUtils = new MoodUtils();
     private ShareActionProvider miShareAction;
 
     private int position;
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         return true;
     }
 
-    // TODO : in a MoodAdapter or View?
+    // TODO : in a MoodAdapter or MoodSetView?
     /**
      * Set mood view with color and smiley given.
      * @param color Background color to show.
@@ -191,8 +191,8 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         goodDate = true;
         // Get current date and last saved date difference.
         int checkDate = moodUtils.compareDate(moodUtils.getLongPrefs(this, moodDayFile, currentDate));
-        if (checkDate < 0) { // TODO : put in constant to disable
-            // If current date is lower, show wrongDateDialog.
+        if (checkDate < 0 && wrongDateEnabled) {
+            // If current date is lower and wrongDateEnabled, show wrongDateDialog.
             goodDate = false;
             this.wrongDateDialog();
         } else if (checkDate > 0) {
