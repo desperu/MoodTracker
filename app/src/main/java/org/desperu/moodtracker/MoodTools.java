@@ -12,11 +12,13 @@ public final class MoodTools {
         public static final int numberOfDays = 7;
 
         // MainActivity
-        // Number of moods.
-        public static final int numberOfPage = 5;
+        // Enable or disable wrongDate function.
+        public static final boolean wrongDateEnabled = true;
 
-        // Minimum size for a slide.
-        public static final int minSlide = 150;
+        // Mood Adapter
+        // Number of moods. If you want change it, you must add/del corresponding values in switch of
+        // MoodFragment onCreateView, MoodHistoryActivity onCreateHistoryView and MoodUtils moodShareText.
+        public static final int numberOfPage = 5;
 
         // MoodHistoryActivity
         // To set history day number in screen, so the size of each.
@@ -46,13 +48,13 @@ public final class MoodTools {
      */
     public static final class ScreenConstant {
 
-        // All constant here is used to made percent of get screen size, with * or / .
+        // All constant here are used to made percent of get screen size, with * or / .
 
         // To correct little difference with get screen size.
         public static final double correctPortrait = 1.004;
         public static final double correctLandscape = 1.006;
 
-        // Vertical size for each mood.
+        // Horizontal size for each mood.
         public static final double sHappyWidth = 1;
         public static final double happyWidth = 0.825;
         public static final double normalWidth = 0.65;
@@ -64,9 +66,11 @@ public final class MoodTools {
         public static final int textMargin = 100;
 
         // For image button.
-        public static final int imageWidth = 10;
+        public static final int imageWidth = 10; // TODO : to modify to don't superpose /1.8??
         public static final double imageLeftMarginPortrait = 0.125;
         public static final double imageLeftMarginLandscape = imageLeftMarginPortrait / 1.8;
+        public static final int shareLeftMargin = 2;
+        public static final int imageSadTop = 4;
 
         // For toast to show comment.
         public static final int toastMargin = 50;

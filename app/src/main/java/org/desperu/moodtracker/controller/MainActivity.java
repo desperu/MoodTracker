@@ -20,6 +20,7 @@ import org.desperu.moodtracker.utils.MoodUtils;
 import org.desperu.moodtracker.view.MoodAdapter;
 import org.desperu.moodtracker.view.VerticalViewPager;
 
+import static org.desperu.moodtracker.MoodTools.Constant.*;
 import static org.desperu.moodtracker.MoodTools.Keys.*;
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ShareActionProvider miShareAction;
 
     private String comment;
-    private boolean goodDate = true;
+    private boolean goodDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,8 +140,8 @@ public class MainActivity extends AppCompatActivity {
         goodDate = true;
         // Get current date and last saved date difference.
         int checkDate = moodUtils.compareDate(moodUtils.getLongPrefs(this, moodDayFile, currentDate));
-        if (checkDate < 0) {
-            // If current date is lower, show wrongDateDialog.
+        if (checkDate < 0 && wrongDateEnabled) {
+            // If current date is lower and wrongDateEnabled, show wrongDateDialog.
             goodDate = false;
             this.wrongDateDialog();
         } else if (checkDate > 0) {

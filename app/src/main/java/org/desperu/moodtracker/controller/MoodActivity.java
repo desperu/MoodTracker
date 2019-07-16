@@ -33,6 +33,7 @@ public class MoodActivity extends AppCompatActivity implements View.OnTouchListe
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         // Get XY values at start and end touch screen, to detect slide.
+        int minSlide = 200;
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 dy = event.getRawY();
