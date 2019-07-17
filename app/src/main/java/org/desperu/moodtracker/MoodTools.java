@@ -62,15 +62,14 @@ public final class MoodTools {
         public static final double sadWidth = 0.3;
         public static final double noMoodWidth = 1;
 
+        // For image button.
+        public static final double imageWidthPortrait = 0.125;
+        public static final double imageWidthLandscape = imageWidthPortrait / 2.1;
+        public static final int shareMarginLeft = 2;
+        public static final int imageSadTop = 4;
+
         // For mood age text.
         public static final int textMargin = 100;
-
-        // For image button.
-        public static final int imageWidth = 10; // TODO : to modify to don't superpose /1.8??
-        public static final double imageLeftMarginPortrait = 0.125;
-        public static final double imageLeftMarginLandscape = imageLeftMarginPortrait / 1.8;
-        public static final int shareLeftMargin = 2;
-        public static final int imageSadTop = 4;
 
         // For toast to show comment.
         public static final int toastMargin = 50;

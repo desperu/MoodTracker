@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+// TODO : to comment and adapter and fragment too
 public class VerticalViewPager extends ViewPager {
     public VerticalViewPager(Context context) {
         this(context, null);
