@@ -62,12 +62,12 @@ public class MoodUtils {
     }
 
     /**
-     * Compare given time with current time, to know if the difference is in day, month or year.
+     * Compare given time with current time, return the difference.
      * @param givenTime Given time to compare, in milliseconds.
      * @return Difference between current time and given time, format YYYY0000, or MM00, or DD, to
      * differentiate them.
      */
-    /*public int compareDate(long givenTime) {
+    public int compareDate(long givenTime) {
         // Set a Calendar at current time.
         Calendar currentCalendar = Calendar.getInstance();
         currentCalendar.setTimeInMillis(System.currentTimeMillis());
@@ -90,36 +90,6 @@ public class MoodUtils {
             return (currentCalendar.get(Calendar.MONTH) - givenCalendar.get(Calendar.MONTH)) * 100;
         if (differenceIn == 1)
             return (currentCalendar.get(Calendar.DAY_OF_MONTH) - givenCalendar.get(Calendar.DAY_OF_MONTH));
-
-        return 0;
-    }*/
-
-    // TODO : for test only
-    public int compareDate(long givenTime) {
-        // Set a Calendar at current time.
-        Calendar currentCalendar = Calendar.getInstance();
-        currentCalendar.setTimeInMillis(System.currentTimeMillis());
-
-        // Set a Calendar at given time.
-        Calendar givenCalendar = Calendar.getInstance();
-        givenCalendar.setTimeInMillis(givenTime);
-
-        // Get in witch time meter is the difference.
-        int differenceIn = 0;
-        if (currentCalendar.get(Calendar.MINUTE) != givenCalendar.get(Calendar.MINUTE))
-            differenceIn += 1;
-        if (currentCalendar.get(Calendar.HOUR_OF_DAY) != givenCalendar.get(Calendar.HOUR_OF_DAY))
-            differenceIn += 2;
-        if (currentCalendar.get(Calendar.DAY_OF_MONTH) != givenCalendar.get(Calendar.DAY_OF_MONTH))
-            differenceIn += 4;
-
-        // Return the difference in special format to differentiate them.
-        if (differenceIn >= 4)
-            return (currentCalendar.get(Calendar.DAY_OF_MONTH) - givenCalendar.get(Calendar.DAY_OF_MONTH)) * 10000;
-        if (differenceIn >= 2)
-            return (currentCalendar.get(Calendar.HOUR_OF_DAY) - givenCalendar.get(Calendar.HOUR_OF_DAY)) * 100;
-        if (differenceIn == 1)
-            return (currentCalendar.get(Calendar.MINUTE) - givenCalendar.get(Calendar.MINUTE));
 
         return 0;
     }
