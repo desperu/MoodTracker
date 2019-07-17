@@ -9,7 +9,7 @@ import org.desperu.moodtracker.controller.MoodFragment;
 import static org.desperu.moodtracker.MoodTools.Constant.numberOfPage;
 
 /**
- * Set fragment pager adapter with needed params.
+ * Set fragment pager adapter with needed params and create fragment with given position.
  */
 public class MoodAdapter extends FragmentPagerAdapter {
 

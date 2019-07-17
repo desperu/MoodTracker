@@ -20,7 +20,7 @@ public class MoodFragment extends Fragment {
     private int moodNum;
 
     public MoodFragment() {
-        // Required empty public constructor
+        // Required empty public constructor.
     }
 
     public static MoodFragment newInstance(int position) {
