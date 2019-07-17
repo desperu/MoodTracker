@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
      * @param color Background color to show.
      * @param drawable Smiley to show.
      */
-    public void setMoodView(int color, int drawable) {
+    private void setMoodView(int color, int drawable) {
         moodView.findViewById(R.id.root_view).setBackgroundColor(getResources().getColor(color));
         ImageView superHappy = moodView.findViewById(R.id.mood_image);
         superHappy.setImageResource(drawable);
@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
      * @param position Mood number to select corresponding elements.
      * @return The view created.
      */
-    public View onCreateView(int position) {
+    private View onCreateView(int position) {
         switch (position) {
             case 0: this.setMoodView(R.color.colorSuperHappy, R.drawable.smiley_super_happy); break;
             case 1: this.setMoodView(R.color.colorHappy, R.drawable.smiley_happy); break;
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
      * If current date is lower than last saved, show dialog not cancelable. Two choice,
      * correct date, or delete all moods saved.
      */
-    public void wrongDateDialog() {
+    private void wrongDateDialog() {
         AlertDialog.Builder wrongDate = new AlertDialog.Builder(MainActivity.this);
         wrongDate.setTitle(R.string.title_wrong_date);
         wrongDate.setMessage(R.string.message_wrong_date);
@@ -222,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     /**
      * Attaches the share intent to the share menu item provider.
      */
-    public void attachShareIntentAction() {
+    private void attachShareIntentAction() {
         // Get comment if there's one.
         String shareComment = getString(R.string.without_comment);
         if (comment != null && comment.length() > 0)
