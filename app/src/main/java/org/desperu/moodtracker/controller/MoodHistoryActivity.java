@@ -113,16 +113,16 @@ public class MoodHistoryActivity extends AppCompatActivity {
         // and another to share mood.
         if (comment[i] != null && comment[i].length() > 0) {
 
-            // Change left margin depending of screen orientation.
-            double imageLeftMargin = imageLeftMarginPortrait;
-            if (landscape) imageLeftMargin = imageLeftMarginLandscape;
+            // Change left margin imageButtons depending of screen orientation.
+            double imageLeftMargin = imageWidthPortrait;
+            if (landscape) imageLeftMargin = imageWidthLandscape;
 
             // Create show comment button.
             this.onCreateImageButton(i, (int) (screenWidth * (moodWidth - imageLeftMargin)),
                     R.drawable.ic_comment_black_48px, showCommentListener, idShow);
 
             // Create share button.
-            this.onCreateImageButton(i, (int) (screenWidth * (moodWidth - imageLeftMargin * shareLeftMargin)),
+            this.onCreateImageButton(i, (int) (screenWidth * (moodWidth - imageLeftMargin * shareMarginLeft)),
                     R.drawable.baseline_share_black_24, shareListener, idShare);
         }
         this.onCreateMoodAgeTextView(i);// Create TextView for mood age, and set params.
@@ -164,14 +164,14 @@ public class MoodHistoryActivity extends AppCompatActivity {
     /**
      * Create Comment Image Button and Share Image Button, for given mood.
      * @param i Number of the history mood.
-     * @param left Margin left, to position share and comment image button.
+     * @param marginLeft Margin left, to position share and comment image button.
      * @param drawable To set corresponding image.
      * @param listener To set corresponding listener.
      * @param idTab To save create resource id.
      */
-    public void onCreateImageButton(int i, int left, int drawable, View.OnClickListener listener,
-                                    int[] idTab) {
-        int top = 0;
+    public void onCreateImageButton(int i, int marginLeft, int drawable,
+                                    View.OnClickListener listener, int[] idTab) {
+        int marginTop = 0;
         // Create ImageButton and set basic params.
         ImageButton imageButton = new ImageButton(this);
         imageButton.setImageResource(drawable);
@@ -179,14 +179,19 @@ public class MoodHistoryActivity extends AppCompatActivity {
         imageButton.setOnClickListener(listener);
         imageButton.setId(View.generateViewId());
         idTab[i] = imageButton.getId();
-        // For sad mood, push a little to bottom the imagesButtons
+
+        // For sad mood, push a little to bottom the imageButtons
         // for they don't superpose with mood age text.
-        if (mood[i] == 4) top = screenHeight / (numberInScreen * imageSadTop);
+        if (mood[i] == 4) marginTop = screenHeight / (numberInScreen * imageSadTop);
+
+        // Change width imageButtons depending of screen orientation.
+        double imageWidth = imageWidthPortrait;
+        if (landscape) imageWidth = imageWidthLandscape;
 
         // Create LayoutParams object to set more params.
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                screenWidth / imageWidth, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.setMargins(left, top, 0, 0);
+                (int) (screenWidth * imageWidth), ViewGroup.LayoutParams.MATCH_PARENT);
+        params.setMargins(marginLeft, marginTop, 0, 0);
 
         // Add childView with corresponding Mood RelativeLayout and apply params.
         RelativeLayout rlDay = historyView.findViewById(idRl[i]);
