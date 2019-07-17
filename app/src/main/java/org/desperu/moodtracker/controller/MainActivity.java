@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
     private int position;
     private float dy;
     private String comment;
-    private boolean goodDate = true;
+    private boolean goodDate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -244,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements View.OnTouchListe
         MenuItem item = menu.findItem(R.id.menu_item_share);
         // Fetch reference to the share action provider.
         miShareAction = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        attachShareIntentAction(); // call here in case this method fires second.
         // Return true to display menu.
         return true;
     }
