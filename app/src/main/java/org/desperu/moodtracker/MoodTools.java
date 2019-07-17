@@ -48,7 +48,7 @@ public final class MoodTools {
      */
     public static final class ScreenConstant {
 
-        // All constant here are used to made percent of get screen size, with * or / .
+        // All constant here are used to make percent of get screen size, with * or / .
 
         // To correct little difference with get screen size.
         public static final double correctPortrait = 1.004;
