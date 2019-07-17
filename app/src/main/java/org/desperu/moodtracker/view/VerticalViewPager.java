@@ -6,7 +6,11 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-// TODO : to comment and adapter and fragment too
+/**
+ * Create VerticalViewPager with a ViewPager witch scroll is normally horizontal, so block this transition
+ * and create VerticalPageTransformer for vertical scroll animation. Flip XY to use vertical slide
+ * instead of horizontal slide.
+ */
 public class VerticalViewPager extends ViewPager {
     public VerticalViewPager(Context context) {
         this(context, null);
@@ -17,7 +21,7 @@ public class VerticalViewPager extends ViewPager {
     }
 
     /**
-     * @return {@code false} since a vertical view pager can never be scrolled horizontally
+     * @return {@code false} since a vertical view pager can never be scrolled horizontally.
      */
     @Override
     public boolean canScrollHorizontally(int direction) {
@@ -25,7 +29,7 @@ public class VerticalViewPager extends ViewPager {
     }
 
     /**
-     * @return {@code true} iff a normal view pager would support horizontal scrolling at this time
+     * @return {@code true} if a normal view pager would support horizontal scrolling at this time.
      */
     @Override
     public boolean canScrollVertically(int direction) {
@@ -33,16 +37,16 @@ public class VerticalViewPager extends ViewPager {
     }
 
     private void init() {
-        // Make page transit vertical
+        // Make page transit vertical.
         setPageTransformer(true, new VerticalPageTransformer());
-        // Get rid of the overscroll drawing that happens on the left and right (the ripple)
+        // Get rid of the overscroll drawing that happens on the left and right (the ripple).
         setOverScrollMode(View.OVER_SCROLL_NEVER);
     }
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         final boolean toIntercept = super.onInterceptTouchEvent(flipXY(ev));
-        // Return MotionEvent to normal
+        // Return MotionEvent to normal.
         flipXY(ev);
         return toIntercept;
     }
@@ -50,11 +54,16 @@ public class VerticalViewPager extends ViewPager {
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
         final boolean toHandle = super.onTouchEvent(flipXY(ev));
-        // Return MotionEvent to normal
+        // Return MotionEvent to normal.
         flipXY(ev);
         return toHandle;
     }
 
+    /**
+     * Set X detected movement to Y, and Y detected movement to X, to use vertical slide.
+     * @param ev MotionEvent screen movement detected.
+     * @return MotionEvent with switched values.
+     */
     private MotionEvent flipXY(MotionEvent ev) {
         final float width = getWidth();
         final float height = getHeight();
@@ -64,6 +73,9 @@ public class VerticalViewPager extends ViewPager {
         return ev;
     }
 
+    /**
+     * Create the transition for VerticalViewPager.
+     */
     private static final class VerticalPageTransformer implements ViewPager.PageTransformer {
         @Override
         public void transformPage(View view, float position) {
@@ -74,9 +86,9 @@ public class VerticalViewPager extends ViewPager {
                 view.setAlpha(0);
             } else if (position <= 1) {
                 view.setAlpha(1);
-                // Counteract the default slide transition
+                // Counteract the default slide transition.
                 view.setTranslationX(pageWidth * -position);
-                // set Y currentPage to swipe in from top
+                // set Y currentPage to swipe in from top.
                 float yPosition = position * pageHeight;
                 view.setTranslationY(yPosition);
             } else {

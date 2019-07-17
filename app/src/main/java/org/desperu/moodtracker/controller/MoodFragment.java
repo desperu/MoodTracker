@@ -10,9 +10,12 @@ import android.widget.ImageView;
 
 import org.desperu.moodtracker.R;
 
+/**
+ * Create new fragment with given position.
+ */
 public class MoodFragment extends Fragment {
 
-    View moodFragment = null;
+    private View moodFragment = null;
     private static final String ARG_PARAM1 = "param1";
     private int moodNum;
 
@@ -41,7 +44,7 @@ public class MoodFragment extends Fragment {
      * @param color Background color to show.
      * @param drawable Smiley to show.
      */
-    public void setMoodFragment(int color, int drawable) {
+    private void setMoodFragment(int color, int drawable) {
         moodFragment.findViewById(R.id.fragment).setBackgroundColor(getResources().getColor(color));
         ImageView moodImage = moodFragment.findViewById(R.id.mood_image);
         moodImage.setImageResource(drawable);

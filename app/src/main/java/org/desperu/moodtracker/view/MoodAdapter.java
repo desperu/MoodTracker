@@ -8,6 +8,9 @@ import org.desperu.moodtracker.controller.MoodFragment;
 
 import static org.desperu.moodtracker.MoodTools.Constant.numberOfPage;
 
+/**
+ * Set fragment pager adapter with needed params.
+ */
 public class MoodAdapter extends FragmentPagerAdapter {
 
     public MoodAdapter(FragmentManager fm) { super(fm); }
