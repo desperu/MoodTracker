@@ -25,9 +25,8 @@ import static org.desperu.moodtracker.MoodTools.Keys.*;
 
 public class MainActivity extends AppCompatActivity {
 
-    MoodAdapter mAdapter;
-    VerticalViewPager mPager;
-    MoodUtils moodUtils = new MoodUtils();
+    private VerticalViewPager mPager;
+    private MoodUtils moodUtils = new MoodUtils();
     private ShareActionProvider miShareAction;
 
     private String comment;
@@ -38,13 +37,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAdapter = new MoodAdapter(getSupportFragmentManager());
+        MoodAdapter mAdapter = new MoodAdapter(getSupportFragmentManager());
         mPager = findViewById(R.id.view_pager);
         mPager.setAdapter(mAdapter);
-
-        /*setContentView(R.layout.mood_view);
-        Intent i = new Intent(MainActivity.this, MoodActivity.class);
-        startActivity(i);*/
     }
 
     /**
@@ -97,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
      * If current date is lower than last saved, show dialog not cancelable. Two choice,
      * correct date, or delete all moods saved.
      */
-    public void wrongDateDialog() {
+    private void wrongDateDialog() {
         AlertDialog.Builder wrongDate = new AlertDialog.Builder(MainActivity.this);
         wrongDate.setTitle(R.string.title_wrong_date);
         wrongDate.setMessage(R.string.message_wrong_date);
@@ -148,12 +143,12 @@ public class MainActivity extends AppCompatActivity {
             // If current date is upper, save last mood. Or on first run.
             moodUtils.manageHistory(this);
             comment = "";
-            mPager.setCurrentItem(1); // TODO : change for ME
+            mPager.setCurrentItem(1);
             Toast.makeText(this, R.string.toast_new_day, Toast.LENGTH_SHORT).show();
         } else { // So checkDate = 0.
             // If current date is the same, show current mood and get current comment.
             int lastMood = moodUtils.getIntPrefs(this, moodDayFile, currentMood);
-            if (lastMood > -1) mPager.setCurrentItem(lastMood); // TODO : change for ME
+            if (lastMood > -1) mPager.setCurrentItem(lastMood);
             comment = moodUtils.getStringPrefs(this, moodDayFile, currentComment);
         }
         super.onResume();
@@ -163,21 +158,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         if (goodDate)
             // When leave activity, and if date isn't wrong, save selected mood, date and comment.
-            moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment); // TODO : change for ME
+            moodUtils.saveCurrentMood(this, mPager.getCurrentItem(), comment);
         super.onPause();
     }
 
     /**
      * Attaches the share intent to the share menu item provider.
      */
-    public void attachShareIntentAction() {
+    private void attachShareIntentAction() {
         // Get comment if there's one.
         String shareComment = getString(R.string.without_comment);
         if (comment != null && comment.length() > 0)
             shareComment = getString(R.string.with_comment) + comment;
         // Set share text for the intent.
         String shareText = getString(R.string.share_today) + moodUtils.moodShareText(this,
-                mPager.getCurrentItem(), 0) + shareComment; // TODO : change for ME
+                mPager.getCurrentItem(), 0) + shareComment;
         // Create intent with share text, and set in ShareActionProvider.
         Intent shareIntent = moodUtils.prepareShareIntent(shareText);
         if (miShareAction != null && shareIntent != null)
@@ -192,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
         MenuItem item = menu.findItem(R.id.menu_item_share);
         // Fetch reference to the share action provider.
         miShareAction = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        attachShareIntentAction(); // call here in case this method fires second.
         // Return true to display menu.
         return true;
     }

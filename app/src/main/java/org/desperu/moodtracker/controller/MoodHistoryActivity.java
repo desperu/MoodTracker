@@ -27,8 +27,8 @@ import static org.desperu.moodtracker.MoodTools.Keys.*;
 
 public class MoodHistoryActivity extends AppCompatActivity {
 
-    View historyView = null;
-    MoodUtils moodUtils = new MoodUtils();
+    private View historyView = null;
+    private MoodUtils moodUtils = new MoodUtils();
     private int screenWidth;
     private int screenHeight;
     private boolean landscape = false;
@@ -62,24 +62,24 @@ public class MoodHistoryActivity extends AppCompatActivity {
      * Create history mood view, set params for each history mood.
      * @return The view create.
      */
-    public View onCreateHistoryView() {
+    private View onCreateHistoryView() {
         historyView = LayoutInflater.from(this).inflate(R.layout.activity_mood_history,
                 (ViewGroup)findViewById(R.id.history_linear));
 
         // Switch between color and size for each history mood.
         for (int i = (numberOfDays - 1); i >= 0; i--) {
             switch (mood[i]) {
-                case 0: this.setHistoryView(i, R.color.colorSuperHappy, sHappyWidth);
+                case 0: this.onCreateHistoryMood(i, R.color.colorSuperHappy, sHappyWidth);
                     break;
-                case 1: this.setHistoryView(i, R.color.colorHappy, happyWidth);
+                case 1: this.onCreateHistoryMood(i, R.color.colorHappy, happyWidth);
                     break;
-                case 2: this.setHistoryView(i, R.color.colorNormal, normalWidth);
+                case 2: this.onCreateHistoryMood(i, R.color.colorNormal, normalWidth);
                     break;
-                case 3: this.setHistoryView(i, R.color.colorDisappointed, disappointedWidth);
+                case 3: this.onCreateHistoryMood(i, R.color.colorDisappointed, disappointedWidth);
                     break;
-                case 4: this.setHistoryView(i, R.color.colorSad, sadWidth);
+                case 4: this.onCreateHistoryMood(i, R.color.colorSad, sadWidth);
                     break;
-                default: this.setHistoryView(i, R.color.colorNoMood, noMoodWidth);
+                default: this.onCreateHistoryMood(i, R.color.colorNoMood, noMoodWidth);
             }
         }
         return historyView;
@@ -91,7 +91,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
      * @param color Background color depending of the mood.
      * @param moodWidth Size of the RelativeLayout, depending of the mood.
      */
-    public void setHistoryView(int i, int color, double moodWidth) {
+    private void onCreateHistoryMood(int i, int color, double moodWidth) {
         this.getScreenWidthHeight(); // Get screen size
 
         // Create RelativeLayout and set basic params.
@@ -131,7 +131,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     /**
      * Get real usable screen size for the view, Width and Height.
      */
-    public void getScreenWidthHeight() {
+    private void getScreenWidthHeight() {
         // Get status bar height (on top of screen).
         int statusBarHeight = 0;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen",
@@ -169,7 +169,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
      * @param listener To set corresponding listener.
      * @param idTab To save create resource id.
      */
-    public void onCreateImageButton(int i, int marginLeft, int drawable,
+    private void onCreateImageButton(int i, int marginLeft, int drawable,
                                     View.OnClickListener listener, int[] idTab) {
         int marginTop = 0;
         // Create ImageButton and set basic params.
@@ -203,7 +203,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
      * @param i Number of the history mood.
      * @return Mood age text.
      */
-    public String getMoodAgeText(int i) {
+    private String getMoodAgeText(int i) {
         int age = moodUtils.compareDate(date[i]);
         if (age == moodUtils.compareDate(0)) return getString(R.string.no_mood);
         else if (age == 1) return getString(R.string.text_yesterday);
@@ -218,7 +218,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
      * Create mood age text, for given mood.
      * @param i Number of the history mood.
      */
-    public void onCreateMoodAgeTextView(int i) {
+    private void onCreateMoodAgeTextView(int i) {
         // Create mood age text and set basic params.
         TextView moodAgeText = new TextView(this);
         moodAgeText.setText(getMoodAgeText(i));
@@ -237,7 +237,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     /**
      * Listener to show corresponding mood comment with a toast message.
      */
-    public View.OnClickListener showCommentListener = new View.OnClickListener() {
+    private View.OnClickListener showCommentListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             for (int i = (numberOfDays - 1); i >= 0; i--) {
@@ -267,7 +267,7 @@ public class MoodHistoryActivity extends AppCompatActivity {
     /**
      * Listener to share mood age, mood and corresponding comment, with wanted user send method.
      */
-    public View.OnClickListener shareListener = new View.OnClickListener() {
+    private View.OnClickListener shareListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             for (int i = (numberOfDays - 1); i >= 0; i--) {
