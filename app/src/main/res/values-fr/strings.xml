@@ -12,7 +12,7 @@
 
     <!-- wrong_date_dialog -->
     <string name="title_wrong_date">Erreur de Date</string>
-    <string name="message_wrong_date">"La date est antérieur à la dernière enregistrée, corrigez la sur votre périphérique puis appuyez sur "OK". Sinon, si vous le souhaitez, vous pouvez supprimer toutes les humeurs et commentaires sauvergardés, en appuyant sur "Supprimer"."</string>
+    <string name="message_wrong_date">"La date est antérieure à la dernière enregistrée, corrigez la sur votre périphérique puis appuyez sur "OK". Sinon, si vous le souhaitez, vous pouvez supprimer toutes les humeurs et commentaires sauvergardés, en appuyant sur "Supprimer"."</string>
     <string name="button_valid_date">OK</string>
     <string name="button_delete_mood">Supprimer</string>
     <string name="toast_date_always_wrong">La date est toujours mauvaise, corrigez la!!</string>
@@ -31,7 +31,7 @@
 
 
     <!-- MoodUtils -->
-    <string name="toast_new_day">"Bonjour! Quel est votre humeur aujourd'hui??"</string>
+    <string name="toast_new_day">"Bonjour! Quelle est votre humeur aujourd'hui??"</string>
 
     <!-- MoodHistoryActivity -->
     <string name="activity_mood_history">MoodTracker Historique</string>
