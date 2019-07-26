@@ -204,8 +204,6 @@ public class MoodHistoryActivity extends AppCompatActivity {
      * @return Mood age text.
      */
     private String getMoodAgeText(int i) {
-        /*int age = moodUtils.compareDate(date[i]);
-        if (age == moodUtils.compareDate(0)) return getString(R.string.no_mood);*/
         int age = moodUtils.compareTime(date[i]);
         if (age == moodUtils.compareTime(0)) return getString(R.string.no_mood);
         else if (age <= 1) return getString(R.string.text_yesterday);

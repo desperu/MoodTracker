@@ -6,8 +6,6 @@ import android.content.SharedPreferences;
 
 import org.desperu.moodtracker.R;
 
-import java.util.Calendar;
-
 import static android.content.Context.MODE_PRIVATE;
 import static org.desperu.moodtracker.MoodTools.Constant.*;
 import static org.desperu.moodtracker.MoodTools.Keys.*;
@@ -64,11 +62,10 @@ public class MoodUtils {
     /**
      * Compare given time with current time, return the difference.
      * @param givenTime Given time to compare, in milliseconds.
-     * @return Difference between current time and given time in days.
+     * @return Difference between current time and given time, in days.
      */
     public int compareTime(long givenTime) {
-        // One day un millis -> (24 * 60 * 60 * 1000) = 86400000
-        return (int) ((System.currentTimeMillis() - givenTime) / 86400000);
+        return (int) ((System.currentTimeMillis() - givenTime) / oneDayMillis);
     }
 
     /**

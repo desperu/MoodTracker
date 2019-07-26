@@ -37,8 +37,6 @@
     <string name="activity_mood_history">MoodTracker Historique</string>
 
     <string name="no_mood">"Pas d'humeur enregistrée!!"</string>
-    <string name="content_description_show_comment">Voir le commentaire</string>
-    <string name="content_description_share">Partager</string>
     <string name="text_yesterday">Hier</string>
     <string name="text_day">"Il y a %1$d Jour(s)"</string>
     <string name="text_week">"Il y a %1$d Semaine(s)"</string>

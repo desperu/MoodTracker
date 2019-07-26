@@ -25,6 +25,10 @@ public final class MoodTools {
         // MoodHistoryActivity
         // To set history day number in screen, so the size of each.
         public static final int numberInScreen = 7;
+
+        // MoodUtils
+        // One day un millis -> (24 * 60 * 60 * 1000) = 86 400 000.
+        public static final int oneDayMillis = 86400000;
     }
 
     /**
