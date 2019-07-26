@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (moodUtils.compareDate(moodUtils.getLongPrefs(MainActivity.this,
+                        if (moodUtils.compareTime(moodUtils.getLongPrefs(MainActivity.this,
                                 moodDayFile, currentDate)) >= 0)
                             goodDate = true;
                         else { // if the date is again lower, restart this dialog.
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         goodDate = true;
         // Get current date and last saved date difference.
-        int checkDate = moodUtils.compareDate(moodUtils.getLongPrefs(this, moodDayFile, currentDate));
+        int checkDate = moodUtils.compareTime(moodUtils.getLongPrefs(this, moodDayFile, currentDate));
         if (checkDate < 0 && wrongDateEnabled) {
             // If current date is lower and wrongDateEnabled, show wrongDateDialog.
             goodDate = false;

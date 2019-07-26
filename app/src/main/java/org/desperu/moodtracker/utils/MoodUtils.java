@@ -64,34 +64,11 @@ public class MoodUtils {
     /**
      * Compare given time with current time, return the difference.
      * @param givenTime Given time to compare, in milliseconds.
-     * @return Difference between current time and given time, format YYYY0000, or MM00, or DD, to
-     * differentiate them.
+     * @return Difference between current time and given time in days.
      */
-    public int compareDate(long givenTime) {
-        // Set a Calendar at current time.
-        Calendar currentCalendar = Calendar.getInstance();
-        currentCalendar.setTimeInMillis(System.currentTimeMillis());
-
-        // Set a Calendar at given time.
-        Calendar givenCalendar = Calendar.getInstance();
-        givenCalendar.setTimeInMillis(givenTime);
-
-        // Get in witch time meter is the difference.
-        int differenceIn = 0;
-        if (currentCalendar.get(Calendar.DAY_OF_MONTH) != givenCalendar.get(Calendar.DAY_OF_MONTH))
-            differenceIn += 1;
-        if (currentCalendar.get(Calendar.MONTH) != givenCalendar.get(Calendar.MONTH)) differenceIn += 2;
-        if (currentCalendar.get(Calendar.YEAR) != givenCalendar.get(Calendar.YEAR)) differenceIn += 4;
-
-        // Return the difference in special format to differentiate them.
-        if (differenceIn >= 4)
-            return (currentCalendar.get(Calendar.YEAR) - givenCalendar.get(Calendar.YEAR)) * 10000;
-        if (differenceIn >= 2)
-            return (currentCalendar.get(Calendar.MONTH) - givenCalendar.get(Calendar.MONTH)) * 100;
-        if (differenceIn == 1)
-            return (currentCalendar.get(Calendar.DAY_OF_MONTH) - givenCalendar.get(Calendar.DAY_OF_MONTH));
-
-        return 0;
+    public int compareTime(long givenTime) {
+        // One day un millis -> (24 * 60 * 60 * 1000) = 86400000
+        return (int) ((System.currentTimeMillis() - givenTime) / 86400000);
     }
 
     /**

@@ -204,13 +204,15 @@ public class MoodHistoryActivity extends AppCompatActivity {
      * @return Mood age text.
      */
     private String getMoodAgeText(int i) {
-        int age = moodUtils.compareDate(date[i]);
-        if (age == moodUtils.compareDate(0)) return getString(R.string.no_mood);
-        else if (age == 1) return getString(R.string.text_yesterday);
+        /*int age = moodUtils.compareDate(date[i]);
+        if (age == moodUtils.compareDate(0)) return getString(R.string.no_mood);*/
+        int age = moodUtils.compareTime(date[i]);
+        if (age == moodUtils.compareTime(0)) return getString(R.string.no_mood);
+        else if (age <= 1) return getString(R.string.text_yesterday);
         else if (age < 7) return getResources().getString(R.string.text_day, age);
-        else if (age < 31) return getResources().getString(R.string.text_week, (int) (age / 7));
-        else if (age < 1200) return getResources().getString(R.string.text_month, (int) (age / 100));
-        else if (age < 1000000) return getResources().getString(R.string.text_year, (int) (age / 10000));
+        else if (age < 30) return getResources().getString(R.string.text_week, (int) (age / 7));
+        else if (age < 365) return getResources().getString(R.string.text_month, (int) (age / 30));
+        else if (age < 36500) return getResources().getString(R.string.text_year, (int) (age / 365));
         return getString(R.string.text_problem);
     }
 
