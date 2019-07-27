@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 
 import org.desperu.moodtracker.R;
 
+import java.util.Calendar;
+
 import static android.content.Context.MODE_PRIVATE;
 import static org.desperu.moodtracker.MoodTools.Constant.*;
 import static org.desperu.moodtracker.MoodTools.Keys.*;
@@ -60,12 +62,68 @@ public class MoodUtils {
     }
 
     /**
+     * For mood history time ago.
      * Compare given time with current time, return the difference.
      * @param givenTime Given time to compare, in milliseconds.
      * @return Difference between current time and given time, in days.
      */
     public int compareTime(long givenTime) {
-        return (int) ((System.currentTimeMillis() - givenTime) / oneDayMillis);
+        // Set a Calendar at current time.
+        Calendar currentCalendar = Calendar.getInstance();
+        currentCalendar.setTimeInMillis(System.currentTimeMillis());
+
+        // Set a Calendar at given time.
+        Calendar givenCalendar = Calendar.getInstance();
+        givenCalendar.setTimeInMillis(givenTime);
+
+        // If the mood time saved isn't over 24h than current time, add 1 for this day.
+        int notYetOneDay = 0;
+        if (currentCalendar.get(Calendar.HOUR_OF_DAY) < givenCalendar.get(Calendar.HOUR_OF_DAY)) notYetOneDay = 1;
+        else if (currentCalendar.get(Calendar.HOUR_OF_DAY) == givenCalendar.get(Calendar.HOUR_OF_DAY)) {
+            if (currentCalendar.get(Calendar.MINUTE) < givenCalendar.get(Calendar.MINUTE)) notYetOneDay = 1;
+            else if (currentCalendar.get(Calendar.MINUTE) == givenCalendar.get(Calendar.MINUTE)) {
+                if (currentCalendar.get(Calendar.SECOND) < givenCalendar.get(Calendar.SECOND)) notYetOneDay = 1;
+                else if (currentCalendar.get(Calendar.SECOND) == givenCalendar.get(Calendar.SECOND))
+                    if (currentCalendar.get(Calendar.MILLISECOND) < givenCalendar.get(Calendar.MILLISECOND)) notYetOneDay = 1;
+            }
+        }
+
+        // The difference between current time and given time divide by one day give one from 24h exact only,
+        // so we add one for the last day witch is not yet over 24h from mood time saved.
+        return (int) ((System.currentTimeMillis() - givenTime) / oneDayMillis) + notYetOneDay;
+    }
+
+    /**
+     * For mood cycle.
+     * Compare given time with current time, return the difference.
+     * @param givenTime Given time to compare, in milliseconds.
+     * @return Difference between current time and given time in corresponding time meter.
+     */
+    public int compareDate(long givenTime) {
+        // Set a Calendar at current time.
+        Calendar currentCalendar = Calendar.getInstance();
+        currentCalendar.setTimeInMillis(System.currentTimeMillis());
+
+        // Set a Calendar at given time.
+        Calendar givenCalendar = Calendar.getInstance();
+        givenCalendar.setTimeInMillis(givenTime);
+
+        // Get in witch time meter is the difference.
+        int differenceIn = 0;
+        if (currentCalendar.get(Calendar.DAY_OF_MONTH) != givenCalendar.get(Calendar.DAY_OF_MONTH))
+            differenceIn += 1;
+        if (currentCalendar.get(Calendar.MONTH) != givenCalendar.get(Calendar.MONTH)) differenceIn += 2;
+        if (currentCalendar.get(Calendar.YEAR) != givenCalendar.get(Calendar.YEAR)) differenceIn += 4;
+
+        // Return the difference in corresponding time meter.
+        if (differenceIn >= 4)
+            return (currentCalendar.get(Calendar.YEAR) - givenCalendar.get(Calendar.YEAR));
+        if (differenceIn >= 2)
+            return (currentCalendar.get(Calendar.MONTH) - givenCalendar.get(Calendar.MONTH));
+        if (differenceIn == 1)
+            return (currentCalendar.get(Calendar.DAY_OF_MONTH) - givenCalendar.get(Calendar.DAY_OF_MONTH));
+
+        return 0;
     }
 
     /**
